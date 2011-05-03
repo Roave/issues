@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <title>Issues</title>
+        <link rel="shortcut icon" href="images/xhtml.png" />
+
+        <link rel="stylesheet" type="text/css" href="css/rebase-min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/issues-global.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+    <body>
+        
+        <div id="pageWrap">
+
+            <div id="siteHeader" class="clearfix">
+                <div id="siteTitle" class="floatLeft">
+                    Issues
+                </div>
+                <div id="accountInfo" class="floatRight">
+                    <a href="#">Sign In</a> |
+                    <a href="#">Register</a>
+                </div>
+            </div>
+            
+            <div class="clearfix">
+                <ul id="primaryNavigation" class="floatLeft">
+                    <li class="active">
+                        <a href="#">Issues</a>
+                    </li>
+                    <li>
+                        <a href="#">Milestones</a>
+                    </li>
+                </ul>
+                
+                <form method="post" action="#" id="siteSearchForm" class="floatRight">
+                    <label id="siteSearch" for="siteSearchInput">
+                        <input type="text" name="siteSearchInput" tabIndex="1" id="siteSearchInput" />
+                    </label>
+                    <button type="submit" id="siteSearchButton">Go</button>
+                </form>
+            </div>
+            
+            <ul id="secondaryNavigation" class="clearfix">
+                <li class="active">
+                    <a href="#">All Issues (17)</a>
+                </li>
+                <li>
+                    <a href="#">My Issues (3)</a>
+                </li>
+                <li>
+                    <a href="#">Mentioning You (0)</a>
+                </li>
+                <li>
+                    <a href="#">Unassigned Issues (3)</a>
+                </li>
+            </ul>
+            
+            <div id="pageContent" class="clearfix">
+                
+                <div id="infoPane" class="floatLeft">
+                    <div id="milestoneList">
+                        <h4 class="infoTitle">Milestones</h4>
+                        <div class="milestone">
+                            <h5>Milestone Title</h5>
+                            <div class="progressBarOuter">
+                                <div class="progressBarInner" style="width: 33.3%;"></div>
+                            </div>
+                            <div class="milestoneIssueCount clearfix">
+                                <div class="floatLeft">3 Closed Issues</div>
+                                <div class="floatRight">6 Open Issues</div>
+                            </div>
+                        </div>
+                        <div class="milestone">
+                            <h5>Milestone Title</h5>
+                            <div class="progressBarOuter">
+                                <div class="progressBarInner" style="width: 15.4%;"></div>
+                            </div>
+                            <div class="milestoneIssueCount clearfix">
+                                <div class="floatLeft">2 Closed Issues</div>
+                                <div class="floatRight">11 Open Issues</div>
+                            </div>
+                        </div>
+                        <div class="milestone">
+                            <h5>Milestone Title</h5>
+                            <div class="progressBarOuter">
+                                <div class="progressBarInner" style="width: 75%;"></div>
+                            </div>
+                            <div class="milestoneIssueCount clearfix">
+                                <div class="floatLeft">6 Closed Issues</div>
+                                <div class="floatRight">2 Open Issues</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="labelList">
+                        <h4 class="infoTitle">Labels</h4>
+                    </div>
+                </div>
+                
+                <div id="mainContent" class="floatRight">
+                    
+                    <div class="clearfix">
+                        <ul id="issuesNavigation" class="floatLeft">
+                            <li class="active"><a href="#">Open Issues (5)</a></li>
+                            <li><a href="#">Closed Issues (12)</a></li>
+                        </ul>
+                        <a href="#" id="newIssue" class="floatRight">New Issue</a>
+                    </div>
+                    
+                    <div id="isuesActionBox">
+                        <select>
+                            <option>Label</option>
+                        </select>
+                        <select>
+                            <option>Assign</option>
+                        </select>
+                        <select>
+                            <option>Milestone</option>
+                        </select>
+                        <input type="submit" value="Close" />
+                    </div>
+                    
+                    <ul id="issuesList">
+                        <li></li>
+                    </ul>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+    </body>
+    <!-- Page template by, Chris Kankiewicz <http://www.chriskankiewicz.com> -->
+</html>

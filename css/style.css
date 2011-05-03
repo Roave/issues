@@ -1,0 +1,293 @@
+/* -------------------------------------------------------------------------- */
+/* -----| GENERAL |---------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+html {
+    background-color: #EEEDEA;
+    font-size: 100%;
+}
+
+body {
+    color: #333;
+    font-family:  Arial, Helvetica, Verdana, sans-serif;
+    font-size: 1em;
+}
+
+a {
+    color: #00F;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#pageWrap {
+    background-color: #FFF;
+    border: 1px solid #DFDFDF;
+    margin: 20px auto;
+    padding: 20px;
+    width: 960px;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| HEADER |----------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+#siteHeader {
+    margin-bottom: 20px;
+}
+
+#siteTitle {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#accountInfo {
+    font-size: .75em;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| SEARCH |----------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+#siteSearchForm {
+    margin-top: 3px;
+}
+
+#siteSearch {
+    background-color: #FFF;
+    border: 1px solid #121212;
+    display: inline-block;
+    float: left;
+    padding: 3px;
+    width: 220px;
+}
+
+#siteSearchInput {
+    border: none;
+    width: 100%;
+    font-size: .8em;
+}
+
+#siteSearchButton {
+    background-color: #121212;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+    display: inline-block;
+    font-size: .8em;
+    float: left;
+    padding: 3px 5px;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| TOP NAVIGATION |--------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+#primaryNavigation {
+    margin: 0;
+}
+
+#primaryNavigation li {
+    list-style: none;
+    display: inline-block;
+    float: left;
+    margin-left: 12px;
+}
+
+#primaryNavigation li a {
+    background-color: #CFE2F3;
+    color: #6FA8DC;
+    display: block;
+    font-size: .9em;
+    font-weight: bold;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+#primaryNavigation li a:hover {
+    text-decoration: underline;
+}
+
+#primaryNavigation li.active a {
+    background-color: #9FC5EB;
+    color: #0B5394;
+}
+
+#secondaryNavigation {
+    background-color: #9FC5EB;
+    margin: 0;
+    padding: 6px;
+}
+
+#secondaryNavigation li {
+    list-style: none;
+    display: inline-block;
+    float: left;
+}
+
+#secondaryNavigation li a {
+    color: #0B5394;
+    display: block;
+    font-size: .75em;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+#secondaryNavigation li.active a {
+    background-color: #6FA8DC;
+    color: #FFF;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| CONTENT |---------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+#pageContent {
+    margin-top: 20px;
+}
+
+#mainContent {
+    padding-left: 20px;
+    width: 660px;
+}
+
+#issuesNavigation {
+    margin: 0;
+}
+
+#issuesNavigation li {
+    list-style: none;
+    display: inline-block;
+    float: left;
+    margin-left: 12px;
+}
+
+#issuesNavigation li a {
+    background-color: #CCC;
+    color: #555;
+    display: block;
+    font-size: .9em;
+    padding: 8px 12px;
+    text-decoration: none;
+}
+
+#issuesNavigation li a:hover {
+    text-decoration: underline;
+}
+
+#issuesNavigation li.active a {
+    background-color: #555;
+    color: #FFF;
+}
+
+#newIssue {
+    background-color: #0B5394;
+    border-radius: 5px;
+    color: #FFF;
+    font-size: .85em;
+    margin: 2px;
+    padding: 6px 10px;
+    position: relative;
+    text-decoration: none;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+#isuesActionBox {
+    background-color: #555;
+    padding: 6px;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| INFO PANE |-------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+#infoPane {
+    border-right: 1px solid #CCC;
+    padding-right: 19px;
+    width: 260px;
+}
+
+#milestoneList {
+    border-bottom: 1px solid #CCC;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.infoTitle {
+    font-size: .85em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+}
+
+.milestone {
+    background-color: #EFEFEF;
+    font-size: .75em;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.milestone h5 {
+    margin: 0;
+    font-weight: normal;
+}
+
+.completePercentage {
+    font-size: .9em;
+} 
+
+.progressBarOuter {
+    background-color: #FFF;
+    border: 1px solid #CCC;
+    margin: 8px 0;
+    padding: 2px;
+}
+
+.progressBarInner {
+    background-color: #6AA84F;
+    border: none;
+    height: 8px;
+    width: 0%;
+}
+
+.milestoneIssueCount {
+    font-size: .9em;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| MISCELLANEOUS |---------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
+/* --- FLOATS --- */
+
+.floatLeft {
+    float: left;
+    width: auto;
+}
+
+.floatRight {
+    float: right;
+    width: auto;
+}
+
+/* --- TEXT ALIGNMENT --- */
+
+.textLeft {
+    text-align: left;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.textRight {
+    text-align: right;
+}
