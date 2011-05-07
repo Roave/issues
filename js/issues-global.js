@@ -1,35 +1,39 @@
 /* -------------------------------------------------------------------------- */
-/* ----| SEARCH AUTOPOPULATE |----------------------------------------------- */
+/* ----| AUTOPOPULATE INPUT FIELD |------------------------------------------ */
 /* -------------------------------------------------------------------------- */
 
 $(document).ready(function() {
-    $siteSearch = $('#siteSearchInput');
-    $defaultSearchValue = 'Search issues and milestones...';
+    autoPopulate('#siteSearchInput', 'Search issues and milestones...');
+    autoPopulate('#newLabelInput', 'New label name...');
+});
 
-    if ($siteSearch.val() == '') {
-        $siteSearch.css('color','#999');
-        $siteSearch.val($defaultSearchValue);
+function autoPopulate(targetElementID, defaultValue) {
+
+    if ($(targetElementID).val() == '') {
+        $(targetElementID).css('color','#999');
+        $(targetElementID).val(defaultValue);
     }
     
-    if ($siteSearch.val() == $defaultSearchValue) {
-        $siteSearch.css('color','#999');
+    if ($(targetElementID).val() == defaultValue) {
+        $(targetElementID).css('color','#999');
     }
     
-    $siteSearch.focus(function(){
-        if ($(this).val() == $defaultSearchValue) {
+    $(targetElementID).focus(function(){
+        if ($(this).val() == defaultValue) {
             $(this).val('');
             $(this).css('color','#333');
         }
     });
     
-    $siteSearch.blur(function(){
+    $(targetElementID).blur(function(){
         if ($(this).val() == '') {
             $(this).css('color','#999');
-            $(this).val($defaultSearchValue);
-        } else if ($(this).val() == $defaultSearchValue) {
+            $(this).val(defaultValue);
+        } else if ($(this).val() == defaultValue) {
             $(this).css('color','#999');        
         } else {
             $(this).css('color','#333');
         }
     });
-});
+    
+}
