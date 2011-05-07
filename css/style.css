@@ -227,6 +227,11 @@ a:hover {
     margin: 0 0 10px;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* -----| MILESTONES QUICK-LIST |-------------------------------------------- */
+/* -------------------------------------------------------------------------- */
+
 .milestone {
     background-color: #EFEFEF;
     font-size: .75em;
@@ -260,6 +265,88 @@ a:hover {
 .milestoneIssueCount {
     font-size: .9em;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| LABELS QUICK-LIST |------------------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+#labelList {
+    margin: 0 0 10px;
+}
+
+#labelList li {
+    border-radius: 3px;
+    list-style: none;
+    margin-bottom: 5px;
+    padding: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+#labelList li:hover {
+    background-color: #F0F0F0;
+}
+
+#labelList li .labelColor {
+    background-color: #000;
+    border-radius: 3px;
+    color: #FFF;
+    display: block;
+    float: left;
+    font-size: .6em;
+    height: 14px;
+    margin-right: 5px;
+    text-align: center;
+    width: 14px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+#labelList li .labelName {
+    display: block;
+    float: left;
+    font-size: .8em;
+    padding: 0 5px;
+}
+
+#labelList li .labelCount {
+    display: block;
+    float: right;
+    font-size: .8em;
+    font-weight: bold;
+}
+
+#newLabelForm {
+    margin-top: 3px;
+}
+
+#newLabel {
+    background-color: #FFF;
+    border: 1px solid #121212;
+    display: inline-block;
+    float: left;
+    padding: 3px;
+    width: 228px;
+}
+
+#newLabelInput {
+    border: none;
+    width: 100%;
+    font-size: .8em;
+}
+
+#newLabelButton {
+    background: #121212 url(../images/icons/plus_icon.png) no-repeat center center;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    float: left;
+    padding: 2px 7px;
+}
+
 
 
 /* -------------------------------------------------------------------------- */

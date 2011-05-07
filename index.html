@@ -63,8 +63,10 @@
             <div id="pageContent" class="clearfix">
                 
                 <div id="infoPane" class="floatLeft">
+                    
+                    <h4 class="infoTitle">Milestones</h4>
+                    
                     <div id="milestoneList">
-                        <h4 class="infoTitle">Milestones</h4>
                         <div class="milestone">
                             <h5>Milestone Title</h5>
                             <div class="progressBarOuter">
@@ -96,9 +98,39 @@
                             </div>
                         </div>
                     </div>
-                    <div id="labelList">
-                        <h4 class="infoTitle">Labels</h4>
-                    </div>
+                    
+                    <h4 class="infoTitle">Labels</h4>
+                    
+                    <ul id="labelList">
+                        <li class="clearfix">
+                            <div class="labelColor">▼</div>
+                            <div class="labelName">Label 1</div>
+                            <div class="labelCount">6</div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="labelColor">▼</div>
+                            <div class="labelName">Label 2</div>
+                            <div class="labelCount">8</div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="labelColor">▼</div>
+                            <div class="labelName">Bugs</div>
+                            <div class="labelCount">2</div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="labelColor">▼</div>
+                            <div class="labelName">Features</div>
+                            <div class="labelCount">0</div>
+                        </li>
+                    </ul>
+                    
+                    <form method="post" action="#" id="newLabelForm" class="floatRight">
+                        <label id="newLabel" for="newLabelInput">
+                            <input type="text" name="newLabelInput" tabIndex="1" id="newLabelInput" />
+                        </label>
+                        <button type="submit" id="newLabelButton">&nbsp;</button>
+                    </form>
+                    
                 </div>
                 
                 <div id="mainContent" class="floatRight">
