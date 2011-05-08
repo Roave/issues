@@ -60,6 +60,7 @@ a:hover {
 #siteSearch {
     background-color: #FFF;
     border: 1px solid #121212;
+    border-right: none;
     display: inline-block;
     float: left;
     padding: 3px;
@@ -79,6 +80,7 @@ a:hover {
     cursor: pointer;
     display: inline-block;
     font-size: .8em;
+    font-weight: bold;
     float: left;
     padding: 3px 5px;
 }
@@ -324,6 +326,7 @@ a:hover {
 #newLabel {
     background-color: #FFF;
     border: 1px solid #121212;
+    border-right: none;
     display: inline-block;
     float: left;
     padding: 3px;
