@@ -171,8 +171,8 @@ a:hover {
 }
 
 #issuesNavigation li a {
-    background-color: #CCC;
-    color: #555;
+    background-color: transparent;
+    color: #999;
     display: block;
     font-size: .9em;
     padding: 8px 12px;
@@ -184,12 +184,14 @@ a:hover {
 }
 
 #issuesNavigation li.active a {
-    background-color: #555;
-    color: #FFF;
+    background-color: #DEDEDE;
+    color: #555;
 }
 
 #newIssue {
-    background-color: #0B5394;
+    background: #0B5394;
+    background: #0B5394 -webkit-gradient(linear, 0 0, 0 100%, from(#3E86C7), to(#0B5394));
+    background: #0B5394 -moz-linear-gradient(top, #3E86C7, #0B5394);
     border-radius: 5px;
     color: #FFF;
     font-size: .85em;
@@ -201,9 +203,17 @@ a:hover {
     -webkit-border-radius: 5px;
 }
 
+#newIssue:active {
+    background: #3E86C7;
+    background: #3E86C7 -webkit-gradient(linear, 0 0, 0 100%, from(#0B5394), to(#3E86C7));
+    background: #3E86C7 -moz-linear-gradient(top, #0B5394, #3E86C7);
+}
+
 #isuesActionBox {
-    background-color: #555;
-    color: #999;
+    background: #DEDEDE;
+    background: #DEDEDE -webkit-gradient(linear, 0 0, 0 100%, from(#DEDEDE), to(#BBB));
+    background: #DEDEDE -moz-linear-gradient(top, #DEDEDE, #BBB);
+    color: #707070;
     font-size: .8em;
     padding: 6px;
 }
