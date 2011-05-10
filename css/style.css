@@ -203,6 +203,8 @@ a:hover {
 
 #isuesActionBox {
     background-color: #555;
+    color: #999;
+    font-size: .8em;
     padding: 6px;
 }
 
@@ -351,6 +353,45 @@ a:hover {
     padding: 2px 7px;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* -----| ISSUES LIST |------------------------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+#issuesList {
+    font-size: .8em;
+    width: 100%;
+}
+
+#issuesList tr {
+    border: 1px solid #CCC;
+    border-top: none;
+    vertical-align: top;
+}
+
+#issuesList tr.odd {
+    background-color: #F9F9F9;
+}
+
+#issuesList tr.even {
+    background-color: #F3F3F3;
+}
+
+#issuesList tr td {
+    padding: 10px;
+}
+
+#issuesList tr td.issueToggle {
+    width: 12px;
+}
+
+#issuesList tr td.issueNumber {
+    width: 20px;
+}
+
+.issueMetaInfo {
+    margin: 0 !important;
+}
 
 
 /* -------------------------------------------------------------------------- */
