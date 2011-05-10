@@ -291,16 +291,16 @@ a:hover {
 }
 
 #labelList li .labelColor {
-    background-color: #000;
+    background: #000 url(../images/down_arrow.png) no-repeat center center;
     border-radius: 3px;
     color: #FFF;
     display: block;
     float: left;
     font-size: .6em;
-    height: 14px;
+    height: 15px;
     margin-right: 5px;
     text-align: center;
-    width: 14px;
+    width: 15px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
 }
@@ -317,6 +317,7 @@ a:hover {
     float: right;
     font-size: .8em;
     font-weight: bold;
+    margin-left: 5px;
 }
 
 #newLabelForm {
