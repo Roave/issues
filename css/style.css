@@ -185,7 +185,13 @@ a:hover {
 
 #issuesNavigation li.active a {
     background-color: #DEDEDE;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     color: #555;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
 }
 
 #newIssue {
@@ -213,9 +219,65 @@ a:hover {
     background: #DEDEDE;
     background: #DEDEDE -webkit-gradient(linear, 0 0, 0 100%, from(#DEDEDE), to(#BBB));
     background: #DEDEDE -moz-linear-gradient(top, #DEDEDE, #BBB);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     color: #707070;
     font-size: .8em;
     padding: 6px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* -----| ISSUES LIST |------------------------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+#issuesList {
+    font-size: .8em;
+    width: 100%;
+}
+
+#issuesList tr {
+    border: 1px solid #CCC;
+    border-top: none;
+    vertical-align: top;
+}
+
+#issuesList tr.odd {
+    background-color: #F9F9F9;
+}
+
+#issuesList tr.even {
+    background-color: #F3F3F3;
+}
+
+#issuesList tr td {
+    padding: 10px;
+}
+
+#issuesList tr td.issueToggle {
+    width: 12px;
+}
+
+#issuesList tr td.issueNumber {
+    width: 20px;
+}
+
+.issueTitle a {
+    color: #333;
+    text-decoration: none;
+}
+
+.issueTitle a:hover {
+    text-decoration: underline;
+}
+
+.issueMetaInfo {
+    font-size: .9em;
+    margin: 2px 0 0 !important;
 }
 
 
@@ -361,46 +423,6 @@ a:hover {
     font-weight: bold;
     float: left;
     padding: 2px 7px;
-}
-
-
-/* -------------------------------------------------------------------------- */
-/* -----| ISSUES LIST |------------------------------------------------------ */
-/* -------------------------------------------------------------------------- */
-
-#issuesList {
-    font-size: .8em;
-    width: 100%;
-}
-
-#issuesList tr {
-    border: 1px solid #CCC;
-    border-top: none;
-    vertical-align: top;
-}
-
-#issuesList tr.odd {
-    background-color: #F9F9F9;
-}
-
-#issuesList tr.even {
-    background-color: #F3F3F3;
-}
-
-#issuesList tr td {
-    padding: 10px;
-}
-
-#issuesList tr td.issueToggle {
-    width: 12px;
-}
-
-#issuesList tr td.issueNumber {
-    width: 20px;
-}
-
-.issueMetaInfo {
-    margin: 0 !important;
 }
 
 
