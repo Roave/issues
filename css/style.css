@@ -23,11 +23,8 @@ a:hover {
 }
 
 #pageWrap {
-    background-color: #FFF;
-    border: 1px solid #DFDFDF;
     margin: 20px auto;
-    padding: 20px;
-    width: 960px;
+    width: 980px;
 }
 
 
@@ -151,12 +148,15 @@ a:hover {
 /* -------------------------------------------------------------------------- */
 
 #pageContent {
-    margin-top: 20px;
+    background-color: #FFF;
+    border-left: 1px solid #DFDFDF;
+    border-right: 1px solid #DFDFDF;
+    border-bottom: 1px solid #DFDFDF;
+    padding: 20px;
 }
 
 #mainContent {
-    padding-left: 20px;
-    width: 660px;
+    width: 658px;
 }
 
 #issuesNavigation {
@@ -286,9 +286,8 @@ a:hover {
 /* -------------------------------------------------------------------------- */
 
 #infoPane {
-    border-right: 1px solid #CCC;
-    padding-right: 19px;
     width: 260px;
+    margin-right: 20px;
 }
 
 #milestoneList {
