@@ -28,7 +28,7 @@
             </div>
             
             <div class="clearfix">
-                <ul id="primaryNavigation" class="floatLeft">
+                <ul id="primaryNavigation" class="tabList floatLeft">
                     <li class="active">
                         <a href="#">Issues</a>
                     </li>
@@ -48,20 +48,22 @@
                 </form>
             </div>
             
-            <ul id="secondaryNavigation" class="clearfix">
-                <li class="active">
-                    <a href="#">All Issues (17)</a>
-                </li>
-                <li>
-                    <a href="#">My Issues (3)</a>
-                </li>
-                <li>
-                    <a href="#">Mentioning You (0)</a>
-                </li>
-                <li>
-                    <a href="#">Unassigned Issues (3)</a>
-                </li>
-            </ul>
+            <div class="tabListBottom">
+                <ul class="tabListSubNav clearfix">
+                    <li class="active">
+                        <a href="#">All Issues (17)</a>
+                    </li>
+                    <li>
+                        <a href="#">My Issues (3)</a>
+                    </li>
+                    <li>
+                        <a href="#">Mentioning You (0)</a>
+                    </li>
+                    <li>
+                        <a href="#">Unassigned Issues (3)</a>
+                    </li>
+                </ul>
+            </div>
             
             <div id="pageContent" class="clearfix">
                 
@@ -141,13 +143,13 @@
                 <div id="mainContent" class="floatRight">
                                         
                     <div class="clearfix">
-                        <ul id="issuesNavigation" class="floatLeft">
+                        <ul id="issuesNavigation" class="tabList floatLeft">
                             <li class="active"><a href="#">Open Issues (5)</a></li>
                             <li><a href="#">Closed Issues (12)</a></li>
                         </ul>
                     </div>
                     
-                    <div id="isuesActionBox">
+                    <div class="tabListBottom">
                         <select>
                             <option>Label</option>
                         </select>
