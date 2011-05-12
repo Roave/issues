@@ -52,6 +52,7 @@ a:hover {
 
 #siteSearchForm {
     margin-top: 3px;
+    margin-right: 12px;
 }
 
 #siteSearch {
@@ -104,7 +105,7 @@ a:hover {
     background-color: #EFEFEF;
     border: 1px solid #DEDEDE;
     border-bottom: 1px solid #CCC;
-    color: #ACACAC;
+    color: #999;
     display: block;
     font-size: .9em;
     padding: 6px 12px;
@@ -114,7 +115,7 @@ a:hover {
 }
 
 .tabList li a:hover {
-    background-color: #D9D9D9;
+    background-color: #E9E9E9;
 }
 
 .tabList li.active a {
@@ -123,7 +124,7 @@ a:hover {
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #F9F9F9;
-    color: #999;
+    color: #666;
 }
 
 .tabListBottom {
