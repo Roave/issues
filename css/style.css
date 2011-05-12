@@ -103,6 +103,10 @@ a:hover {
 
 .tabList li a {
     background-color: transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #CCC;
     color: #999;
     display: block;
     font-size: .9em;
@@ -125,6 +129,7 @@ a:hover {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #F9F9F9;
     color: #666;
+    text-decoration: none;
 }
 
 .tabListBottom {
