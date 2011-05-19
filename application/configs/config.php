@@ -1,6 +1,7 @@
 <?php
-$config['bootstrap']['path']    = LIBRARY_PATH . '/Zend/Application/Bootstrap/Bootstrap.php';
-$config['bootstrap']['class']   = 'Zend_Application_Bootstrap_Bootstrap';
+// Unsure if we need these
+// $config['bootstrap']['path']    = LIBRARY_PATH . '/Zend/Application/Bootstrap/Bootstrap.php';
+// $config['bootstrap']['class']   = 'Zend_Application_Bootstrap_Bootstrap';
 
 $config['resources']['layout']['layoutPath']  = APPLICATION_PATH . '/layouts';
 $config['resources']['layout']['layout'] = 'layout';
