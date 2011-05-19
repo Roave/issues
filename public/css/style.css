@@ -133,7 +133,7 @@ a:hover {
 }
 
 .tabListBottom {
-    background: #DEDEDE url(../images/sprites/gradients.png) repeat-x left top;
+    background: #DEDEDE url(/images/sprites/gradients.png) repeat-x left top;
     border: 1px solid #CCC;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -194,7 +194,7 @@ a:hover {
 }
 
 #newIssue {
-    background: #0B5394 url(../images/sprites/gradients.png) repeat-x left -120px;
+    background: #0B5394 url(/images/sprites/gradients.png) repeat-x left -120px;
     border-radius: 3px;
     color: #FFF;
     font-size: .9em;
@@ -265,8 +265,22 @@ a:hover {
 
 .issueMetaInfo {
     color: #707070;
+    display: inline-block;
     font-size: .9em;
     margin: 2px 0 0 !important;
+    padding: 2px 0;
+}
+
+.issueLabel {
+    background: #000 url(/images/sprites/gradients.png) repeat-x left -240px;
+    border-radius: 2px;
+    color: #FFF;
+    display: inline-block;
+    font-size: .9em;
+    margin: 0 1px;
+    padding: 2px 4px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
 }
 
 
@@ -353,7 +367,7 @@ a:hover {
 }
 
 #labelList li .labelColor {
-    background: #000 url(../images/down_arrow.png) no-repeat center center;
+    background: #000 url(/images/down_arrow.png) no-repeat center center;
     border-radius: 3px;
     color: #FFF;
     display: block;
@@ -403,7 +417,7 @@ a:hover {
 }
 
 #newLabelButton {
-    background: #121212 url(../images/icons/plus_icon.png) no-repeat center center;
+    background: #121212 url(/images/icons/plus_icon.png) no-repeat center center;
     border: none;
     color: #FFF;
     cursor: pointer;
