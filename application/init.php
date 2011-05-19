@@ -16,7 +16,7 @@ defined('APPLICATION_ENV')
 											: 'production'));
 
 // Set the include path
-set_include_path(implode(PATH_SEPARATOR, array('.',LIBRARY_PATH)));
+set_include_path(implode(PATH_SEPARATOR, array(get_include_path(), LIBRARY_PATH)));
 
 try {
     require_once 'Zend/Application.php';
