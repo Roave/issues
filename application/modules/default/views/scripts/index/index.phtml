@@ -1,1 +1,132 @@
-This will be an issue tracker.
+<a href="#" id="newIssue" class="floatRight">New Issue</a>
+
+<div id="infoPane" class="floatLeft">
+    
+    <h4 class="infoTitle">Milestones</h4>
+    
+    <div id="milestoneList">
+        <div class="milestone">
+            <h5>Milestone Title</h5>
+            <div class="progressBarOuter">
+                <div class="progressBarInner" style="width: 33.3%;"></div>
+            </div>
+            <div class="milestoneIssueCount clearfix">
+                <div class="floatLeft">3 Closed Issues</div>
+                <div class="floatRight">6 Open Issues</div>
+            </div>
+        </div>
+        <div class="milestone">
+            <h5>Milestone Title</h5>
+            <div class="progressBarOuter">
+                <div class="progressBarInner" style="width: 15.4%;"></div>
+            </div>
+            <div class="milestoneIssueCount clearfix">
+                <div class="floatLeft">2 Closed Issues</div>
+                <div class="floatRight">11 Open Issues</div>
+            </div>
+        </div>
+        <div class="milestone">
+            <h5>Milestone Title</h5>
+            <div class="progressBarOuter">
+                <div class="progressBarInner" style="width: 75%;"></div>
+            </div>
+            <div class="milestoneIssueCount clearfix">
+                <div class="floatLeft">6 Closed Issues</div>
+                <div class="floatRight">2 Open Issues</div>
+            </div>
+        </div>
+    </div>
+    
+    <h4 class="infoTitle">Labels</h4>
+    
+    <ul id="labelList">
+        <li class="clearfix">
+            <div class="labelColor" style="background-color: #900;"></div>
+            <div class="labelName">Label 1</div>
+            <div class="labelCount">6</div>
+        </li>
+        <li class="clearfix">
+            <div class="labelColor" style="background-color: #009;"></div>
+            <div class="labelName">Label 2</div>
+            <div class="labelCount">8</div>
+        </li>
+        <li class="clearfix">
+            <div class="labelColor" style="background-color: #000;"></div>
+            <div class="labelName">Bugs</div>
+            <div class="labelCount">2</div>
+        </li>
+        <li class="clearfix">
+            <div class="labelColor" style="background-color: #090;"></div>
+            <div class="labelName">Features</div>
+            <div class="labelCount">0</div>
+        </li>
+    </ul>
+    
+    <form method="post" action="#" id="newLabelForm" class="floatRight">
+        <label id="newLabel" for="newLabelInput">
+            <input type="text" name="newLabelInput" tabIndex="1" id="newLabelInput" />
+        </label>
+        <button type="submit" id="newLabelButton">&nbsp;</button>
+    </form>
+    
+</div>
+
+<div id="mainContent" class="floatRight">
+                        
+    <div class="clearfix">
+        <ul id="issuesNavigation" class="tabList floatLeft">
+            <li class="active"><a href="#">Open Issues (5)</a></li>
+            <li><a href="#">Closed Issues (12)</a></li>
+        </ul>
+    </div>
+    
+    <div class="tabListBottom">
+        <select>
+            <option>Label</option>
+        </select>
+        <select>
+            <option>Assign</option>
+        </select>
+        <select>
+            <option>Milestone</option>
+        </select>
+        <input type="submit" value="Close" />
+        Select an issue to modify
+    </div>
+    
+    <table id="issuesList">
+        <tr class="odd">
+            <td class="issueToggle"><input type="checkbox" /></td>
+            <td class="issueNumber">#1</td>
+            <td class="issueInfo">
+                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
+                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+            </td>
+        </tr>
+        <tr class="even">
+            <td class="issueToggle"><input type="checkbox" /></td>
+            <td class="issueNumber">#2</td>
+            <td class="issueInfo">
+                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
+                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+            </td>
+        </tr>
+        <tr class="odd">
+            <td class="issueToggle"><input type="checkbox" /></td>
+            <td class="issueNumber">#3</td>
+            <td class="issueInfo">
+                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
+                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+            </td>
+        </tr>
+        <tr class="even">
+            <td class="issueToggle"><input type="checkbox" /></td>
+            <td class="issueNumber">#4</td>
+            <td class="issueInfo">
+                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
+                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+            </td>
+        </tr>
+    </table>
+    
+</div>
