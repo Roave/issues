@@ -367,18 +367,23 @@ a:hover {
 }
 
 #labelList li .labelColor {
-    background: #000 url(/images/down_arrow.png) no-repeat center center;
+    background: #000 url(/images/sprites/gradients.png) repeat-x left -240px;
     border-radius: 3px;
     color: #FFF;
     display: block;
     float: left;
     font-size: .6em;
-    height: 15px;
     margin-right: 5px;
     text-align: center;
-    width: 15px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
+}
+
+#labelList li .labelColor .labelArrow {
+    background: transparent url(/images/down_arrow.png) no-repeat center center;
+    display: block;
+    height: 15px;
+    width: 15px;
 }
 
 #labelList li .labelName {
