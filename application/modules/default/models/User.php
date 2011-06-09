@@ -91,7 +91,7 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setPassword($password, $hash = false)
     {
         if ($hash !== false) {
-            $this->_password = sha1($password);
+            $this->_password = sha1($password.'somes@lt');
         } else {
             $this->_password = $password;
         }

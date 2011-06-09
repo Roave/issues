@@ -22,8 +22,12 @@
                     Issues
                 </div>
                 <div id="accountInfo" class="floatRight">
-                    <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'));?>">Sign In</a> |
-                    <a href="#">Register</a>
+                    <? if(Zend_Auth::getInstance()->getIdentity()->getRole() != 'guest'): ?>
+                        Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'));?>">Sign Out</a>
+                    <? else: ?>
+                        <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'));?>">Sign In</a> |
+                        <a href="#">Register</a>
+                    <? endif; ?>
                 </div>
             </div>
             

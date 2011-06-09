@@ -26,6 +26,7 @@ class Default_Form_User_Login extends Zend_Form
             'ignore'   => true,
             'label'    => 'Login',
         ));
+
         $this->setDecorators(array(
             'FormElements',
             array('HtmlTag', array('tag' => 'dl', 'class' => 'form')),
@@ -34,4 +35,3 @@ class Default_Form_User_Login extends Zend_Form
         ));
     }
 }
-
