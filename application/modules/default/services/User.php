@@ -50,7 +50,7 @@ class Default_Service_User
         return $auth->getIdentity();
     }
     
-    public function clear()
+    public function logout()
     {
         $this->getAuth()->clearIdentity();
     }
@@ -60,7 +60,7 @@ class Default_Service_User
         $this->_authAdapter = $adapter;
     }
     
-    public function getAuthAdapter($values)
+    public function getAuthAdapter($credentials)
     {
         if (null === $this->_authAdapter) {
             $authAdapter = new Zend_Auth_Adapter_DbTable(
@@ -71,8 +71,8 @@ class Default_Service_User
                 'SHA1(CONCAT(?,"somes@lt"))'
             );
             $this->setAuthAdapter($authAdapter);
-            $this->_authAdapter->setIdentity($values['username']);
-            $this->_authAdapter->setCredential($values['password']);
+            $this->_authAdapter->setIdentity($credentials['username']);
+            $this->_authAdapter->setCredential($credentials['password']);
         }
         return $this->_authAdapter;
     }

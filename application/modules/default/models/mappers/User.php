@@ -1,11 +1,14 @@
 <?php
-class Default_Model_Mapper_User extends Zend_Db_Table_Abstract
+class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'user';
 
     public function getUserByUsername($username)
     {
-        $user = $this->select()->where('username = ?', $username);
-        return new Default_Model_User($this->fetchRow($user));
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+                  ->from($this->getTableName())
+                  ->where('username = ?', $username);
+        return new Default_Model_User($db->fetchRow($sql));
     }
 }

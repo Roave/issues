@@ -4,8 +4,8 @@ class Default_AuthController extends Zend_Controller_Action
     public function init()
     {
         $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
-        $form = $this->getHelper('FlashMessenger')->setNamespace('loginForm')->getMessages(); 
-        $this->view->loginForm = (count($form) > 0) ? $form[0] : $this->getLoginForm();
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('loginForm')->getMessages(); 
+        $this->view->loginForm = (count($fm) > 0) ? $fm[0] : $this->getLoginForm();
     }
 
     public function loginAction()
@@ -13,7 +13,7 @@ class Default_AuthController extends Zend_Controller_Action
 
     public function logoutAction()
     {
-        $this->_userService->clear();
+        $this->_userService->logout();
         return $this->_helper->redirector('index','index');
     }
 
