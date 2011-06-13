@@ -24,5 +24,4 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $userService->getIdentity();
     }
-
 }

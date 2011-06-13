@@ -23,7 +23,6 @@ class Default_Service_User
         }
 
         $this->_userModel = $this->_mapper->getUserByUsername($credentials['username']);
-
         $auth->getStorage()->write($this->_userModel);
         
         return true;

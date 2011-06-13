@@ -46,8 +46,8 @@ abstract class Issues_Model_Mapper_DbAbstract
      */
     final public function __construct(Zend_Db_Adapter_Abstract $writeAdapter = null, Zend_Db_Adapter_Abstract $readAdapter = null)
     {
-        if (null === $readAdapter) {
-            if (null === ($readAdapter = self::getDefaultAdapter())) {
+        if (null === $writeAdapter) {
+            if (null === ($writeAdapter = self::getDefaultAdapter())) {
                 throw new Issues_Model_Mapper_Exception('There was no adapter defined');
             }
         }

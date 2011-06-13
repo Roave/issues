@@ -33,7 +33,7 @@ abstract class Issues_Model_Abstract
             $this->_classMethods = get_class_methods($this);
         }
         foreach ($options as $key => $value) {
-            $method = 'set' . ucfirst($key);
+            $method = 'set' . $this->_fieldToMethod($key);
             if (in_array($method, $this->_classMethods)) {
                 $this->$method($value);
             }
@@ -65,6 +65,11 @@ abstract class Issues_Model_Abstract
     {
         $ns = explode('_', get_class($this));
         return $ns[0];
+    }
+
+    private function _fieldToMethod($name)
+    {
+        return implode('',array_map('ucfirst', explode('_',$name)));
     }
 
     private function _getInflected($name)

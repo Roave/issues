@@ -2,18 +2,18 @@
 class Default_Model_User extends Issues_Model_Abstract
 {
     /**
-     * Id
+     * User ID
      *
      * @var int
      */
-    protected $_id;
+    protected $_userId;
 
     /**
-     * Name
+     * Username
      *
      * @var string
      */
-    protected $_name;
+    protected $_username;
 
     /**
      * Password
@@ -35,27 +35,27 @@ class Default_Model_User extends Issues_Model_Abstract
      * @var string
      */
     protected $_role;
-    
+
     /**
-     * Get the id
+     * Get the user ID
      *
      * @return int
      */
-    public function getId()
+    public function getUserId()
     {
-        return $this->_id;
+        return $this->_userId;
     }
 
     /**
-     * Set the id
+     * Set the user ID
      *
-     * @param int $id
+     * @param int $userId
      *
      * @return Default_Model_User
      */
-    public function setId($id)
+    public function setUserId($userId)
     {
-        $this->_id = $id;
+        $this->_userId = (int)$userId;
     }
 
     /**
@@ -65,7 +65,7 @@ class Default_Model_User extends Issues_Model_Abstract
      */
     public function getUsername()
     {
-        return $this->_name;
+        return $this->_username;
     }
 
     /**
@@ -77,7 +77,7 @@ class Default_Model_User extends Issues_Model_Abstract
      */
     public function setUsername($username)
     {
-        $this->_name = $username;
+        $this->_username = $username;
     }
 
     /**
