@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Issue Tracker\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-13 08:23-0700\n"
+"PO-Revision-Date: 2011-06-13 08:23-0700\n"
+"Last-Translator: Evan Coury <me@evancoury.com>\n"
+"Language-Team: Evan <me@evancoury.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;translate\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ../../..\n"
+
+#: ../../../modules/default/forms/User/Login.php:12
+msgid "username"
+msgstr "Username"
+
+#: ../../../modules/default/forms/User/Login.php:21
+msgid "password"
+msgstr "Password"
+
+#: ../../../modules/default/forms/User/Login.php:27
+#: ../../../modules/default/views/scripts/auth/login.phtml:1
+#: ../../../layouts/layout.phtml:34
+msgid "sign_in"
+msgstr "Sign In"
+
+#: ../../../modules/default/controllers/AuthController.php:31
+msgid "login_failed"
+msgstr "Login failed, please try again."
+
+#: ../../../modules/default/views/scripts/index/index.phtml:1
+msgid "new_issue"
+msgstr "New Issue"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:5
+#: ../../../layouts/layout.phtml:46
+msgid "milestones"
+msgstr "Milestones"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:14
+#: ../../../modules/default/views/scripts/index/index.phtml:24
+#: ../../../modules/default/views/scripts/index/index.phtml:34
+#: ../../../modules/default/views/scripts/index/index.phtml:87
+msgid "closed_issues"
+msgstr "Closed Issues"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:15
+#: ../../../modules/default/views/scripts/index/index.phtml:25
+#: ../../../modules/default/views/scripts/index/index.phtml:35
+#: ../../../modules/default/views/scripts/index/index.phtml:86
+msgid "open_issues"
+msgstr "Open Issues"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:40
+msgid "labels"
+msgstr "Labels"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:93
+msgid "label"
+msgstr "Label"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:96
+msgid "assign"
+msgstr "Assign"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:99
+msgid "milestone"
+msgstr "Milestone"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:101
+msgid "close"
+msgstr "Close"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:102
+msgid "select_issue_to_modify"
+msgstr "Select an issue to modify"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:111
+#: ../../../modules/default/views/scripts/index/index.phtml:121
+#: ../../../modules/default/views/scripts/index/index.phtml:130
+#: ../../../modules/default/views/scripts/index/index.phtml:138
+msgid "by"
+msgstr "by"
+
+#: ../../../modules/default/views/scripts/index/index.phtml:111
+#: ../../../modules/default/views/scripts/index/index.phtml:121
+#: ../../../modules/default/views/scripts/index/index.phtml:130
+#: ../../../modules/default/views/scripts/index/index.phtml:138
+msgid "on"
+msgstr "on"
+
+#: ../../../layouts/layout.phtml:16
+msgid "search_box_label"
+msgstr "Search issues and milestones..."
+
+#: ../../../layouts/layout.phtml:17
+msgid "new_label_name"
+msgstr "New label name..."
+
+#: ../../../layouts/layout.phtml:28
+#: ../../../layouts/layout.phtml:43
+msgid "issues"
+msgstr "Issues"
+
+#: ../../../layouts/layout.phtml:32
+msgid "sign_out"
+msgstr "Sign Out"
+
+#: ../../../layouts/layout.phtml:35
+msgid "register"
+msgstr "Register"
+
+#: ../../../layouts/layout.phtml:49
+msgid "members"
+msgstr "Members"
+
+#: ../../../layouts/layout.phtml:57
+msgid "go"
+msgstr "Go"
+
+#: ../../../layouts/layout.phtml:64
+msgid "all_issues"
+msgstr "All Issues"
+
+#: ../../../layouts/layout.phtml:67
+msgid "my_issues"
+msgstr "My Issues"
+
+#: ../../../layouts/layout.phtml:70
+msgid "mentioning_you"
+msgstr "Mentioning You"
+
+#: ../../../layouts/layout.phtml:73
+msgid "unassigned_issues"
+msgstr "Unassigned Issues"
+
+#~ msgid "login"
+#~ msgstr "Sign In"
+
+#~ msgid "welcome_message"
+#~ msgstr "welcome_message"

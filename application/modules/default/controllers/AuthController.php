@@ -9,7 +9,11 @@ class Default_AuthController extends Zend_Controller_Action
     }
 
     public function loginAction()
-    {}
+    {
+        if (Zend_Auth::getInstance()->getIdentity()->getRole() != 'guest') {
+            return $this->_helper->redirector('index', 'index');
+        }
+    }
 
     public function logoutAction()
     {
@@ -24,7 +28,7 @@ class Default_AuthController extends Zend_Controller_Action
         if (!$request->isPost()) return $this->_helper->redirector('login');
         $form->populate($request->getPost());
         if (false === $this->_userService->authenticate($form->getValues())) {
-            $form->setDescription('Login failed, please try again.');
+            $form->setDescription($this->view->translate('login_failed'));
             $this->_helper->FlashMessenger->setNamespace('loginForm')->addMessage($form);
             $this->_helper->redirector('login', 'auth');
         }

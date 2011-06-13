@@ -1,5 +1,5 @@
 <?php
-class Default_Form_User_Login extends Zend_Form
+class Default_Form_User_Login extends Issues_Form
 {
     public function init()
     {               
@@ -9,7 +9,7 @@ class Default_Form_User_Login extends Zend_Form
                 array('StringLength', true, array(3, 128)),
             ),
             'required'   => true,
-            'label'      => 'Username',
+            'label'      => $this->translate('username'),
         ));
         
         $this->addElement('password', 'password', array(
@@ -18,13 +18,13 @@ class Default_Form_User_Login extends Zend_Form
                 array('StringLength', true, array(6, 128))
             ),
             'required'   => true,
-            'label'      => 'Password',
+            'label'      => $this->translate('password'),
         ));
 
         $this->addElement('submit', 'login', array(
             'required' => false,
             'ignore'   => true,
-            'label'    => 'Login',
+            'label'    => $this->translate('sign_in'),
         ));
 
         $this->setDecorators(array(

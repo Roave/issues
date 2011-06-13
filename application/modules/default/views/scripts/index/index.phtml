@@ -1,8 +1,8 @@
-<a href="#" id="newIssue" class="floatRight">New Issue</a>
+<a href="#" id="newIssue" class="floatRight"><?=$this->translate('new_issue');?></a>
 
 <div id="infoPane" class="floatLeft">
     
-    <h4 class="infoTitle">Milestones</h4>
+    <h4 class="infoTitle"><?=$this->translate('milestones');?></h4>
     
     <div id="milestoneList">
         <div class="milestone">
@@ -11,8 +11,8 @@
                 <div class="progressBarInner" style="width: 33.3%;"></div>
             </div>
             <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft">3 Closed Issues</div>
-                <div class="floatRight">6 Open Issues</div>
+                <div class="floatLeft">3 <?=$this->translate('closed_issues');?></div>
+                <div class="floatRight">6 <?=$this->translate('open_issues');?></div>
             </div>
         </div>
         <div class="milestone">
@@ -21,8 +21,8 @@
                 <div class="progressBarInner" style="width: 15.4%;"></div>
             </div>
             <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft">2 Closed Issues</div>
-                <div class="floatRight">11 Open Issues</div>
+                <div class="floatLeft">2 <?=$this->translate('closed_issues');?></div>
+                <div class="floatRight">11 <?=$this->translate('open_issues');?></div>
             </div>
         </div>
         <div class="milestone">
@@ -31,13 +31,13 @@
                 <div class="progressBarInner" style="width: 75%;"></div>
             </div>
             <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft">6 Closed Issues</div>
-                <div class="floatRight">2 Open Issues</div>
+                <div class="floatLeft">6 <?=$this->translate('closed_issues');?></div>
+                <div class="floatRight">2 <?=$this->translate('open_issues');?></div>
             </div>
         </div>
     </div>
     
-    <h4 class="infoTitle">Labels</h4>
+    <h4 class="infoTitle"><?=$this->translate('labels');?></h4>
     
     <ul id="labelList">
         <li class="clearfix">
@@ -83,23 +83,23 @@
                         
     <div class="clearfix">
         <ul id="issuesNavigation" class="tabList floatLeft">
-            <li class="active"><a href="#">Open Issues (5)</a></li>
-            <li><a href="#">Closed Issues (12)</a></li>
+            <li class="active"><a href="#"><?=$this->translate('open_issues');?> (5)</a></li>
+            <li><a href="#"><?=$this->translate('closed_issues');?> (12)</a></li>
         </ul>
     </div>
     
     <div class="tabListBottom">
         <select>
-            <option>Label</option>
+            <option><?=$this->translate('label');?></option>
         </select>
         <select>
-            <option>Assign</option>
+            <option><?=$this->translate('assign');?></option>
         </select>
         <select>
-            <option>Milestone</option>
+            <option><?=$this->translate('milestone');?></option>
         </select>
-        <input type="submit" value="Close" />
-        Select an issue to modify
+        <input type="submit" value="<?=$this->translate('close');?>" />
+        <?=$this->translate('select_issue_to_modify');?>
     </div>
     
     <table id="issuesList">
@@ -108,7 +108,7 @@
             <td class="issueNumber">#1</td>
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
                 <span class="issueLabel" style="background-color: #900;">Label 1</span>
                 <span class="issueLabel" style="background-color: #000;">Bugs</span>
             </td>
@@ -118,7 +118,7 @@
             <td class="issueNumber">#2</td>
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
                 <span class="issueLabel" style="background-color: #009;">Label 2</span>
             </td>
         </tr>
@@ -127,7 +127,7 @@
             <td class="issueNumber">#3</td>
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
             </td>
         </tr>
         <tr class="even">
@@ -135,7 +135,7 @@
             <td class="issueNumber">#4</td>
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo">by, John Pinkerton on January 18, 2011</p>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
                 <span class="issueLabel" style="background-color: #900;">Label 1</span>
                 <span class="issueLabel" style="background-color: #009;">Label 2</span>
                 <span class="issueLabel" style="background-color: #000;">Bugs</span>

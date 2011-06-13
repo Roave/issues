@@ -2,11 +2,6 @@
 /* ----| AUTOPOPULATE INPUT FIELD |------------------------------------------ */
 /* -------------------------------------------------------------------------- */
 
-$(document).ready(function() {
-    autoPopulate('#siteSearchInput', 'Search issues and milestones...');
-    autoPopulate('#newLabelInput', 'New label name...');
-});
-
 function autoPopulate(targetElementID, defaultValue) {
 
     if ($(targetElementID).val() == '') {

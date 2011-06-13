@@ -11,6 +11,12 @@
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <script type="text/javascript" src="/js/issues-global.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                autoPopulate('#siteSearchInput', '<?=$this->translate('search_box_label');?>');
+                autoPopulate('#newLabelInput', '<?=$this->translate('new_label_name');?>');
+            });
+        </script>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     </head>
     <body>
@@ -19,14 +25,14 @@
 
             <div id="siteHeader" class="clearfix">
                 <div id="siteTitle" class="floatLeft">
-                    Issues
+                    <?=$this->translate('issues');?>
                 </div>
                 <div id="accountInfo" class="floatRight">
                     <? if(Zend_Auth::getInstance()->getIdentity()->getRole() != 'guest'): ?>
-                        Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'));?>">Sign Out</a>
+                    Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'));?>"><?= $this->translate('sign_out'); ?></a>
                     <? else: ?>
-                        <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'));?>">Sign In</a> |
-                        <a href="#">Register</a>
+                    <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'));?>"><?= $this->translate('sign_in'); ?></a> |
+                    <a href="#"><?=$this->translate('register');?></a>
                     <? endif; ?>
                 </div>
             </div>
@@ -34,13 +40,13 @@
             <div class="clearfix">
                 <ul id="primaryNavigation" class="tabList floatLeft">
                     <li class="active">
-                        <a href="#">Issues</a>
+                        <a href="#"><?=$this->translate('issues');?></a>
                     </li>
                     <li>
-                        <a href="#">Milestones</a>
+                        <a href="#"><?=$this->translate('milestones');?></a>
                     </li>
                     <li>
-                        <a href="#">Members</a>
+                        <a href="#"><?=$this->translate('members');?></a>
                     </li>
                 </ul>
                 
@@ -48,23 +54,23 @@
                     <label id="siteSearch" for="siteSearchInput">
                         <input type="text" name="siteSearchInput" tabIndex="1" id="siteSearchInput" />
                     </label>
-                    <button type="submit" id="siteSearchButton">Go</button>
+                    <button type="submit" id="siteSearchButton"><?=$this->translate('go');?></button>
                 </form>
             </div>
             
             <div class="tabListBottom">
                 <ul class="tabListSubNav clearfix">
                     <li class="active">
-                        <a href="#">All Issues (17)</a>
+                        <a href="#"><?=$this->translate('all_issues');?> (17)</a>
                     </li>
                     <li>
-                        <a href="#">My Issues (3)</a>
+                        <a href="#"><?=$this->translate('my_issues');?> (3)</a>
                     </li>
                     <li>
-                        <a href="#">Mentioning You (0)</a>
+                        <a href="#"><?=$this->translate('mentioning_you');?> (0)</a>
                     </li>
                     <li>
-                        <a href="#">Unassigned Issues (3)</a>
+                        <a href="#"><?=$this->translate('unassigned_issues');?> (3)</a>
                     </li>
                 </ul>
             </div>
