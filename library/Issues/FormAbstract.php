@@ -1,5 +1,5 @@
 <?php
-class Issues_Form extends Zend_Form
+class Issues_FormAbstract extends Zend_Form
 {
     public function __construct($options = NULL)
     {

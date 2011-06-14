@@ -1,5 +1,5 @@
 <?php
-class Default_Form_User_Login extends Issues_Form
+class Default_Form_User_Login extends Issues_FormAbstract
 {
     public function init()
     {               

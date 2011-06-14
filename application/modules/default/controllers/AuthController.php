@@ -27,10 +27,11 @@ class Default_AuthController extends Zend_Controller_Action
         $request = $this->getRequest();
         if (!$request->isPost()) return $this->_helper->redirector('login');
         $form->populate($request->getPost());
-        if (false === $this->_userService->authenticate($form->getValues())) {
+        $vals = $form->getValues();
+        if (false === $this->_userService->authenticate($vals['username'], $vals['password'])) {
             $form->setDescription($this->view->translate('login_failed'));
             $this->_helper->FlashMessenger->setNamespace('loginForm')->addMessage($form);
-            $this->_helper->redirector('login', 'auth');
+            $this->_helper->redirector('login');
         }
         return $this->_helper->redirector('index', 'index');
     }

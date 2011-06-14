@@ -22,4 +22,14 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         $row = $db->fetchRow($sql);
         return ($row) ? new Default_Model_User($row) : false;
     }
+
+    public function getUserByEmail($email)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+                  ->from($this->getTableName())
+                  ->where('email = ?', $email);
+        $row = $db->fetchRow($sql);
+        return ($row) ? new Default_Model_User($row) : false;
+    }
 }

@@ -2,6 +2,7 @@
 class Default_Service_User 
 {
     protected $_loginForm;
+    protected $_registerForm;
     protected $_mapper;
     protected $_authAdapter;
     protected $_userModel;
@@ -12,9 +13,9 @@ class Default_Service_User
         $this->_mapper = null === $userMapper ? new Default_Model_Mapper_User() : $userMapper;
     }
 
-    public function authenticate($credentials)
+    public function authenticate($username, $password)
     {
-        $adapter = $this->getAuthAdapter($credentials);
+        $adapter = $this->getAuthAdapter($username, $password);
         $auth    = $this->getAuth();
         $result  = $auth->authenticate($adapter);
 
@@ -22,7 +23,7 @@ class Default_Service_User
             return false;
         }
 
-        $this->_userModel = $this->_mapper->getUserByUsername($credentials['username']);
+        $this->_userModel = $this->_mapper->getUserByUsername($username);
         $auth->getStorage()->write($this->_userModel);
         
         return true;
@@ -59,7 +60,7 @@ class Default_Service_User
         $this->_authAdapter = $adapter;
     }
     
-    public function getAuthAdapter($credentials)
+    public function getAuthAdapter($username, $password)
     {
         if (null === $this->_authAdapter) {
             $authAdapter = new Zend_Auth_Adapter_DbTable(
@@ -70,8 +71,8 @@ class Default_Service_User
                 'SHA1(CONCAT(?,"somes@lt"))'
             );
             $this->setAuthAdapter($authAdapter);
-            $this->_authAdapter->setIdentity($credentials['username']);
-            $this->_authAdapter->setCredential($credentials['password']);
+            $this->_authAdapter->setIdentity($username);
+            $this->_authAdapter->setCredential($password);
         }
         return $this->_authAdapter;
     }
@@ -82,5 +83,21 @@ class Default_Service_User
             $this->_loginForm = new Default_Form_User_Login();
         }
         return $this->_loginForm;
+    }
+
+    public function getRegisterForm()
+    {
+        if (null === $this->_registerForm) {
+            $this->_registerForm = new Default_Form_User_Register();
+        }
+        return $this->_registerForm;
+    }
+
+    public function emailExists($email)
+    {
+        if (false === $this->_mapper->getUserByEmail($email)){
+            return false;
+        }
+        return true;
     }
 }
