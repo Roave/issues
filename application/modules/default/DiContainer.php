@@ -26,4 +26,30 @@ class Default_DiContainer extends Issues_DiContainerAbstract
         }
         return $this->_storage['userMapper'];
     }
+
+    /**
+     * Get the role service
+     *
+     * @return Auth_Service_Role
+     */
+    public function getRoleService()
+    {
+        if (!isset($this->_storage['roleService'])) {
+            $this->_storage['roleService'] = new Default_Service_Role($this->getRoleMapper());
+        }
+        return $this->_storage['roleService'];
+    }
+
+    /**
+     * Get the role mapper
+     *
+     * @return Auth_Model_Mapper_Role
+     */
+    public function getRoleMapper()
+    {
+        if (!isset($this->_storage['roleMapper'])) {
+            $this->_storage['roleMapper'] = new Default_Model_Mapper_Role();
+        }
+        return $this->_storage['roleMapper'];
+    }
 }

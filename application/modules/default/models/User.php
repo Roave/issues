@@ -23,138 +23,205 @@ class Default_Model_User extends Issues_Model_Abstract
     protected $_password;
 
     /**
-     * Email
-     *
-     * @var string
-     */
-    protected $_email;
-
-    /**
      * Role
      *
-     * @var string
+     * @var Auth_Model_Role
      */
     protected $_role;
 
     /**
-     * Get the user ID
+     * Last login date/time
      *
-     * @return int
+     * @var DateTime
+     */
+    protected $_lastLogin;
+
+    /**
+     * Last IP they logged in with
+     *
+     * @var string
+     */
+    protected $_lastIp;
+
+    /**
+     * Registration date/time
+     *
+     * @var DateTime
+     */
+    protected $_registerTime;
+
+    /**
+     * IP address they registered with
+     *
+     * @var string
+     */
+    protected $_registerIp;
+ 
+    /**
+     * Get userId.
+     *
+     * @return userId
      */
     public function getUserId()
     {
         return $this->_userId;
     }
-
+ 
     /**
-     * Set the user ID
+     * Set userId.
      *
-     * @param int $userId
-     *
-     * @return Default_Model_User
+     * @param $userId the value to be set
      */
     public function setUserId($userId)
     {
         $this->_userId = (int)$userId;
+        return $this;
     }
-
+ 
     /**
-     * Get the username
+     * Get username.
      *
-     * @return string
+     * @return username
      */
     public function getUsername()
     {
         return $this->_username;
     }
-
+ 
     /**
-     * Set the username
+     * Set username.
      *
-     * @param string $username
-     *
-     * @return Default_Model_User
+     * @param $username the value to be set
      */
     public function setUsername($username)
     {
         $this->_username = $username;
-    }
-
-    /**
-     * Set the password
-     *
-     * @param string $password
-     * @param bool $hash Set to true to hash password
-     *
-     * @return Default_Model_User
-     */
-    public function setPassword($password, $hash = false)
-    {
-        if ($hash !== false) {
-            $this->_password = sha1($password.'somes@lt');
-        } else {
-            $this->_password = $password;
-        }
-
         return $this;
     }
-
+ 
     /**
-     * Get the hashed password
+     * Get password.
      *
-     * @return string
+     * @return password
      */
     public function getPassword()
     {
         return $this->_password;
     }
-
+ 
     /**
-     * Get the email
+     * Set password.
      *
-     * @return string
+     * @param $password the value to be set
      */
-    public function getEmail()
+    public function setPassword($password)
     {
-        return $this->_email;
-    }
-
-    /**
-     * Set the email
-     *
-     * @param string $email
-     *
-     * @return Default_Model_User
-     */
-    public function setEmail($email)
-    {
-        $this->_email = $email;
-
+        $this->_password = $password;
         return $this;
     }
-
+ 
     /**
-     * Get the role
+     * Get role.
      *
-     * @return string
+     * @return Auth_Model_Role role
      */
     public function getRole()
     {
         return $this->_role;
     }
-
+ 
     /**
-     * Set the role
+     * Set role.
      *
-     * @param string $role
-     *
-     * @return Default_Model_User
+     * @param $role int|Auth_Model_Role the value to be set
      */
     public function setRole($role)
     {
-        $this->_role = $role;
-
+        if ($role instanceof Default_Model_Role) {
+            $this->_role = $role;
+        } elseif (is_numeric($role)) {
+            $this->_role = Zend_Registry::get('Default_DiContainer')->getRoleMapper()->getRoleById((int)$role);
+        }
         return $this;
     }
-
+ 
+    /**
+     * Get lastLogin.
+     *
+     * @return lastLogin
+     */
+    public function getLastLogin()
+    {
+        return $this->_lastLogin;
+    }
+ 
+    /**
+     * Set lastLogin.
+     *
+     * @param $lastLogin the value to be set
+     */
+    public function setLastLogin($lastLogin)
+    {
+        $this->_lastLogin = new DateTime($lastLogin);
+    }
+ 
+    /**
+     * Get lastIp.
+     *
+     * @return lastIp
+     */
+    public function getLastIp()
+    {
+        return $this->_lastIp;
+    }
+ 
+    /**
+     * Set lastIp.
+     *
+     * @param $lastIp the value to be set
+     */
+    public function setLastIp($lastIp)
+    {
+        $this->_lastIp = $lastIp;
+    }
+ 
+    /**
+     * Get registerTime.
+     *
+     * @return registerTime
+     */
+    public function getRegisterTime()
+    {
+        return $this->_registerTime;
+    }
+ 
+    /**
+     * Set registerTime.
+     *
+     * @param $registerTime the value to be set
+     */
+    public function setRegisterTime($registerTime)
+    {
+        $this->_registerTime = new DateTime($registerTime);
+    }
+ 
+    /**
+     * Get registerIp.
+     *
+     * @return registerIp
+     */
+    public function getRegisterIp()
+    {
+        return $this->_registerIp;
+    }
+ 
+    /**
+     * Set registerIp.
+     *
+     * @param $registerIp the value to be set
+     */
+    public function setRegisterIp($registerIp)
+    {
+        $this->_registerIp = $registerIp;
+    }
 }

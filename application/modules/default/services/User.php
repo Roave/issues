@@ -18,14 +18,12 @@ class Default_Service_User
         $adapter = $this->getAuthAdapter($username, $password);
         $auth    = $this->getAuth();
         $result  = $auth->authenticate($adapter);
-
         if (!$result->isValid()) {
             return false;
         }
-
         $this->_userModel = $this->_mapper->getUserByUsername($username);
         $auth->getStorage()->write($this->_userModel);
-        
+        $this->_mapper->updateLastLogin($this->_userModel);
         return true;
     }
 
@@ -34,7 +32,6 @@ class Default_Service_User
         if (null === $this->_auth) {
             $this->_auth = Zend_Auth::getInstance();
         }
-
         return $this->_auth;
     }
 
@@ -45,14 +42,12 @@ class Default_Service_User
             return $auth->getIdentity();
         }
         $auth->getStorage()->write(new Default_Model_User(array(
-            'role' => 'guest'
+            'role' => new Default_Model_Role(array(
+                'role_id'   => 0,
+                'role_name' => 'guest'    
+            ))
         )));
         return $auth->getIdentity();
-    }
-    
-    public function logout()
-    {
-        $this->getAuth()->clearIdentity();
     }
     
     public function setAuthAdapter(Zend_Auth_Adapter_Interface $adapter)
@@ -65,7 +60,7 @@ class Default_Service_User
         if (null === $this->_authAdapter) {
             $authAdapter = new Zend_Auth_Adapter_DbTable(
                 Zend_Db_Table_Abstract::getDefaultAdapter(),
-                'user',
+                $this->_mapper->getTableName(),
                 'username',
                 'password',
                 'SHA1(CONCAT(?,"somes@lt"))'
@@ -76,6 +71,11 @@ class Default_Service_User
         }
         return $this->_authAdapter;
     }
+    
+    public function logout()
+    {
+        $this->getAuth()->clearIdentity();
+    }
 
     public function getLoginForm()
     {
@@ -83,6 +83,11 @@ class Default_Service_User
             $this->_loginForm = new Default_Form_User_Login();
         }
         return $this->_loginForm;
+    }
+
+    public function setLoginForm(Zend_Form $form)
+    {
+        $this->_loginForm = $form;
     }
 
     public function getRegisterForm()
@@ -93,11 +98,13 @@ class Default_Service_User
         return $this->_registerForm;
     }
 
-    public function emailExists($email)
+    public function createUserFromForm(Default_Form_User_Register $form)
     {
-        if (false === $this->_mapper->getUserByEmail($email)){
-            return false;
-        }
-        return true;
+        //if (Zend_Auth::getInstance()->getIdentity()->getRole() != 'admin') return false;
+        $user = new Default_Model_User();
+        $user->setUsername($form->getValue('username'))
+            ->setPassword($form->getValue('password'))
+            ->setRole(1);
+        return $this->_mapper->insert($user);
     }
 }

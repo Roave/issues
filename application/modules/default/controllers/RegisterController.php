@@ -22,7 +22,12 @@ class Default_RegisterController extends Zend_Controller_Action
             $this->_helper->FlashMessenger->setNamespace('registerForm')->addMessage($form);
             $this->_helper->redirector('index');
         }
-        return $this->_helper->redirector('index', 'index');
+        if (!$this->_userService->createUserFromForm($form)) {
+            $form->setDescription($this->view->translate('registration_failed'));
+            $this->_helper->FlashMessenger->setNamespace('registerForm')->addMessage($form);
+            return $this->_helper->redirector('index');
+        }
+        return $this->_helper->redirector('login', 'auth');
     }
 
     public function getRegisterForm()

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Issue Tracker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-13 08:23-0700\n"
-"PO-Revision-Date: 2011-06-13 08:23-0700\n"
+"POT-Creation-Date: 2011-06-29 10:37-0700\n"
+"PO-Revision-Date: 2011-06-29 10:38-0700\n"
 "Last-Translator: Evan Coury <me@evancoury.com>\n"
 "Language-Team: Evan <me@evancoury.com>\n"
 "Language: \n"
@@ -17,23 +17,35 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ../../..\n"
 
+#: ../../../modules/default/forms/User/Base.php:21
 #: ../../../modules/default/forms/User/Login.php:12
 msgid "username"
 msgstr "Username"
 
+#: ../../../modules/default/forms/User/Base.php:30
 #: ../../../modules/default/forms/User/Login.php:21
 msgid "password"
 msgstr "Password"
 
+#: ../../../modules/default/forms/User/Base.php:39
+msgid "confirm_password"
+msgstr "Confirm Password"
+
 #: ../../../modules/default/forms/User/Login.php:27
-#: ../../../modules/default/views/scripts/auth/login.phtml:1
-#: ../../../layouts/layout.phtml:34
 msgid "sign_in"
 msgstr "Sign In"
 
-#: ../../../modules/default/controllers/AuthController.php:31
+#: ../../../modules/default/forms/User/Register.php:8
+msgid "register"
+msgstr "Register"
+
+#: ../../../modules/default/controllers/AuthController.php:32
 msgid "login_failed"
 msgstr "Login failed, please try again."
+
+#: ../../../modules/default/controllers/RegisterController.php:21
+msgid "registration_failed"
+msgstr "Registration failed, please try again."
 
 #: ../../../modules/default/views/scripts/index/index.phtml:1
 msgid "new_issue"
@@ -112,10 +124,6 @@ msgstr "Issues"
 #: ../../../layouts/layout.phtml:32
 msgid "sign_out"
 msgstr "Sign Out"
-
-#: ../../../layouts/layout.phtml:35
-msgid "register"
-msgstr "Register"
 
 #: ../../../layouts/layout.phtml:49
 msgid "members"
