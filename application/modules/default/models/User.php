@@ -25,7 +25,7 @@ class Default_Model_User extends Issues_Model_Abstract
     /**
      * Role
      *
-     * @var Auth_Model_Role
+     * @var Default_Model_Role
      */
     protected $_role;
 

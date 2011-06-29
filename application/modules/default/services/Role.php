@@ -1,12 +1,6 @@
 <?php
-class Default_Service_Role 
+class Default_Service_Role extends Issues_ServiceAbstract 
 {
-
-    public function __construct(Default_Model_Mapper_Role $roleMapper = null)
-    {
-        $this->_mapper = null === $roleMapper ? new Default_Model_Mapper_Role() : $roleMapper;
-    }
-
     public function getRolesForForm()
     {
         $rows = $this->_mapper->getRoles();

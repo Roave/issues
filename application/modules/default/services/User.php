@@ -1,17 +1,11 @@
 <?php
-class Default_Service_User 
+class Default_Service_User extends Issues_ServiceAbstract 
 {
     protected $_loginForm;
     protected $_registerForm;
-    protected $_mapper;
     protected $_authAdapter;
     protected $_userModel;
     protected $_auth;
-
-    public function __construct(Default_Model_Mapper_User $userMapper = null)
-    {
-        $this->_mapper = null === $userMapper ? new Default_Model_Mapper_User() : $userMapper;
-    }
 
     public function authenticate($username, $password)
     {
@@ -98,7 +92,7 @@ class Default_Service_User
         return $this->_registerForm;
     }
 
-    public function createUserFromForm(Default_Form_User_Register $form)
+    public function createFromForm(Default_Form_User_Register $form)
     {
         //if (Zend_Auth::getInstance()->getIdentity()->getRole() != 'admin') return false;
         $user = new Default_Model_User();

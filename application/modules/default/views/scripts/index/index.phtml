@@ -1,4 +1,4 @@
-<a href="#" id="newIssue" class="floatRight"><?=$this->translate('new_issue');?></a>
+<a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>" id="newIssue" class="floatRight"><?=$this->translate('new_issue');?></a>
 
 <div id="infoPane" class="floatLeft">
     
@@ -83,8 +83,8 @@
                         
     <div class="clearfix">
         <ul id="issuesNavigation" class="tabList floatLeft">
-            <li class="active"><a href="#"><?=$this->translate('open_issues');?> (5)</a></li>
-            <li><a href="#"><?=$this->translate('closed_issues');?> (12)</a></li>
+            <li class="active"><a href="#"><?=$this->translate('open_issues');?> (<?= count($this->issues); ?>)</a></li>
+            <li><a href="#"><?=$this->translate('closed_issues');?> (??)</a></li>
         </ul>
     </div>
     
@@ -103,45 +103,18 @@
     </div>
     
     <table id="issuesList">
-        <tr class="odd">
+        <? foreach($this->issues as $i => $issue): ?>
+        <tr class="<? if(($i+1)%2): ?>even<? else: ?>odd<? endif; ?>">
             <td class="issueToggle"><input type="checkbox" /></td>
-            <td class="issueNumber">#1</td>
+            <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
             <td class="issueInfo">
-                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
+                <h4 class="issueTitle"><a href="#"><?= $issue->getTitle(); ?></a></h4>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> <?= $issue->getCreatedBy()->getUsername(); ?> <?=$this->translate('on');?> <?= $issue->getCreatedTime()->format('F jS, Y G:i:s'); ?></p>
                 <span class="issueLabel" style="background-color: #900;">Label 1</span>
                 <span class="issueLabel" style="background-color: #000;">Bugs</span>
             </td>
         </tr>
-        <tr class="even">
-            <td class="issueToggle"><input type="checkbox" /></td>
-            <td class="issueNumber">#2</td>
-            <td class="issueInfo">
-                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
-                <span class="issueLabel" style="background-color: #009;">Label 2</span>
-            </td>
-        </tr>
-        <tr class="odd">
-            <td class="issueToggle"><input type="checkbox" /></td>
-            <td class="issueNumber">#3</td>
-            <td class="issueInfo">
-                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
-            </td>
-        </tr>
-        <tr class="even">
-            <td class="issueToggle"><input type="checkbox" /></td>
-            <td class="issueNumber">#4</td>
-            <td class="issueInfo">
-                <h4 class="issueTitle"><a href="#">The thingamajig doesn't work when you turn the doohicky</a></h4>
-                <p class="issueMetaInfo"><?=$this->translate('by');?> John Pinkerton <?=$this->translate('on');?> January 18, 2011</p>
-                <span class="issueLabel" style="background-color: #900;">Label 1</span>
-                <span class="issueLabel" style="background-color: #009;">Label 2</span>
-                <span class="issueLabel" style="background-color: #000;">Bugs</span>
-                <span class="issueLabel" style="background-color: #090;">Features</span>
-            </td>
-        </tr>
+        <? endforeach; ?>
     </table>
     
 </div>

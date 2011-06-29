@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Issue Tracker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-29 10:37-0700\n"
-"PO-Revision-Date: 2011-06-29 10:38-0700\n"
+"POT-Creation-Date: 2011-06-29 13:32-0700\n"
+"PO-Revision-Date: 2011-06-29 13:34-0700\n"
 "Last-Translator: Evan Coury <me@evancoury.com>\n"
 "Language-Team: Evan <me@evancoury.com>\n"
 "Language: \n"
@@ -39,17 +39,49 @@ msgstr "Sign In"
 msgid "register"
 msgstr "Register"
 
+#: ../../../modules/default/forms/Project/Base.php:12
+msgid "project_name"
+msgstr "Project Name"
+
+#: ../../../modules/default/forms/Project/Create.php:7
+msgid "create_project"
+msgstr "Create Project"
+
+#: ../../../modules/default/forms/Issue/Base.php:12
+msgid "title"
+msgstr "Title"
+
+#: ../../../modules/default/forms/Issue/Base.php:17
+msgid "project"
+msgstr "Project"
+
+#: ../../../modules/default/forms/Issue/Create.php:7
+msgid "create_issue"
+msgstr "Create Issue"
+
 #: ../../../modules/default/controllers/AuthController.php:32
 msgid "login_failed"
-msgstr "Login failed, please try again."
+msgstr "Login failed. Please try again."
 
-#: ../../../modules/default/controllers/RegisterController.php:21
-msgid "registration_failed"
-msgstr "Registration failed, please try again."
+#: ../../../modules/default/controllers/ProjectsController.php:21
+#: ../../../modules/default/controllers/ProjectsController.php:26
+msgid "new_project_failed"
+msgstr "Unable to create new project. Please try again."
 
-#: ../../../modules/default/views/scripts/index/index.phtml:1
+#: ../../../modules/default/controllers/IssuesController.php:21
+#: ../../../modules/default/controllers/IssuesController.php:26
 msgid "new_issue"
 msgstr "New Issue"
+
+#: ../../../modules/default/controllers/RegisterController.php:21
+#: ../../../modules/default/controllers/RegisterController.php:26
+msgid "registration_failed"
+msgstr "Registration failed. Please try again."
+
+#: ../../../modules/default/views/scripts/projects/new.phtml:1
+#: ../../../modules/default/views/scripts/projects/list.phtml:6
+msgid "new_project"
+msgstr "New Project"
 
 #: ../../../modules/default/views/scripts/index/index.phtml:5
 #: ../../../layouts/layout.phtml:46
@@ -94,17 +126,11 @@ msgstr "Close"
 msgid "select_issue_to_modify"
 msgstr "Select an issue to modify"
 
-#: ../../../modules/default/views/scripts/index/index.phtml:111
-#: ../../../modules/default/views/scripts/index/index.phtml:121
-#: ../../../modules/default/views/scripts/index/index.phtml:130
-#: ../../../modules/default/views/scripts/index/index.phtml:138
+#: ../../../modules/default/views/scripts/index/index.phtml:112
 msgid "by"
 msgstr "by"
 
-#: ../../../modules/default/views/scripts/index/index.phtml:111
-#: ../../../modules/default/views/scripts/index/index.phtml:121
-#: ../../../modules/default/views/scripts/index/index.phtml:130
-#: ../../../modules/default/views/scripts/index/index.phtml:138
+#: ../../../modules/default/views/scripts/index/index.phtml:112
 msgid "on"
 msgstr "on"
 
