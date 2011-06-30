@@ -42,6 +42,26 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
+CREATE TABLE `issues`.`label` (
+  `label_id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `text` VARCHAR( 50 ) NOT NULL ,
+  `color` VARCHAR( 50 ) NOT NULL
+) ENGINE = InnoDB;
+
+CREATE TABLE `issues`.`issue_label_linker` (
+  `issue_id` INT( 11 ) NOT NULL ,
+  `label_id` INT( 11 ) NOT NULL ,
+  PRIMARY KEY ( `issue_id` , `label_id` )
+) ENGINE = InnoDB;
+
+ALTER TABLE `issue_label_linker`
+ADD FOREIGN KEY (`issue_id`) REFERENCES `issues`.`issue` (`issue_id`)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `issue_label_linker`
+ADD FOREIGN KEY (`label_id`) REFERENCES `issues`.`label` (`label_id`)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
 INSERT INTO `user_role` (`role_id`, `role_name`) VALUES
 (1, 'user');
 
