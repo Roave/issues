@@ -40,42 +40,25 @@
     <h4 class="infoTitle"><?=$this->translate('labels');?></h4>
     
     <ul id="labelList">
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #900;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Label 1</div>
-            <div class="labelCount">6</div>
-        </li>
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #009;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Label 2</div>
-            <div class="labelCount">8</div>
-        </li>
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #000;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Bugs</div>
-            <div class="labelCount">2</div>
-        </li>
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #090;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Features</div>
-            <div class="labelCount">0</div>
-        </li>
+        <? foreach($this->labels as $label): ?>
+            <li class="clearfix">
+            <div class="labelColor" style="background-color: #<?= $label->getColor(); ?>;">
+                    <div class="labelArrow"></div>
+                </div>
+                <div class="labelName"><?= $label->getText(); ?></div>
+                <div class="labelCount">X</div>
+            </li>
+        <? endforeach; ?>
     </ul>
-    
-    <form method="post" action="#" id="newLabelForm" class="floatRight">
+    <!--
+    <form method="post" action="<?= $this->url(array('controller' => 'labels', 'action' => 'post')); ?>" id="newLabelForm" class="floatRight">
         <label id="newLabel" for="newLabelInput">
             <input type="text" name="newLabelInput" tabIndex="1" id="newLabelInput" />
         </label>
         <button type="submit" id="newLabelButton">&nbsp;</button>
     </form>
+    -->
+    <?= $this->createLabelForm; ?>
     
 </div>
 

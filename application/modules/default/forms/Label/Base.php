@@ -17,6 +17,10 @@ class Default_Form_Label_Base extends Issues_FormAbstract
                     'field'     => 'text'
                 ))
             ),
+            'decorators'    => array(
+                'ViewHelper',
+                new Zend_Form_Decorator_HtmlTag(array('tag' => 'label', 'id' => 'newLabel'))
+            ),
             'required'      => true,
             'label'         => 'Label Text'
         ));
@@ -27,13 +31,17 @@ class Default_Form_Label_Base extends Issues_FormAbstract
                 array('StringLength', true, array(3, 50)),
             ),
             'required'      => true,
-            'label'         => 'Color'
+            'label'         => 'Color',
+            'decorators'    => array('ViewHelper'),
         ));
 
-        $this->addElement('submit', 'submit', array(
-            'required' => false,
-            'ignore'   => true,
-            'decorators' => array('ViewHelper',array('HtmlTag', array('tag' => 'dd', 'id' => 'form-submit')))
+        $this->addElement('button', 'submit', array(
+            'required'   => false,
+            'ignore'     => true,
+            'decorators' => array('ViewHelper'),
+            'type'       => 'submit',
+            'escape'     => false,
         ));
+        $this->setDecorators(array('FormElements','Form'));
     }
 }
