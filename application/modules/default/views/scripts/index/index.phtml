@@ -73,7 +73,10 @@
     
     <div class="tabListBottom">
         <select>
-            <option><?=$this->translate('label');?></option>
+            <option selected="selected"><?=$this->translate('label')?></option>
+            <?php foreach ($this->labelsSelect as $value => $text) : ?>
+                <option value="<?=$value?>"><?=$text?></option>
+            <?php endforeach; ?>
         </select>
         <select>
             <option><?=$this->translate('assign');?></option>
