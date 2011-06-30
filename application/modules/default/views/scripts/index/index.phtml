@@ -83,7 +83,7 @@
                         
     <div class="clearfix">
         <ul id="issuesNavigation" class="tabList floatLeft">
-            <li class="active"><a href="#"><?=$this->translate('open_issues');?> (<?= count($this->issues); ?>)</a></li>
+            <li class="active"><a href="#"><?=$this->translate('open_issues');?> (<?= count($this->openIssues); ?>)</a></li>
             <li><a href="#"><?=$this->translate('closed_issues');?> (??)</a></li>
         </ul>
     </div>
@@ -103,7 +103,7 @@
     </div>
     
     <table id="issuesList">
-        <? foreach($this->issues as $i => $issue): ?>
+        <? foreach($this->openIssues as $i => $issue): ?>
         <tr class="<? if(($i+1)%2): ?>even<? else: ?>odd<? endif; ?>">
             <td class="issueToggle"><input type="checkbox" /></td>
             <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
