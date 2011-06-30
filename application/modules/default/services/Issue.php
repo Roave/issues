@@ -29,5 +29,34 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setCreatedBy(Zend_Auth::getInstance()->getIdentity());
         return $this->_mapper->insert($issue);
     }
+
+    public function addLabelToIssue($issue, $label)
+    {
+        // TODO should probably check permissions here
+        if (!($issue instanceof Default_Model_Issue)) {
+            $issue = $this->_mapper->getIssueById($issue);
+        }
+
+        if (!($label instanceof Default_Model_Label)) {
+            $label = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelById($label);
+        }
+
+        $this->_mapper->addLabelToIssue($issue, $label);
+    }
+
+    public function removeLabelFromIssue($issue, $label)
+    {
+        // TODO should probably check permissions here
+        if (!($issue instanceof Default_Model_Issue)) {
+            $issue = $this->_mapper->getIssueById($issue);
+        }
+
+        if (!($label instanceof Default_Model_Label)) {
+            $label = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelById($label);
+        }
+
+        $this->_mapper->removeLabelFromIssue($issue, $label);
+    }
+
 }
 
