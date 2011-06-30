@@ -41,7 +41,7 @@ class Default_Model_Label extends Issues_Model_Abstract {
      */
     public function setLabelId($labelId)
     {
-        $this->_labelId = $labelId;
+        $this->_labelId = (int) $labelId;
         return $this;
     }
  

@@ -35,7 +35,7 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract {
             ->join(array('l'=>'label'), 'ill.label_id = l.label_id');
 
         if ($issue instanceof Default_Model_Issue) {
-            $sql->where('ill.issue_id = ?', $issue->getId());
+            $sql->where('ill.issue_id = ?', $issue->getIssueId());
         } else {
             $sql->where('ill.issue_id = ?', (int) $issue);
         }
