@@ -13,6 +13,9 @@ class Default_Service_Project extends Issues_ServiceAbstract
 
     public function createFromForm(Default_Form_Project_Create $form)
     {
+        if (Zend_Auth::getInstance()->getIdentity()->getRole()->getName() == 'guest') {
+            return false; 
+        } 
         $project = new Default_Model_Project();
         $project->setProjectName($form->getValue('project_name'));
         return $this->_mapper->insert($project);

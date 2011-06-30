@@ -1,9 +1,19 @@
 <?php
 class Default_Model_Role extends Issues_Model_Abstract
 {
+    /**
+     * _roleId 
+     * 
+     * @var int
+     */
     protected $_roleId;
 
-    protected $_roleName;
+    /**
+     * _name 
+     * 
+     * @var string
+     */
+    protected $_name;
  
     /**
      * Get roleId.
@@ -22,28 +32,28 @@ class Default_Model_Role extends Issues_Model_Abstract
      */
     public function setRoleId($roleId)
     {
-        $this->_roleId = $roleId;
+        $this->_roleId = (int)$roleId;
         return $this;
     }
  
     /**
-     * Get roleName.
+     * Get name.
      *
-     * @return roleName
+     * @return string role name
      */
-    public function getRoleName()
+    public function getName()
     {
-        return $this->_roleName;
+        return $this->_name;
     }
  
     /**
-     * Set roleName.
+     * Set name.
      *
-     * @param $roleName the value to be set
+     * @param $name the value to be set
      */
-    public function setRoleName($roleName)
+    public function setName($name)
     {
-        $this->_roleName = $roleName;
+        $this->_name = $name;
         return $this;
     }
 }

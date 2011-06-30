@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `issue` (
 
 CREATE TABLE IF NOT EXISTS `project` (
   `project_id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`project_id`),
   UNIQUE KEY `project_name` (`project_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 CREATE TABLE IF NOT EXISTS `user_role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 

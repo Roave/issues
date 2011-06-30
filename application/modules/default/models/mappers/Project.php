@@ -26,10 +26,10 @@ class Default_Model_Mapper_Project extends Issues_Model_Mapper_DbAbstract
         return $rows;
     }
 
-    public function insert(Default_Model_Project $issue)
+    public function insert(Default_Model_Project $project)
     {
         $data = array(
-            'project_name' => $issue->getProjectName(),
+            'name' => $project->getName(),
         );
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);

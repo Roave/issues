@@ -23,7 +23,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
 
     public function createFromForm(Default_Form_Issue_Create $form)
     {
-        if (Zend_Auth::getInstance()->getIdentity()->getRole()->getRoleName() == 'guest') {
+        if (Zend_Auth::getInstance()->getIdentity()->getRole()->getName() == 'guest') {
             return false; 
         } 
         $issue = new Default_Model_Issue();

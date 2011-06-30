@@ -9,11 +9,11 @@ class Default_Model_Project extends Issues_Model_Abstract
     protected $_projectId;
 
     /**
-     * _projectName 
+     * _name 
      * 
      * @var string
      */
-    protected $_projectName;
+    protected $_name;
 
 
  
@@ -38,24 +38,25 @@ class Default_Model_Project extends Issues_Model_Abstract
         return $this;
     }
  
+ 
     /**
-     * Get projectName.
+     * Get name.
      *
-     * @return projectName
+     * @return name
      */
-    public function getProjectName()
+    public function getName()
     {
-        return $this->_projectName;
+        return $this->_name;
     }
  
     /**
-     * Set projectName.
+     * Set name.
      *
-     * @param $projectName the value to be set
+     * @param $name the value to be set
      */
-    public function setProjectName($projectName)
+    public function setName($name)
     {
-        $this->_projectName = $projectName;
+        $this->_name = $name;
         return $this;
     }
 }
