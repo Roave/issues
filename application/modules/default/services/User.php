@@ -38,7 +38,7 @@ class Default_Service_User extends Issues_ServiceAbstract
         $auth->getStorage()->write(new Default_Model_User(array(
             'role' => new Default_Model_Role(array(
                 'role_id'   => 0,
-                'role_name' => 'guest'    
+                'name' => 'guest'    
             ))
         )));
         return $auth->getIdentity();
