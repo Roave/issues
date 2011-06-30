@@ -13,17 +13,25 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return ($row) ? new Default_Model_Issue($row) : false;
     }
 
+    public function filterIssues($status = false)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from($this->getTableName());
+        if ($status) {
+            $sql->where('status = ?', $status);
+        }
+        $rows = $db->fetchAll($sql);
+        return $this->_rowsToModels($rows);
+    }
+
     public function getAllIssues()
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
         $rows = $db->fetchAll($sql);
-        if (!$rows) return array();
-        foreach ($rows as $i => $row) {
-            $rows[$i] = new Default_Model_Issue($row);
-        }
-        return $rows;
+        return $this->_rowsToModels($rows);
     }
 
     public function insert(Default_Model_Issue $issue)
@@ -73,5 +81,14 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $db = $this->getWriteAdapter();
         $db->delete('issue_label_linker', $where);
+    }
+
+    protected function _rowsToModels($rows)
+    {
+        if (!$rows) return array();
+        foreach ($rows as $i => $row) {
+            $rows[$i] = new Default_Model_Issue($row);
+        }
+        return $rows;
     }
 }

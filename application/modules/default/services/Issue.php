@@ -16,6 +16,11 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $this->_mapper->getAllIssues();
     }
 
+    public function filterIssues($status)
+    {
+        return $this->_mapper->filterIssues($status);
+    }
+
     public function createFromForm(Default_Form_Issue_Create $form)
     {
         if (Zend_Auth::getInstance()->getIdentity()->getRole()->getRoleName() == 'guest') {
