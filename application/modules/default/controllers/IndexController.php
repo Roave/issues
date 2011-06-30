@@ -1,16 +1,25 @@
 <?php
 class Default_IndexController extends Zend_Controller_Action
 {
-    public function indexAction()
+    public function init()
     {
         $this->_issueService = Zend_Registry::get('Default_DiContainer')->getIssueService();
+        $this->_labelService = Zend_Registry::get('Default_DiContainer')->getLabelService();
+    }
+
+    public function indexAction()
+    {
         $this->view->openIssues = $this->_issueService->filterIssues('open');
 
-        $this->_labelService = Zend_Registry::get('Default_DiContainer')->getLabelService();
         $this->view->labels = $this->_labelService->getAllLabels();
-        $this->view->labelsSelect = $this->_labelService->getLabelsForSelect($this->view->labels);
+        $fm = $this->getHelper('FlashMessenger')->getMessages(); 
+        $this->view->createLabelForm = (count($fm) > 0) ? $fm[0] : $this->getCreateLabelForm();
 
-        $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
-        $this->view->users = $this->_userService->getUsersForSelect();
+        $this->view->labelsSelect = $this->_labelService->getLabelsForSelect($this->view->labels);
+    }
+
+    public function getCreateLabelForm()
+    {
+        return $this->_labelService->getCreateForm()->setAction($this->_helper->url->direct('post','labels'));
     }
 }

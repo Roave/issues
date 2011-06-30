@@ -52,13 +52,15 @@
         <?php endforeach; ?>
         <?php endif; ?>
     </ul>
-    
-    <form method="post" action="#" id="newLabelForm" class="floatRight">
+    <!--
+    <form method="post" action="<?= $this->url(array('controller' => 'labels', 'action' => 'post')); ?>" id="newLabelForm" class="floatRight">
         <label id="newLabel" for="newLabelInput">
             <input type="text" name="newLabelInput" tabIndex="1" id="newLabelInput" />
         </label>
         <button type="submit" id="newLabelButton">&nbsp;</button>
     </form>
+    -->
+    <?= $this->createLabelForm; ?>
     
 </div>
 

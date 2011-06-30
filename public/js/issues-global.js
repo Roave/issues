@@ -31,4 +31,9 @@ function autoPopulate(targetElementID, defaultValue) {
         }
     });
     
+    $(targetElementID).parents('form').submit(function(){
+        if ($(targetElementID).val() == defaultValue) {
+            $(targetElementID).val('');
+        }
+    });
 }

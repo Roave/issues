@@ -18,12 +18,12 @@ class Default_IssuesController extends Zend_Controller_Action
         $request = $this->getRequest();
         if (!$request->isPost()) return $this->_helper->redirector('new');
         if (false === $form->isValid($request->getPost())) {
-            $form->setDescription($this->view->translate('new_issue'));
+            $form->setDescription($this->view->translate('new_issue_failed'));
             $this->_helper->FlashMessenger->setNamespace('createForm')->addMessage($form);
             $this->_helper->redirector('new');
         }
         if (!$this->_issueService->createFromForm($form)) {
-            $form->setDescription($this->view->translate('new_issue'));
+            $form->setDescription($this->view->translate('new_issue_failed'));
             $this->_helper->FlashMessenger->setNamespace('createForm')->addMessage($form);
             return $this->_helper->redirector('new');
         }
