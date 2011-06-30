@@ -17,7 +17,7 @@ class Default_Service_Project extends Issues_ServiceAbstract
             return false; 
         } 
         $project = new Default_Model_Project();
-        $project->setProjectName($form->getValue('project_name'));
+        $project->setName($form->getValue('project_name'));
         return $this->_mapper->insert($project);
     }
 
@@ -31,7 +31,7 @@ class Default_Service_Project extends Issues_ServiceAbstract
         $projects = $this->_mapper->getAllProjects();
         $projectsForForm = array();
         foreach ($projects as $i => $project) {
-            $projectsForForm[$project->getProjectId()] = $project->getProjectName();
+            $projectsForForm[$project->getProjectId()] = $project->getName();
         }
         return $projectsForForm;
     }
