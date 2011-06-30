@@ -130,4 +130,30 @@ class Default_DiContainer extends Issues_DiContainerAbstract
         }
         return $this->_storage['labelMapper'];
     }
+
+    /**
+     * Get the milestone service 
+     * 
+     * @return Default_Service_Milestone
+     */
+    public function getMilestoneService()
+    {
+        if (!isset($this->_storage['milestoneService'])) {
+            $this->_storage['milestoneService'] = new Default_Service_Milestone($this->getMilestoneMapper());
+        }
+        return $this->_storage['milestoneService'];
+    }
+
+    /**
+     * Get the label mapper
+     *
+     * @return Default_Model_Mapper_Milestone
+     */
+    public function getMilestoneMapper()
+    {
+        if (!isset($this->_storage['milestoneMapper'])) {
+            $this->_storage['milestoneMapper'] = new Default_Model_Mapper_Milestone();
+        }
+        return $this->_storage['milestoneMapper'];
+    }
 }
