@@ -145,7 +145,7 @@ class Default_DiContainer extends Issues_DiContainerAbstract
     }
 
     /**
-     * Get the label mapper
+     * Get the milestone mapper
      *
      * @return Default_Model_Mapper_Milestone
      */
@@ -155,5 +155,31 @@ class Default_DiContainer extends Issues_DiContainerAbstract
             $this->_storage['milestoneMapper'] = new Default_Model_Mapper_Milestone();
         }
         return $this->_storage['milestoneMapper'];
+    }
+
+    /**
+     * Get the comment service 
+     * 
+     * @return Default_Service_Comment
+     */
+    public function getCommentService()
+    {
+        if (!isset($this->_storage['commentService'])) {
+            $this->_storage['commentService'] = new Default_Service_Comment($this->getCommentMapper());
+        }
+        return $this->_storage['commentService'];
+    }
+
+    /**
+     * Get the comment mapper
+     *
+     * @return Default_Model_Mapper_Comment
+     */
+    public function getCommentMapper()
+    {
+        if (!isset($this->_storage['commentMapper'])) {
+            $this->_storage['commentMapper'] = new Default_Model_Mapper_Comment();
+        }
+        return $this->_storage['commentMapper'];
     }
 }
