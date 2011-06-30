@@ -58,6 +58,31 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $db->update($this->getTableName(), $data, $db->quoteInto('issue_id = ?', $issue->getIssueId()));
     }
 
+    public function addLabelToIssue(Default_Model_Issue $issue, Default_Model_Label $label)
+    {
+        $data = array(
+            'issue_id'  => $issue->getIssueId(),
+            'label_id'  => $label->getLabelId()
+        );
+
+        $db = $this->getWriteAdapter();
+        try {
+            $db->insert('issue_label_linker', $data);
+        } catch (Exception $e) {} // probably a duplicate key
+        return true;
+    }
+
+    public function removeLabelFromIssue(Default_Model_Issue $issue, Default_Model_Label $label)
+    {
+        $where = array(
+            'issue_id = ?'  => $issue->getIssueId(),
+            'label_id = ?'  => $label->getLabelId()
+        );
+
+        $db = $this->getWriteAdapter();
+        $db->delete('issue_label_linker', $where);
+    }
+
     protected function _rowsToModels($rows)
     {
         if (!$rows) return array();

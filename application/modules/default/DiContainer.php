@@ -104,4 +104,30 @@ class Default_DiContainer extends Issues_DiContainerAbstract
         }
         return $this->_storage['issueMapper'];
     }
+
+    /**
+     * Get the label service 
+     * 
+     * @return Default_Service_Label
+     */
+    public function getLabelService()
+    {
+        if (!isset($this->_storage['labelService'])) {
+            $this->_storage['labelService'] = new Default_Service_Label($this->getLabelMapper());
+        }
+        return $this->_storage['labelService'];
+    }
+
+    /**
+     * Get the label mapper
+     *
+     * @return Default_Model_Mapper_Label
+     */
+    public function getLabelMapper()
+    {
+        if (!isset($this->_storage['labelMapper'])) {
+            $this->_storage['labelMapper'] = new Default_Model_Mapper_Label();
+        }
+        return $this->_storage['labelMapper'];
+    }
 }
