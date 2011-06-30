@@ -27,6 +27,29 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract {
         return $return;
     }
 
+    public function getLabelsByIssue($issue)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from(array('ill'=>'issue_label_linker'))
+            ->join(array('l'=>'label'), 'ill.label_id = l.label_id');
+
+        if ($issue instanceof Default_Model_Issue) {
+            $sql->where('ill.issue_id = ?', $issue->getId());
+        } else {
+            $sql->where('ill.issue_id = ?', (int) $issue);
+        }
+
+        $rows = $db->fetchAll($sql);
+        if (!$rows) return array();
+
+        $return = array();
+        foreach ($rows as $i => $row) {
+            $return[$i] = new Default_Model_Label($row);
+        }
+        return $return;
+    }
+
     public function insert(Default_Model_Label $label)
     {
         $data = array(
