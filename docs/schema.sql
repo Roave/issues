@@ -2,7 +2,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `issue` (
-  `issue_id` int(11) NOT NULL AUTO_INCREMENT,
+  `issue_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `status` enum('open','closed') NOT NULL DEFAULT 'open',
@@ -15,14 +15,14 @@ CREATE TABLE IF NOT EXISTS `issue` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `project` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`project_id`),
   UNIQUE KEY `project_name` (`project_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` int(11) NOT NULL DEFAULT '1',
@@ -37,20 +37,20 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 CREATE TABLE IF NOT EXISTS `user_role` (
-  `role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 CREATE TABLE `issues`.`label` (
-  `label_id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `label_id` UNSIGNED INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `text` VARCHAR( 50 ) NOT NULL ,
   `color` VARCHAR( 50 ) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE `issues`.`issue_label_linker` (
-  `issue_id` INT( 11 ) NOT NULL ,
-  `label_id` INT( 11 ) NOT NULL ,
+  `issue_id` INT( 11 ) UNSIGNED NOT NULL ,
+  `label_id` INT( 11 ) UNSIGNED NOT NULL ,
   PRIMARY KEY ( `issue_id` , `label_id` )
 ) ENGINE = InnoDB;
 
