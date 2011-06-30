@@ -55,16 +55,25 @@ CREATE TABLE `issues`.`issue_label_linker` (
 ) ENGINE = InnoDB;
 
 CREATE TABLE `issue_milestone_linker` (
-  `issue_id` int(11) UNSIGNED NOT NULL,
-  `milestone_id` int(11) UNSIGNED NOT NULL,
+  `issue_id` INT(11) UNSIGNED NOT NULL,
+  `milestone_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`issue_id` , `milestone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `milestone` (
-  `milestone_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `milestone_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `due_date` datetime DEFAULT NULL,
+  `due_date` DATETIME DEFAULT NULL,
   PRIMARY KEY (`milestone_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `comment` (
+  `comment_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_time` DATETIME NOT NULL,
+  `created_by` INT( 11 ) UNSIGNED NOT NULL,
+  `issue` INT( 11 ) UNSIGNED NOT NULL,
+  `text` text NOT NULL,
+  PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `user`
@@ -85,6 +94,9 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE `issue_milestone_linker`
 ADD FOREIGN KEY (`issue_id`) REFERENCES `issue` (`issue_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `comment`
+ADD FOREIGN KEY (`issue`) REFERENCES `issue` (`issue_id`);
 
 INSERT INTO `user_role` (`role_id`, `name`) VALUES
 (1, 'user');

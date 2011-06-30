@@ -39,7 +39,7 @@ class Default_Model_Label extends Issues_Model_Abstract
      */
     public function setMilestoneId($milestoneId)
     {
-        $this->_milestoneId = (int)$milestoneId;
+        $this->_milestoneId = (int) $milestoneId;
         return $this;
     }
  

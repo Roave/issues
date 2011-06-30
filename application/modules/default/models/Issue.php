@@ -81,7 +81,7 @@ class Default_Model_Issue extends Issues_Model_Abstract
      */
     public function setIssueId($issueId)
     {
-        $this->_issueId = (int)$issueId;
+        $this->_issueId = (int) $issueId;
         return $this;
     }
  

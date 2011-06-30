@@ -74,7 +74,7 @@ class Default_Model_User extends Issues_Model_Abstract
      */
     public function setUserId($userId)
     {
-        $this->_userId = (int)$userId;
+        $this->_userId = (int) $userId;
         return $this;
     }
  

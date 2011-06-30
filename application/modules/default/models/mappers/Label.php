@@ -1,5 +1,6 @@
 <?php
-class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract {
+class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
+{
     protected $_name = 'label';
 
     public function getLabelById($id)

@@ -34,7 +34,7 @@ class Default_Model_Project extends Issues_Model_Abstract
      */
     public function setProjectId($projectId)
     {
-        $this->_projectId = (int)$projectId;
+        $this->_projectId = (int) $projectId;
         return $this;
     }
  

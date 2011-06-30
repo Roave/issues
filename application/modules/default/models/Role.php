@@ -32,7 +32,7 @@ class Default_Model_Role extends Issues_Model_Abstract
      */
     public function setRoleId($roleId)
     {
-        $this->_roleId = (int)$roleId;
+        $this->_roleId = (int) $roleId;
         return $this;
     }
  

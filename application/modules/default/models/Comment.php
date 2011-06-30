@@ -46,7 +46,7 @@ class Default_Model_Comment extends Issues_Model_Abstract
      */
     public function setCommentId($commentId)
     {
-        $this->_commentId = (int)$commentId;
+        $this->_commentId = (int) $commentId;
         return $this;
     }
  

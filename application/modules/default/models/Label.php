@@ -1,6 +1,6 @@
 <?php
-
-class Default_Model_Label extends Issues_Model_Abstract {
+class Default_Model_Label extends Issues_Model_Abstract 
+{
     /**
      * _labelId 
      * 
