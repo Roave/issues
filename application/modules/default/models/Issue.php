@@ -264,4 +264,10 @@ class Default_Model_Issue extends Issues_Model_Abstract
         $this->_lastUpdateTime = new DateTime($lastUpdateTime);
         return $this;
     }
+
+    public function getLabels()
+    {
+        return Zend_Registry::get('Default_DiContainer')->getLabelService()
+            ->getLabelsByIssue($this);
+    }
 }

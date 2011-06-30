@@ -10,4 +10,9 @@ class Default_Service_Label extends Issues_ServiceAbstract
     {
         return $this->_mapper->getLabelsByIssue($issue);
     }
+
+    public function getAllLabels()
+    {
+        return $this->_mapper->getAllLabels();
+    }
 }

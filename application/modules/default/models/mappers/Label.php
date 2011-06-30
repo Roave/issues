@@ -18,7 +18,7 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
-        $rows = $db->fetchAll($rows);
+        $rows = $db->fetchAll($sql);
         if (!$rows) return array();
 
         $return = array();
@@ -62,4 +62,5 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();
     }
+    
 }

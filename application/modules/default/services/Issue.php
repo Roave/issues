@@ -63,5 +63,9 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         $this->_mapper->removeLabelFromIssue($issue, $label);
     }
 
+    public function countIssuesByLabel(Default_Model_Label $label)
+    {
+        return $this->_mapper->countIssuesByLabel($label);
+    }
 }
 

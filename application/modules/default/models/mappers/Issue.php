@@ -83,6 +83,16 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db->delete('issue_label_linker', $where);
     }
 
+    public function countIssuesByLabel(Default_Model_Label $label)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from('issue_label_linker', array('count' => 'COUNT(*)'))
+            ->where('label_id = ?', $label->getLabelId());
+
+        return $db->fetchOne($sql);
+    }
+
     protected function _rowsToModels($rows)
     {
         if (!$rows) return array();

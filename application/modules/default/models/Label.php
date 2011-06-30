@@ -21,6 +21,13 @@ class Default_Model_Label extends Issues_Model_Abstract
      * @var string
      */
     protected $_color;
+
+    /**
+     * Number of issues with this label
+     *
+     * @var int
+     */
+    protected $_issueCount;
  
     /**
      * Get labelId.
@@ -88,6 +95,32 @@ class Default_Model_Label extends Issues_Model_Abstract
     public function setColor($color)
     {
         $this->_color = $color;
+        return $this;
+    }
+ 
+    /**
+     * Get count.
+     *
+     * @return int count
+     */
+    public function getIssueCount()
+    {
+        if (!isset($this->_issueCount)) {
+            $this->_issueCount = Zend_Registry::get('Default_DiContainer')
+                ->getIssueService()
+                ->countIssuesByLabel($this);
+        }
+        return $this->_issueCount;
+    }
+ 
+    /**
+     * Set count.
+     *
+     * @param int $count the value to be set
+     */
+    public function setCount($issueCount)
+    {
+        $this->_issueCount = $issueCount;
         return $this;
     }
 }

@@ -40,34 +40,17 @@
     <h4 class="infoTitle"><?=$this->translate('labels');?></h4>
     
     <ul id="labelList">
+        <?php if (count($this->labels)) : ?>
+        <?php foreach ($this->labels as $label) : ?>
         <li class="clearfix">
-            <div class="labelColor" style="background-color: #900;">
+            <div class="labelColor" style="background-color: <?=$label->getColor()?>;">
                 <div class="labelArrow"></div>
             </div>
-            <div class="labelName">Label 1</div>
-            <div class="labelCount">6</div>
+            <div class="labelName"><?=$label->getText()?></div>
+            <div class="labelCount"><?=$label->getIssueCount()?></div>
         </li>
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #009;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Label 2</div>
-            <div class="labelCount">8</div>
-        </li>
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #000;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Bugs</div>
-            <div class="labelCount">2</div>
-        </li>
-        <li class="clearfix">
-            <div class="labelColor" style="background-color: #090;">
-                <div class="labelArrow"></div>
-            </div>
-            <div class="labelName">Features</div>
-            <div class="labelCount">0</div>
-        </li>
+        <?php endforeach; ?>
+        <?php endif; ?>
     </ul>
     
     <form method="post" action="#" id="newLabelForm" class="floatRight">
@@ -110,8 +93,9 @@
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="#"><?= $issue->getTitle(); ?></a></h4>
                 <p class="issueMetaInfo"><?=$this->translate('by');?> <?= $issue->getCreatedBy()->getUsername(); ?> <?=$this->translate('on');?> <?= $issue->getCreatedTime()->format('F jS, Y G:i:s'); ?></p>
-                <span class="issueLabel" style="background-color: #900;">Label 1</span>
-                <span class="issueLabel" style="background-color: #000;">Bugs</span>
+                <?php foreach ($issue->getLabels() as $l) : ?>
+                   <span class="issueLabel" style="background-color: <?=$l->getColor()?>;"><?=$l->getText()?></span>
+                <?php endforeach; ?>
             </td>
         </tr>
         <? endforeach; ?>
