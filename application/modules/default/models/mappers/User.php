@@ -57,4 +57,19 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         $db = $this->getWriteAdapter();
         return $db->update($this->getTableName(), $data, $db->quoteInto('user_id = ?', $user->getUserId()));
     }
+
+    public function getAllUsers()
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from($this->getTableName());
+        $rows = $db->fetchAll($sql);
+        if (!$rows) return array();
+
+        $return = array();
+        foreach ($rows as $i => $row) {
+            $return[$i] = new Default_Model_User($row);
+        }
+        return $return;
+    }
 }

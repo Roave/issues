@@ -5,6 +5,7 @@ class Default_IndexController extends Zend_Controller_Action
     {
         $this->_issueService = Zend_Registry::get('Default_DiContainer')->getIssueService();
         $this->_labelService = Zend_Registry::get('Default_DiContainer')->getLabelService();
+        $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
     }
 
     public function indexAction()
@@ -16,6 +17,8 @@ class Default_IndexController extends Zend_Controller_Action
         $this->view->createLabelForm = (count($fm) > 0) ? $fm[0] : $this->getCreateLabelForm();
 
         $this->view->labelsSelect = $this->_labelService->getLabelsForSelect($this->view->labels);
+
+        $this->view->usersSelect = $this->_userService->getUsersForSelect();
     }
 
     public function getCreateLabelForm()

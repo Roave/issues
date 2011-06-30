@@ -101,4 +101,23 @@ class Default_Service_User extends Issues_ServiceAbstract
             ->setRole(1);
         return $this->_mapper->insert($user);
     }
+
+    public function getAllUsers()
+    {
+        return $this->_mapper->getAllUsers();
+    }
+
+    public function getUsersForSelect(array $users = null)
+    {
+        if ($users === null) {
+            $users = $this->getAllUsers();
+        }
+
+        $result = array();
+        foreach ($users as $u) {
+            $result[$u->getUserId()] = $u->getUsername();
+        }
+
+        return $result;
+    }
 }
