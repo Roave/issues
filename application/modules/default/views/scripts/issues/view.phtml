@@ -1,2 +1,30 @@
 <h1>#<?=$this->issue->getIssueId()?> <?=$this->issue->getTitle()?></h1>
 
+Created by <?=$this->issue->getCreatedBy()->getUsername()?> on <?=$this->issue->getCreatedTime()->format('F jS, Y G:i:s');?><br />
+
+<?php if ($this->issue->getLastUpdateTime()) : ?>
+Last updated: <?=$this->issue->getLastUpdateTime()->format('F jS, Y G:i:s');?><br />
+<?php endif; ?>
+
+<?php if ($this->issue->getAssignedTo()) : ?>
+    Assigned to <?=$this->issue->getAssignedTo()->getUsername()?><br />
+<?php else : ?>
+    Assigned to no one<br />
+<?php endif; ?>
+
+<?php if ($this->issue->getProject()) : ?>
+    Project: <?=$this->issue->getProject()->getName()?><br />
+<?php else: ?>
+    Project: none<br />
+<?php endif; ?>
+
+Status: <?=$this->issue->getStatus()?><br />
+
+<hr />
+
+<?php if ($this->comments) : ?>
+    <?php foreach ($this->comments as $i) : ?>
+        Comment by <?=$i->getCreatedBy()->getUsername()?> on <?=$i->getCreatedTime()->format('F jS, Y G:i:s');?><br />
+        <blockquote><?=$i->getText()?></blockquote>
+    <?php endforeach; ?>
+<?php endif; ?>

@@ -35,7 +35,9 @@ class Default_IssuesController extends Zend_Controller_Action
 
     public function viewAction()
     {
+        $this->_commentService = Zend_Registry::get('Default_DiContainer')->getCommentService();
         $this->view->issue = $this->_issueService->getIssueById($this->_getParam('id'));
+        $this->view->comments = $this->_commentService->getCommentsByIssue($this->view->issue);
     }
 
     public function listAction()
