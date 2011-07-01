@@ -11,6 +11,7 @@ class Default_IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->openIssues = $this->_issueService->filterIssues('open');
+        $this->view->closedIssues = $this->_issueService->filterIssues('closed');
 
         $this->view->labels = $this->_labelService->getAllLabels();
         $fm = $this->getHelper('FlashMessenger')->getMessages(); 
