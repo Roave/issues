@@ -68,6 +68,14 @@ class Default_Model_Comment extends Issues_Model_Abstract
     public function setCreatedTime($createdTime)
     {
         $this->_createdTime = new DateTime($createdTime);
+
+        // TODO Not exactly sure if the model is the right place to do this, but 
+        // it seems to work well enough
+        $user = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
+        if ($user->getSetting('timezone')) {
+            $this->_createdTime->setTimezone(new DateTimeZone($user->getSetting('timezone')));
+        }
+
         return $this;
     }
  

@@ -170,6 +170,13 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setLastLogin($lastLogin)
     {
         $this->_lastLogin = new DateTime($lastLogin);
+
+        // TODO Not exactly sure if the model is the right place to do this, but 
+        // it seems to work well enough
+        $user = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
+        if ($user->getSetting('timezone')) {
+            $this->_lastLogin->setTimezone(new DateTimeZone($user->getSetting('timezone')));
+        }
     }
  
     /**
@@ -210,6 +217,13 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setRegisterTime($registerTime)
     {
         $this->_registerTime = new DateTime($registerTime);
+
+        // TODO Not exactly sure if the model is the right place to do this, but 
+        // it seems to work well enough
+        $user = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
+        if ($user->getSetting('timezone')) {
+            $this->_registerTime->setTimezone(new DateTimeZone($user->getSetting('timezone')));
+        }
     }
  
     /**
