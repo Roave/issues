@@ -64,6 +64,7 @@ CREATE TABLE `milestone` (
   `milestone_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `due_date` DATETIME DEFAULT NULL,
+  `completed_date` DATETIME DEFAULT NULL,
   PRIMARY KEY (`milestone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
