@@ -64,7 +64,7 @@ class Default_Model_Comment extends Issues_Model_Abstract
      */
     public function getCreatedTime()
     {
-        return $this->_adjustedTime($this->_createdTime);
+        return $this->_adjustedDateTime($this->_createdTime);
     }
  
     /**
