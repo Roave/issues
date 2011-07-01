@@ -15,7 +15,7 @@ class Default_Service_User extends Issues_ServiceAbstract
         if (!$result->isValid()) {
             return false;
         }
-        $this->_userModel = $this->_mapper->getUserByUsername($username);
+        $this->_userModel = $this->_mapper->getUserByUsername($username, true);
         $auth->getStorage()->write($this->_userModel);
         $this->_mapper->updateLastLogin($this->_userModel);
         return true;
@@ -154,5 +154,14 @@ class Default_Service_User extends Issues_ServiceAbstract
     {
         // @TODO check permissions here
         return $this->_mapper->updateUserSetting($user, $key, $value);
+    }
+
+    public function getActiveTimezone()
+    {
+        if (!$timezone = $this->getIdentity()->getSetting('timezone')) {
+            $defaults = $this->getDefaultUserSettings();
+            $timezone = $defaults['timezone'];
+        }
+        return $timezone;
     }
 }

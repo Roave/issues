@@ -28,6 +28,12 @@ abstract class Issues_Model_Abstract
         }
         return $this;
     }
+
+    protected function _adjustedDateTime($dateTime)
+    {
+        $userService =  Zend_Registry::get('Default_DiContainer')->getUserService();
+        return $dateTime->setTimezone(new DateTimeZone($userService->getActiveTimezone()));
+    }
     
     private function _fieldToMethod($name)
     {

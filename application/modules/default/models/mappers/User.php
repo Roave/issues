@@ -13,13 +13,16 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         );
     }
 
-    public function getUserByUsername($username)
+    public function getUserByUsername($username, $addSettings = false)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName(), $this->_fields)
             ->where('username = ?', $username);
         $row = $db->fetchRow($sql);
+        if ($row && $addSettings) {
+            $row = $this->_addSettings($row);
+        }
         return ($row) ? new Default_Model_User($row) : false;
     }
 
@@ -125,5 +128,13 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         );
 
         return $this->getWriteAdapter()->update('user_settings', $data, $where);
+    }
+
+    protected function _addSettings($row)
+    {
+        if (is_array($row) && is_numeric($row['user_id'])) {
+            $row['settings'] = $this->getUserSettings($row['user_id']);
+        }
+        return $row;
     }
 }

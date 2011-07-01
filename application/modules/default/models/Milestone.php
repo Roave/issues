@@ -71,7 +71,7 @@ class Default_Model_Label extends Issues_Model_Abstract
      */
     public function getDueDate()
     {
-        return $this->_dueDate;
+        return $this->_adjustedDateTime($this->_dueDate);
     }
  
     /**
@@ -82,14 +82,6 @@ class Default_Model_Label extends Issues_Model_Abstract
     public function setDueDate($dueDate)
     {
         $this->_dueDate = new DateTime($dueDate);
-
-        // TODO Not exactly sure if the model is the right place to do this, but 
-        // it seems to work well enough
-        $user = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
-        if ($user->getSetting('timezone')) {
-            $this->_dueDate->setTimezone(new DateTimeZone($user->getSetting('timezone')));
-        }
-
         return $this;
     }
 }

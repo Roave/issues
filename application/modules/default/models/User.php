@@ -159,7 +159,7 @@ class Default_Model_User extends Issues_Model_Abstract
      */
     public function getLastLogin()
     {
-        return $this->_lastLogin;
+        return $this->_adjustedDateTime($this->_lastLogin);
     }
  
     /**
@@ -170,13 +170,6 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setLastLogin($lastLogin)
     {
         $this->_lastLogin = new DateTime($lastLogin);
-
-        // TODO Not exactly sure if the model is the right place to do this, but 
-        // it seems to work well enough
-        $user = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
-        if ($user->getSetting('timezone')) {
-            $this->_lastLogin->setTimezone(new DateTimeZone($user->getSetting('timezone')));
-        }
     }
  
     /**
@@ -206,7 +199,7 @@ class Default_Model_User extends Issues_Model_Abstract
      */
     public function getRegisterTime()
     {
-        return $this->_registerTime;
+        return $this->_adjustedDateTime($this->_registerTime);
     }
  
     /**
@@ -217,13 +210,6 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setRegisterTime($registerTime)
     {
         $this->_registerTime = new DateTime($registerTime);
-
-        // TODO Not exactly sure if the model is the right place to do this, but 
-        // it seems to work well enough
-        $user = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
-        if ($user->getSetting('timezone')) {
-            $this->_registerTime->setTimezone(new DateTimeZone($user->getSetting('timezone')));
-        }
     }
  
     /**
@@ -253,10 +239,6 @@ class Default_Model_User extends Issues_Model_Abstract
      */
     public function getSetting($key)
     {
-        if ($this->_settings === null) {
-            $this->_settings = Zend_Registry::get('Default_DiContainer')->getUserService()->getUserSettings($this);
-        }
-
         if (isset($this->_settings[$key])) {
             return $this->_settings[$key];
         } else {
@@ -273,7 +255,6 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setSetting($key, $value)
     {
         $this->_settings[$key] = $value;
-        Zend_Registry::get('Default_DiContainer')->getUserService()->updateUserSetting($this, $key, $value);
         return $this;
     }
  
