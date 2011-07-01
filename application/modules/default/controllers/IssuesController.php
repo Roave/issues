@@ -4,16 +4,19 @@ class Default_IssuesController extends Zend_Controller_Action
     public function init()
     {
         $this->_issueService = Zend_Registry::get('Default_DiContainer')->getIssueService();
-        $fm = $this->getHelper('FlashMessenger')->setNamespace('createForm')->getMessages(); 
-        $this->view->createForm = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
     }
 
     public function newAction()
     {
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('createForm')->getMessages(); 
+        $this->view->createForm = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
     }
 
     public function postAction()
     {
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('createForm')->getMessages(); 
+        $this->view->createForm = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
+
         $form = $this->view->createForm;
         $request = $this->getRequest();
         if (!$request->isPost()) return $this->_helper->redirector('new');
