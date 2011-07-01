@@ -36,19 +36,26 @@ CREATE TABLE `user` (
   KEY `role` (`role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `user_settings` (
+  `user_id` INT(10) UNSIGNED NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `value` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`name`)
+) ENGINE=InnoDB;
+
 CREATE TABLE `user_role` (
   `role_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR( 255) NOT NULL,
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
-CREATE TABLE `issues`.`label` (
+CREATE TABLE `label` (
   `label_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `text` VARCHAR( 50 ) NOT NULL ,
   `color` VARCHAR( 50 ) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `issues`.`issue_label_linker` (
+CREATE TABLE `issue_label_linker` (
   `issue_id` INT( 11 ) UNSIGNED NOT NULL ,
   `label_id` INT( 11 ) UNSIGNED NOT NULL ,
   PRIMARY KEY ( `issue_id` , `label_id` )
@@ -80,12 +87,16 @@ CREATE TABLE `comment` (
 ALTER TABLE `user`
 ADD FOREIGN KEY (`role`) REFERENCES `user_role` (`role_id`);
 
+ALTER TABLE `user_settings` ADD FOREIGN KEY ( `user_id` ) REFERENCES `user` (
+`role`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
+
 ALTER TABLE `issue_label_linker`
-ADD FOREIGN KEY (`issue_id`) REFERENCES `issues`.`issue` (`issue_id`)
+ADD FOREIGN KEY (`issue_id`) REFERENCES `issue` (`issue_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `issue_label_linker`
-ADD FOREIGN KEY (`label_id`) REFERENCES `issues`.`label` (`label_id`)
+ADD FOREIGN KEY (`label_id`) REFERENCES `label` (`label_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `issue_milestone_linker`
