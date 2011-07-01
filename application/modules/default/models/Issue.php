@@ -251,7 +251,11 @@ class Default_Model_Issue extends Issues_Model_Abstract
      */
     public function getLastUpdateTime()
     {
-        return $this->_adjustedDateTime($this->_lastUpdateTime);
+        if ($this->_lastUpdateTime) {
+            return $this->_adjustedDateTime($this->_lastUpdateTime);
+        } else {
+            return false;
+        }
     }
  
     /**
