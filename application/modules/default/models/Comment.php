@@ -23,6 +23,13 @@ class Default_Model_Comment extends Issues_Model_Abstract
     protected $_createdBy;
 
     /**
+     * _issue
+     *
+     * @var Default_Model_Issue
+     */
+    protected $_issue;
+
+    /**
      * _text 
      * 
      * @var string
@@ -122,6 +129,32 @@ class Default_Model_Comment extends Issues_Model_Abstract
     public function setText($text)
     {
         $this->_text = $text;
+        return $this;
+    }
+ 
+    /**
+     * Get issue.
+     *
+     * @return issue
+     */
+    public function getIssue()
+    {
+        return $this->_issue;
+    }
+ 
+    /**
+     * Set issue.
+     *
+     * @param $issue the value to be set
+     */
+    public function setIssue($issue)
+    {
+        if ($issue instanceof Default_Model_Issue) {
+            $this->_issue = $issue;
+        } elseif (is_numeric($issue)) {
+            $this->_issue = Zend_Registry::get('Default_DiContainer')->getIssueMapper()->getIssueById((int)$issue);
+        }
+
         return $this;
     }
 }

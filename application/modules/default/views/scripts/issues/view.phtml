@@ -22,7 +22,6 @@ Last updated: <?=$this->issue->getLastUpdateTime()->format($dateFormat);?><br />
 <?php endif; ?>
 
 Status: <?=$this->issue->getStatus()?><br />
-
 <hr />
 
 <?php if ($this->comments) : ?>
@@ -31,3 +30,5 @@ Status: <?=$this->issue->getStatus()?><br />
         <blockquote><?=$i->getText()?></blockquote>
     <?php endforeach; ?>
 <?php endif; ?>
+
+<?=$this->commentForm?>
