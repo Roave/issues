@@ -11,6 +11,11 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $this->_createForm;
     }
 
+    public function getIssueById($id)
+    {
+        return $this->_mapper->getIssueById($id);
+    }
+
     public function getAllIssues()
     {
         return $this->_mapper->getAllIssues();

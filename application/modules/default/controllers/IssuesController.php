@@ -33,6 +33,11 @@ class Default_IssuesController extends Zend_Controller_Action
         return $this->_helper->redirector('list', 'issues');
     }
 
+    public function viewAction()
+    {
+        $this->view->issue = $this->_issueService->getIssueById($this->_getParam('id'));
+    }
+
     public function listAction()
     {
         $this->view->issues = $this->_issueService->getAllIssues();
