@@ -100,7 +100,7 @@
             <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="<?=$this->url(array('controller'=>'issues','action'=>'view','id'=>$issue->getIssueId()))?>"><?= $issue->getTitle(); ?></a></h4>
-                <p class="issueMetaInfo"><?=$this->translate('by');?> <?= $issue->getCreatedBy()->getUsername(); ?> <?=$this->translate('on');?> <?= $issue->getCreatedTime()->format('F jS, Y G:i:s'); ?></p>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> <?= $issue->getCreatedBy()->getUsername(); ?> <?=$this->translate('on');?> <?= $issue->getCreatedTime()->format($this->user->getSetting('date-format') ?: 'F jS, Y G:i:s'); ?></p>
                 <?php foreach ($issue->getLabels() as $l) : ?>
                    <span class="issueLabel" style="background-color: <?=$l->getColor()?>;"><?=$l->getText()?></span>
                 <?php endforeach; ?>

@@ -4,6 +4,9 @@ class Default_IssuesController extends Zend_Controller_Action
     public function init()
     {
         $this->_issueService = Zend_Registry::get('Default_DiContainer')->getIssueService();
+        $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
+
+        $this->view->user = $this->_userService->getIdentity();
     }
 
     public function newAction()
