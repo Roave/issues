@@ -62,7 +62,9 @@ class Default_Service_User extends Issues_ServiceAbstract
     {
         if (null === $this->_authAdapter) {
             $authAdapter = new Zend_Auth_Adapter_DbTable(
-                Zend_Db_Table_Abstract::getDefaultAdapter(),
+                Zend_Registry::get('Default_DiContainer')
+                       ->getUserMapper()
+                       ->getReadAdapter(),
                 $this->_mapper->getTableName(),
                 'username',
                 'password',
