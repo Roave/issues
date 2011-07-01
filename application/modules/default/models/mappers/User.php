@@ -72,4 +72,58 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         }
         return $return;
     }
+
+    public function getUserSettings($user)
+    {
+        if ($user instanceof Default_Model_User) {
+            $user = $user->getUserId();
+        }
+
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from('user_settings')
+            ->where('user_id = ?', $user);
+        
+        $rows = $db->fetchAll($sql);
+        if (!$rows) return array();
+
+        $return = array();
+        foreach ($rows as $row) {
+            $return[$row['name']] = $row['value'];
+        }
+
+        return $return;
+    }
+
+    public function insertUserSetting($user, $key, $value)
+    {
+        if ($user instanceof Default_Model_User) {
+            $user = $user->getUserId();
+        }
+
+        $data = array(
+            'user_id'   => $user,
+            'key'       => $key,
+            'value'     => $value
+        );
+
+        try {
+            $this->getWriteAdapter()->insert('user_settings', $data);
+        } catch (Exception $e) {} // probably a duplicate key
+    }
+
+    public function updateUserSetting($user, $key, $value)
+    {
+        if ($user instanceof Default_Model_User) {
+            $user = $user->getUserId();
+        }
+
+        $data = array('value' => $value);
+        $where = array(
+            'user_id = ?' => $user,
+            'name = ?' => $key
+        );
+
+        return $this->getWriteAdapter()->update('user_settings', $data, $where);
+    }
 }

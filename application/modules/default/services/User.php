@@ -39,9 +39,18 @@ class Default_Service_User extends Issues_ServiceAbstract
             'role' => new Default_Model_Role(array(
                 'role_id'   => 0,
                 'name' => 'guest'    
-            ))
+            )),
+            'settings' => $this->getDefaultUserSettings()
         )));
         return $auth->getIdentity();
+    }
+
+    public function getDefaultUserSettings()
+    {
+        return array(
+            'date-format'   => 'F jS, Y G:i:s',
+            'timezone'      => 'America/Phoenix'
+        );
     }
     
     public function setAuthAdapter(Zend_Auth_Adapter_Interface $adapter)
@@ -99,7 +108,17 @@ class Default_Service_User extends Issues_ServiceAbstract
         $user->setUsername($form->getValue('username'))
             ->setPassword($form->getValue('password'))
             ->setRole(1);
-        return $this->_mapper->insert($user);
+        $userId = $this->_mapper->insert($user);
+        $this->insertDefaultUserSettings($userId);
+
+        return $userId;
+    }
+
+    public function insertDefaultUserSettings($userId)
+    {
+        foreach ($this->getDefaultUserSettings() as $k => $v) {
+            $this->insertUserSetting($userId, $k, $v);
+        }
     }
 
     public function getAllUsers()
@@ -119,5 +138,21 @@ class Default_Service_User extends Issues_ServiceAbstract
         }
 
         return $result;
+    }
+
+    public function getUserSettings($user)
+    {
+        return $this->_mapper->getUserSettings($user);
+    }
+
+    public function insertUserSetting($user, $key, $value)
+    {
+        return $this->_mapper->insertUserSetting($user, $key, $value);
+    }
+
+    public function updateUserSetting($user, $key, $value)
+    {
+        // @TODO check permissions here
+        return $this->_mapper->updateUserSetting($user, $key, $value);
     }
 }

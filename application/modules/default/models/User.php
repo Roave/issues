@@ -56,6 +56,13 @@ class Default_Model_User extends Issues_Model_Abstract
      * @var string
      */
     protected $_registerIp;
+
+    /**
+     * Array of settings (key => value)
+     *
+     * @array
+     */
+    protected $_settings;
  
     /**
      * Get userId.
@@ -223,5 +230,57 @@ class Default_Model_User extends Issues_Model_Abstract
     public function setRegisterIp($registerIp)
     {
         $this->_registerIp = $registerIp;
+    }
+ 
+    /**
+     * Get settings.
+     *
+     * @return settings
+     */
+    public function getSetting($key)
+    {
+        if ($this->_settings === null) {
+            $this->_settings = Zend_Registry::get('Default_DiContainer')->getUserService()->getUserSettings($this);
+        }
+
+        if (isset($this->_settings[$key])) {
+            return $this->_settings[$key];
+        } else {
+            return false;
+        }
+    }
+ 
+    /**
+     * Set settings.
+     *
+     * @param $key the setting to set
+     * @param $value the value to set
+     */
+    public function setSetting($key, $value)
+    {
+        $this->_settings[$key] = $value;
+        Zend_Registry::get('Default_DiContainer')->getUserService()->updateUserSetting($this, $key, $value);
+        return $this;
+    }
+ 
+    /**
+     * Get settings.
+     *
+     * @return settings
+     */
+    public function getSettings()
+    {
+        return $this->_settings;
+    }
+ 
+    /**
+     * Set settings.
+     *
+     * @param $settings the value to be set
+     */
+    public function setSettings($settings)
+    {
+        $this->_settings = $settings;
+        return $this;
     }
 }
