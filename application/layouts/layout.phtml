@@ -29,10 +29,10 @@
                 </div>
                 <div id="accountInfo" class="floatRight">
                     <? if(Zend_Auth::getInstance()->getIdentity()->getRole()->getName() != 'guest'): ?>
-                    Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'));?>"><?= $this->translate('sign_out'); ?></a>
+                    Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
                     <? else: ?>
-                    <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'));?>"><?= $this->translate('sign_in'); ?></a> |
-                    <a href="<?=$this->url(array('controller'=>'register','action'=>'index'));?>"><?=$this->translate('register');?></a>
+                    <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'), null, true);?>"><?= $this->translate('sign_in'); ?></a> |
+                    <a href="<?=$this->url(array('controller'=>'register','action'=>'index'), null, true);?>"><?=$this->translate('register');?></a>
                     <? endif; ?>
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="clearfix">
                 <ul id="primaryNavigation" class="tabList floatLeft">
                     <li class="active">
-                        <a href="<?=$this->url(array('controller'=>'index','action'=>'index'));?>"><?=$this->translate('issues');?></a>
+                        <a href="<?=$this->url(array('controller'=>'index','action'=>'index'), null, true);?>"><?=$this->translate('issues');?></a>
                     </li>
                     <li>
                         <a href="#">Projects</a>
