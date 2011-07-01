@@ -261,7 +261,11 @@ class Default_Model_Issue extends Issues_Model_Abstract
      */
     public function setLastUpdateTime($lastUpdateTime)
     {
-        $this->_lastUpdateTime = new DateTime($lastUpdateTime);
+        if ($lastUpdateTime !== null) {
+            $this->_lastUpdateTime = new DateTime($lastUpdateTime);
+        } else {
+            $this->_lastUpdateTime = false;
+        }
         return $this;
     }
 
