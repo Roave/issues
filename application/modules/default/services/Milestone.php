@@ -10,4 +10,16 @@ class Default_Service_Milestone extends Issues_ServiceAbstract
     {
         return $this->_mapper->getMilestonesByIssue($issue);
     }
+
+    public function getMilestonesForSelect()
+    {
+        $milestones = $this->_mapper->getAllMilestones();
+
+        $return = array();
+        foreach ($milestones as $i) {
+            $return[$i->getMilestoneId()] = $i->getName();
+        }
+
+        return $return;
+    }
 }

@@ -1,5 +1,5 @@
 <?php
-class Default_Model_Label extends Issues_Model_Abstract 
+class Default_Model_Milestone extends Issues_Model_Abstract 
 {
     /**
      * _milestoneId 
@@ -21,6 +21,13 @@ class Default_Model_Label extends Issues_Model_Abstract
      * @var DateTime
      */
     protected $_dueDate;
+
+    /**
+     * _completedDate 
+     * 
+     * @var DateTime
+     */
+    protected $_completedDate;
  
     /**
      * Get milestoneId.
@@ -82,6 +89,27 @@ class Default_Model_Label extends Issues_Model_Abstract
     public function setDueDate($dueDate)
     {
         $this->_dueDate = new DateTime($dueDate);
+        return $this;
+    }
+ 
+    /**
+     * Get completedDate.
+     *
+     * @return completedDate
+     */
+    public function getCompletedDate()
+    {
+        return $this->_adjustedDateTime($this->_completedDate);
+    }
+ 
+    /**
+     * Set completedDate.
+     *
+     * @param $completedDate the value to be set
+     */
+    public function setCompletedDate($completedDate)
+    {
+        $this->_completedDate = new DateTime($completedDate);
         return $this;
     }
 }
