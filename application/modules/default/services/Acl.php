@@ -44,6 +44,11 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         foreach ($this->_roles as $i) {
             $this->_acl->addRole($i);
         }
+
+        $currentRoles = Zend_Registry::get('Default_DiContainer')->getUserService()
+            ->getIdentity()->getRoles();
+        
+        $this->_acl->addRole(new Zend_Acl_Role('user'), $currentRoles);
     }
 
     /**
