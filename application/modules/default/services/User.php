@@ -36,10 +36,12 @@ class Default_Service_User extends Issues_ServiceAbstract
             return $auth->getIdentity();
         }
         $auth->getStorage()->write(new Default_Model_User(array(
-            'role' => new Default_Model_Role(array(
-                'role_id'   => 0,
-                'name' => 'guest'    
-            )),
+            'roles' => array(
+                new Default_Model_Role(array(
+                    'role_id'   => 1,
+                    'name' => 'guest'    
+                )),
+            ),
             'settings' => $this->getDefaultUserSettings()
         )));
         return $auth->getIdentity();

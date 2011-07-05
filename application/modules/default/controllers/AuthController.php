@@ -10,7 +10,7 @@ class Default_AuthController extends Zend_Controller_Action
 
     public function loginAction()
     {
-        if (Zend_Auth::getInstance()->getIdentity()->getRole()->getName() != 'guest') {
+        if (!Zend_Auth::getInstance()->getIdentity()->hasRole('guest')) {
             return $this->_helper->redirector('index', 'index');
         }
     }

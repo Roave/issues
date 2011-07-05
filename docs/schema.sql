@@ -25,19 +25,17 @@ CREATE TABLE `user` (
   `user_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR( 255 ) NOT NULL,
   `password` VARCHAR( 255 ) NOT NULL,
-  `role` INT( 11 ) UNSIGNED NOT NULL DEFAULT '1',
   `last_login` DATETIME DEFAULT NULL,
   `last_ip` INT( 11 ) DEFAULT NULL,
   `register_time` DATETIME NOT NULL,
   `register_ip` INT( 11) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
-  KEY `username_password` (`username` , `password`),
-  KEY `role` (`role`)
+  KEY `username_password` (`username` , `password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_settings` (
-  `user_id` INT(10) UNSIGNED NOT NULL,
+  `user_id` INT(11) UNSIGNED NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `value` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`name`)
@@ -48,6 +46,12 @@ CREATE TABLE `user_role` (
   `name` VARCHAR( 255) NOT NULL,
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+
+CREATE TABLE `user_role_linker` (
+  `user_id` INT( 11 ) UNSIGNED NOT NULL ,
+  `role_id` INT( 11 ) UNSIGNED NOT NULL ,
+  PRIMARY KEY ( `user_id` , `role_id` )
+) ENGINE = InnoDB;
 
 CREATE TABLE `label` (
   `label_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -84,12 +88,17 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `user`
-ADD FOREIGN KEY (`role`) REFERENCES `user_role` (`role_id`);
+ALTER TABLE `user_role_linker`
+ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+ON DELETE CASCADE ON UPDATE CASCADE ;
 
-ALTER TABLE `user_settings` ADD FOREIGN KEY ( `user_id` ) REFERENCES `user` (
-`role`
-) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `user_role_linker`
+ADD FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`)
+ON DELETE CASCADE ON UPDATE CASCADE ;
+
+ALTER TABLE `user_settings`
+ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+ON DELETE CASCADE ON UPDATE CASCADE ;
 
 ALTER TABLE `issue_label_linker`
 ADD FOREIGN KEY (`issue_id`) REFERENCES `issue` (`issue_id`)
@@ -108,7 +117,9 @@ ADD FOREIGN KEY (`issue_id`) REFERENCES `issue` (`issue_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `comment`
-ADD FOREIGN KEY (`issue`) REFERENCES `issue` (`issue_id`);
+ADD FOREIGN KEY (`issue`) REFERENCES `issue` (`issue_id`)
+ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO `user_role` (`role_id`, `name`) VALUES
-(1, 'user');
+(1, 'guest'),
+(2, 'user');

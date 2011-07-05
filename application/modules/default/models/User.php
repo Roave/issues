@@ -27,7 +27,7 @@ class Default_Model_User extends Issues_Model_Abstract
      *
      * @var Default_Model_Role
      */
-    protected $_role;
+    protected $_roles;
 
     /**
      * Last login date/time
@@ -63,6 +63,27 @@ class Default_Model_User extends Issues_Model_Abstract
      * @array
      */
     protected $_settings;
+
+    /**
+     * __construct 
+     * 
+     * @param mixed $options 
+     * @return void
+     */
+    public function __construct($options = null)
+    {
+        parent::__construct($options);
+
+        if (!isset($this->_roles)) {
+            $this->_roles = array();
+            if ($this->getUserId()) {
+                $roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRolesByUser($this);
+                foreach ($roles as $r) {
+                    $this->_roles[$r->getRoleId()] = $r;
+                }
+            }
+        }
+    }
  
     /**
      * Get userId.
@@ -126,29 +147,67 @@ class Default_Model_User extends Issues_Model_Abstract
         $this->_password = $password;
         return $this;
     }
+
+    /**
+     * Add a role to this user
+     *
+     * @param int|Default_Model_Role $role
+     */
+    public function addRole($role)
+    {
+        if (!($role instanceof Default_Model_Role)) {
+            $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleById($role);
+        }
+
+        Zend_Registry::get('Default_DiContainer')->getRoleService()->addUserToRole($this, $role);
+        $this->_roles[$role->getRoleId()] = $role;
+
+        return $this;
+    }
+
+    /**
+     * hasRole 
+     * 
+     * @param Default_Model_Role|int|string $role 
+     * @return void
+     */
+    public function hasRole($role)
+    {
+        if (!($role instanceof Default_Model_Role)) {
+            if (is_numeric($role)) {
+                $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleById($role);
+            } else {
+                $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleByName($role);
+            }
+        }
+
+        foreach ($this->_roles as $r) {
+            if ($role->getName() === $r->getName()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
  
     /**
-     * Get role.
+     * Get all roles.
      *
-     * @return Auth_Model_Role role
+     * @return array
      */
-    public function getRole()
+    public function getRoles()
     {
-        return $this->_role;
+        return $this->_roles;
     }
  
     /**
      * Set role.
      *
-     * @param $role int|Auth_Model_Role the value to be set
+     * @param array $roles
      */
-    public function setRole($role)
+    public function setRoles(array $roles)
     {
-        if ($role instanceof Default_Model_Role) {
-            $this->_role = $role;
-        } elseif (is_numeric($role)) {
-            $this->_role = Zend_Registry::get('Default_DiContainer')->getRoleMapper()->getRoleById((int)$role);
-        }
+        $this->_roles = $roles;
         return $this;
     }
  
