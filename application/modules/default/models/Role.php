@@ -1,5 +1,5 @@
 <?php
-class Default_Model_Role extends Issues_Model_Abstract
+class Default_Model_Role extends Issues_Model_Abstract implements Zend_Acl_Role_Interface
 {
     /**
      * _roleId 
@@ -55,5 +55,15 @@ class Default_Model_Role extends Issues_Model_Abstract
     {
         $this->_name = $name;
         return $this;
+    }
+
+    /**
+     * __toString 
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getRoleId();
     }
 }

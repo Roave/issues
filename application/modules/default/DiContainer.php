@@ -182,4 +182,12 @@ class Default_DiContainer extends Issues_DiContainerAbstract
         }
         return $this->_storage['commentMapper'];
     }
+
+    public function getAclService()
+    {
+        if (!isset($this->_storage['aclService'])) {
+            $this->_storage['aclService'] = new Default_Service_Acl();
+        }
+        return $this->_storage['aclService'];
+    }
 }

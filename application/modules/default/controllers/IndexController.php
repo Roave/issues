@@ -7,6 +7,8 @@ class Default_IndexController extends Zend_Controller_Action
         $this->_labelService = Zend_Registry::get('Default_DiContainer')->getLabelService();
         $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $this->_milestoneService = Zend_Registry::get('Default_DiContainer')->getMilestoneService();
+        $this->_aclService = Zend_Registry::get('Default_DiContainer')->getAclService();
+
         $this->view->user = $this->_userService->getIdentity();
     }
 
