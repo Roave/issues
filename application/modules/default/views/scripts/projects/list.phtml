@@ -1,6 +1,6 @@
 <ul>
-    <? foreach($this->projects as $project): ?>
+    <?php foreach($this->projects as $project): ?>
         <li><?= $project->getName(); ?></li>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </ul>
 <a href="<?= $this->url(array('controller' => 'projects', 'action' => 'new')); ?>"><?= $this->translate('new_project'); ?></a>

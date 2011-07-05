@@ -20,7 +20,7 @@
         <?php endforeach; ?>
         <?php endif; ?>
     </div>
-    
+
     <h4 class="infoTitle"><?=$this->translate('labels');?></h4>
     
     <ul id="labelList">
@@ -81,8 +81,8 @@
     </div>
     
     <table id="issuesListOpen" class="issuesList">
-        <? foreach($this->openIssues as $i => $issue): ?>
-        <tr class="<? if(($i+1)%2): ?>even<? else: ?>odd<? endif; ?>">
+        <?php foreach($this->openIssues as $i => $issue): ?>
+        <tr class="<?php if(($i+1)%2): ?>even<?php else: ?>odd<?php endif; ?>">
             <td class="issueToggle"><input class="issueCheckbox" type="checkbox" /></td>
             <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
             <td class="issueInfo">
@@ -93,12 +93,12 @@
                 <?php endforeach; ?>
             </td>
         </tr>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </table>
 
     <table id="issuesListClosed" class="issuesList" style="display:none;">
-        <? foreach($this->closedIssues as $i => $issue): ?>
-        <tr class="<? if(($i+1)%2): ?>even<? else: ?>odd<? endif; ?>">
+        <?php foreach($this->closedIssues as $i => $issue): ?>
+        <tr class="<?php if(($i+1)%2): ?>even<?php else: ?>odd<?php endif; ?>">
             <td class="issueToggle"><input class="issueCheckbox" type="checkbox" /></td>
             <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
             <td class="issueInfo">
@@ -109,7 +109,7 @@
                 <?php endforeach; ?>
             </td>
         </tr>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </table>
     
 </div>

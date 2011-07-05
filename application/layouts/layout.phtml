@@ -28,12 +28,12 @@
                     <?=$this->translate('issues');?>
                 </div>
                 <div id="accountInfo" class="floatRight">
-                    <? if(!Zend_Auth::getInstance()->getIdentity()->hasRole('guest')): ?>
+                    <?php if(!Zend_Auth::getInstance()->getIdentity()->hasRole('guest')): ?>
                     Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
-                    <? else: ?>
+                    <?php else: ?>
                     <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'), null, true);?>"><?= $this->translate('sign_in'); ?></a> |
                     <a href="<?=$this->url(array('controller'=>'register','action'=>'index'), null, true);?>"><?=$this->translate('register');?></a>
-                    <? endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
             

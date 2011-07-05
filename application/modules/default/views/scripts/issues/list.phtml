@@ -1,6 +1,6 @@
 <ul>
-    <? foreach($this->issues as $issue): ?>
+    <?php foreach($this->issues as $issue): ?>
         <li><?= $issue->getTitle(); ?></li>
-    <? endforeach; ?>
+    <?php endforeach; ?>
 </ul>
 <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>"><?= $this->translate('new_issue'); ?></a>
