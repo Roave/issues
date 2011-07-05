@@ -2,20 +2,6 @@
 class Default_Service_Acl extends Issues_ServiceAbstract
 {
     /**
-     * _resources 
-     * 
-     * @var array
-     */
-    protected $_resources = array();
-
-    /**
-     * _roles 
-     * 
-     * @var array
-     */
-    protected $_roles = array();
-
-    /**
      * _roleService
      * 
      * @var Default_Service_Role
@@ -47,6 +33,11 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         $this->_loadAclRecords();
     }
 
+    /**
+     * _setupRoles 
+     * 
+     * @return void
+     */
     protected function _setupRoles()
     {
         $this->_roles = $this->_roleService->getAllRoles();
@@ -59,6 +50,11 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         $this->_acl->addRole(new Zend_Acl_Role('user'), $currentRoles);
     }
 
+    /**
+     * _setupResources 
+     * 
+     * @return void
+     */
     protected function _setupResources()
     {
         $this->_acl->addResource(new Zend_Acl_Resource('issue'));
@@ -70,6 +66,11 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         $this->_acl->addResource(new Zend_Acl_Resource('user'));
     }
 
+    /**
+     * _loadAclRecords 
+     * 
+     * @return void
+     */
     protected function _loadAclRecords()
     {
         $records = $this->_mapper->getAllRecords();
@@ -82,28 +83,16 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         }
     }
 
+    /**
+     * isAllowed 
+     * 
+     * @param mixed $role 
+     * @param mixed $resource 
+     * @param mixed $action 
+     * @return void
+     */
     public function isAllowed($role, $resource, $action)
     {
         return $this->_acl->isAllowed($role, $resource, $action);
-    }
-
-    /**
-     * getResources 
-     * 
-     * @return array
-     */
-    public function getResources()
-    {
-        return $this->_resources;
-    }
-
-    /**
-     * getRoles 
-     * 
-     * @return void
-     */
-    public function getRoles()
-    {
-        return $this->_roles;
     }
 }
