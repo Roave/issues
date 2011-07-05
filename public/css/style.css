@@ -223,34 +223,34 @@ a:hover {
 /* -----| ISSUES LIST |------------------------------------------------------ */
 /* -------------------------------------------------------------------------- */
 
-#issuesList {
+.issuesList {
     font-size: .8em;
     width: 100%;
 }
 
-#issuesList tr {
+.issuesList tr {
     border: 1px solid #CCC;
     border-top: none;
     vertical-align: top;
 }
 
-#issuesList tr.odd {
+.issuesList tr.odd {
     background-color: #F9F9F9;
 }
 
-#issuesList tr.even {
+.issuesList tr.even {
     background-color: #F3F3F3;
 }
 
-#issuesList tr td {
+.issuesList tr td {
     padding: 10px;
 }
 
-#issuesList tr td.issueToggle {
+.issuesList tr td.issueToggle {
     width: 12px;
 }
 
-#issuesList tr td.issueNumber {
+.issuesList tr td.issueNumber {
     width: 20px;
 }
 

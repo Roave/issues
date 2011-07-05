@@ -52,8 +52,8 @@
                         
     <div class="clearfix">
         <ul id="issuesNavigation" class="tabList floatLeft">
-            <li class="active"><a href="#"><?=$this->translate('open_issues');?> (<?= count($this->openIssues); ?>)</a></li>
-            <li><a href="#"><?=$this->translate('closed_issues');?> (<?=count($this->closedIssues)?>)</a></li>
+            <li id="issuesNavOpen" class="active"><a href="javascript:switchTables('open');"><?=$this->translate('open_issues');?> (<?= count($this->openIssues); ?>)</a></li>
+            <li id="issuesNavClosed"><a href="javascript:switchTables('closed');"><?=$this->translate('closed_issues');?> (<?=count($this->closedIssues)?>)</a></li>
         </ul>
     </div>
     
@@ -80,10 +80,26 @@
         <?=$this->translate('select_issue_to_modify');?>
     </div>
     
-    <table id="issuesList">
+    <table id="issuesListOpen" class="issuesList">
         <? foreach($this->openIssues as $i => $issue): ?>
         <tr class="<? if(($i+1)%2): ?>even<? else: ?>odd<? endif; ?>">
-            <td class="issueToggle"><input type="checkbox" /></td>
+            <td class="issueToggle"><input class="issueCheckbox" type="checkbox" /></td>
+            <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
+            <td class="issueInfo">
+                <h4 class="issueTitle"><a href="<?=$this->url(array('controller'=>'issues','action'=>'view','id'=>$issue->getIssueId()))?>"><?= $issue->getTitle(); ?></a></h4>
+                <p class="issueMetaInfo"><?=$this->translate('by');?> <?= $issue->getCreatedBy()->getUsername(); ?> <?=$this->translate('on');?> <?= $issue->getCreatedTime()->format($this->user->getSetting('date-format') ?: 'F jS, Y G:i:s'); ?></p>
+                <?php foreach ($issue->getLabels() as $l) : ?>
+                   <span class="issueLabel" style="background-color: <?=$l->getColor()?>;"><?=$l->getText()?></span>
+                <?php endforeach; ?>
+            </td>
+        </tr>
+        <? endforeach; ?>
+    </table>
+
+    <table id="issuesListClosed" class="issuesList" style="display:none;">
+        <? foreach($this->closedIssues as $i => $issue): ?>
+        <tr class="<? if(($i+1)%2): ?>even<? else: ?>odd<? endif; ?>">
+            <td class="issueToggle"><input class="issueCheckbox" type="checkbox" /></td>
             <td class="issueNumber">#<?= $issue->getIssueId(); ?></td>
             <td class="issueInfo">
                 <h4 class="issueTitle"><a href="<?=$this->url(array('controller'=>'issues','action'=>'view','id'=>$issue->getIssueId()))?>"><?= $issue->getTitle(); ?></a></h4>
@@ -97,3 +113,19 @@
     </table>
     
 </div>
+<script type="text/javascript">
+function switchTables(which) {
+    $('.issueCheckbox:checked').removeAttr('checked');
+    if (which == 'open') {
+        $('#issuesListClosed').hide();
+        $('#issuesListOpen').show();
+        $('#issuesNavOpen').addClass('active');
+        $('#issuesNavClosed').removeClass('active');
+    } else if (which == 'closed') {
+        $('#issuesListOpen').hide();
+        $('#issuesListClosed').show();
+        $('#issuesNavClosed').addClass('active');
+        $('#issuesNavOpen').removeClass('active');
+    }
+}
+</script>
