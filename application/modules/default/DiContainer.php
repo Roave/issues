@@ -190,4 +190,12 @@ class Default_DiContainer extends Issues_DiContainerAbstract
         }
         return $this->_storage['aclService'];
     }
+
+    public function getAclMapper()
+    {
+        if (!isset($this->_storage['aclMapper'])) {
+            $this->_storage['aclMapper'] = new Default_Model_Mapper_AclRecord();
+        }
+        return $this->_storage['aclMapper'];
+    }
 }

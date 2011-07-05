@@ -88,6 +88,14 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `acl_record` (
+ `role_id` INT(11) UNSIGNED NOT NULL,
+ `resource` VARCHAR(255) NOT NULL,
+ `action` VARCHAR(255) NOT NULL,
+ `type` ENUM('allow','deny') NOT NULL DEFAULT 'deny',
+ PRIMARY KEY (`role_id`,`resource`,`action`)
+) ENGINE=InnoDB;
+
 ALTER TABLE `user_role_linker`
 ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ON DELETE CASCADE ON UPDATE CASCADE ;
@@ -120,6 +128,11 @@ ALTER TABLE `comment`
 ADD FOREIGN KEY (`issue`) REFERENCES `issue` (`issue_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `acl_record`
+ADD FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
 INSERT INTO `user_role` (`role_id`, `name`) VALUES
 (1, 'guest'),
-(2, 'user');
+(2, 'admin'),
+(3, 'user');
