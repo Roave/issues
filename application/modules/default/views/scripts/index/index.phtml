@@ -5,36 +5,20 @@
     <h4 class="infoTitle"><?=$this->translate('milestones');?></h4>
     
     <div id="milestoneList">
+        <?php if ($this->milestones) : ?>
+        <?php foreach ($this->milestones as $i) : ?>
         <div class="milestone">
-            <h5>Milestone Title</h5>
+            <h5><?=$i->getName()?></h5>
             <div class="progressBarOuter">
-                <div class="progressBarInner" style="width: 33.3%;"></div>
+                <div class="progressBarInner" style="width: <?=$i->getProgress()?>%;"></div>
             </div>
             <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft">3 <?=$this->translate('closed_issues');?></div>
-                <div class="floatRight">6 <?=$this->translate('open_issues');?></div>
+                <div class="floatLeft"><?=count($i->getIssues('closed'))?> <?=$this->translate('closed_issues');?></div>
+                <div class="floatRight"><?=count($i->getIssues('open'))?> <?=$this->translate('open_issues');?></div>
             </div>
         </div>
-        <div class="milestone">
-            <h5>Milestone Title</h5>
-            <div class="progressBarOuter">
-                <div class="progressBarInner" style="width: 15.4%;"></div>
-            </div>
-            <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft">2 <?=$this->translate('closed_issues');?></div>
-                <div class="floatRight">11 <?=$this->translate('open_issues');?></div>
-            </div>
-        </div>
-        <div class="milestone">
-            <h5>Milestone Title</h5>
-            <div class="progressBarOuter">
-                <div class="progressBarInner" style="width: 75%;"></div>
-            </div>
-            <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft">6 <?=$this->translate('closed_issues');?></div>
-                <div class="floatRight">2 <?=$this->translate('open_issues');?></div>
-            </div>
-        </div>
+        <?php endforeach; ?>
+        <?php endif; ?>
     </div>
     
     <h4 class="infoTitle"><?=$this->translate('labels');?></h4>

@@ -93,6 +93,26 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $db->fetchOne($sql);
     }
 
+    public function getIssuesByMilestone($milestone, $status = null)
+    {
+        if ($milestone instanceof Default_Model_Milestone) {
+            $milestone = $milestone->getMilestoneId();
+        }
+
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from(array('iml'=>'issue_milestone_linker'))
+            ->join(array('i'=>'issue'), 'i.issue_id = iml.issue_id')
+            ->where('iml.milestone_id = ?', $milestone);
+
+        if ($status) {
+            $sql->where('i.status = ?', $status);
+        }
+
+        $rows = $db->fetchAll($sql);
+        return $this->_rowsToModels($rows);
+    }
+
     protected function _rowsToModels($rows)
     {
         if (!$rows) return array();

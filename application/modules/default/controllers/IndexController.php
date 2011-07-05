@@ -15,6 +15,8 @@ class Default_IndexController extends Zend_Controller_Action
         $this->view->openIssues = $this->_issueService->filterIssues('open');
         $this->view->closedIssues = $this->_issueService->filterIssues('closed');
 
+        $this->view->milestones = $this->_milestoneService->getAllMilestones();
+
         $this->view->labels = $this->_labelService->getAllLabels();
         $fm = $this->getHelper('FlashMessenger')->getMessages(); 
         $this->view->createLabelForm = (count($fm) > 0) ? $fm[0] : $this->getCreateLabelForm();

@@ -28,6 +28,13 @@ class Default_Model_Milestone extends Issues_Model_Abstract
      * @var DateTime
      */
     protected $_completedDate;
+
+    /**
+     * Misc storager
+     *
+     * @var array
+     */
+    protected $_storage = array();
  
     /**
      * Get milestoneId.
@@ -111,5 +118,26 @@ class Default_Model_Milestone extends Issues_Model_Abstract
     {
         $this->_completedDate = new DateTime($completedDate);
         return $this;
+    }
+
+    public function getIssues($status = null)
+    {
+        if (!isset($this->_storage["getIssues-$status"])) {
+            $this->_storage["getIssues-$status"] = Zend_Registry::get('Default_DiContainer')->getIssueService()
+                ->getIssuesByMilestone($this, $status);
+        }
+
+        return $this->_storage["getIssues-$status"];
+    }
+
+    public function getProgress()
+    {
+        $allIssues = count($this->getIssues());
+
+        if ($allIssues === 0) {
+            return 0.0;
+        }
+
+        return (count($this->getIssues('closed')) / $allIssues) * 100;
     }
 }

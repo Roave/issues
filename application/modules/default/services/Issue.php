@@ -21,6 +21,11 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $this->_mapper->getAllIssues();
     }
 
+    public function getIssuesByMilestone($milestone, $status = null)
+    {
+        return $this->_mapper->getIssuesByMilestone($milestone, $status);
+    }
+
     public function filterIssues($status)
     {
         return $this->_mapper->filterIssues($status);
