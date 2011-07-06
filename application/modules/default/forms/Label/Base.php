@@ -22,7 +22,7 @@ class Default_Form_Label_Base extends Issues_FormAbstract
                 new Zend_Form_Decorator_HtmlTag(array('tag' => 'label', 'id' => 'newLabel'))
             ),
             'required'      => true,
-            'label'         => 'Label Text'
+            'label'         => $this->translate('label_name')
         ));
 
         $this->addElement('text', 'color', array(
@@ -31,7 +31,7 @@ class Default_Form_Label_Base extends Issues_FormAbstract
                 array('StringLength', true, array(3, 50)),
             ),
             'required'      => true,
-            'label'         => 'Color',
+            'label'         => $this->translate('color'),
             'decorators'    => array('ViewHelper'),
         ));
 

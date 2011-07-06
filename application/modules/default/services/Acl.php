@@ -93,36 +93,14 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         }
 
         $class = get_class($obj);
+        $simpleName = explode('_', strtolower($class));
+        $simpleName = array_pop($simpleName);
 
         if ($this->_acl->has($obj)) {
             return false;
         }
 
-        switch($class) {
-        case 'Default_Model_Comment':
-            $this->_acl->addResource($obj->getResourceId(), 'comment');
-            break;
-        case 'Default_Model_Issue':
-            $this->_acl->addResource($obj->getResourceId(), 'issue');
-            break;
-        case 'Default_Model_Label':
-            $this->_acl->addResource($obj->getResourceId(), 'label');
-            break;
-        case 'Default_Model_Milestone':
-            $this->_acl->addResource($obj->getResourceId(), 'milestone');
-            break;
-        case 'Default_Model_Project':
-            $this->_acl->addResource($obj->getResourceId(), 'project');
-            break;
-        case 'Default_Model_Role':
-            $this->_acl->addResource($obj->getResourceId(), 'role');
-            break;
-        case 'Default_Model_User':
-            $this->_acl->addResource($obj->getResourceId(), 'user');
-            break;
-        default:
-            return false;
-        }
+        $this->_acl->addResource($obj->getResourceId(), $simpleName);
 
         return true;
     }

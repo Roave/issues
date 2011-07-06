@@ -18,7 +18,7 @@ class Default_Form_Role_Base extends Issues_FormAbstract
                 ))
             ),
             'required'      => true,
-            'label'         => 'Role Name'
+            'label'         => $this->translate('role_name')
         ));
 
         $this->addElement('submit', 'submit', array(

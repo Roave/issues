@@ -9,7 +9,7 @@ class Default_Form_Comment_Base extends Issues_FormAbstract
                 array('StringLength', true, array(10))
             ),
             'required'      => true,
-            'label'         => 'Comment'
+            'label'         => $this->translate('comment')
         ));
 
         $this->addElement('submit', 'submit', array(
