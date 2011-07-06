@@ -1,5 +1,6 @@
 <?php
-class Default_Model_Role extends Issues_Model_Abstract implements Zend_Acl_Role_Interface
+class Default_Model_Role extends Issues_Model_Abstract
+                         implements Zend_Acl_Role_Interface, Zend_Acl_Resource_Interface
 {
     /**
      * _roleId 
@@ -65,5 +66,15 @@ class Default_Model_Role extends Issues_Model_Abstract implements Zend_Acl_Role_
     public function __toString()
     {
         return $this->getRoleId();
+    }
+
+    /**
+     * getResourceId 
+     * 
+     * @return string
+     */
+    public function getResourceId()
+    {
+        return 'role-' . $this->getRoleId();
     }
 }

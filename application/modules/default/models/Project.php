@@ -1,5 +1,5 @@
 <?php
-class Default_Model_Project extends Issues_Model_Abstract
+class Default_Model_Project extends Issues_Model_Abstract implements Zend_Acl_Resource_Interface
 {
     /**
      * _projectId 
@@ -58,5 +58,15 @@ class Default_Model_Project extends Issues_Model_Abstract
     {
         $this->_name = $name;
         return $this;
+    }
+
+    /**
+     * getResourceId 
+     * 
+     * @return string
+     */
+    public function getResourceId()
+    {
+        return 'project-' . $this->getProjectId();
     }
 }

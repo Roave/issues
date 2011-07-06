@@ -1,5 +1,5 @@
 <?php
-class Default_Model_Comment extends Issues_Model_Abstract 
+class Default_Model_Comment extends Issues_Model_Abstract implements Zend_Acl_Resource_Interface
 {
     /**
      * _commentId 
@@ -148,5 +148,15 @@ class Default_Model_Comment extends Issues_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * getResourceId 
+     * 
+     * @return string
+     */
+    public function getResourceId()
+    {
+        return 'comment-' . $this->getCommentId();
     }
 }
