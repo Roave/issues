@@ -35,7 +35,7 @@ class Default_Service_Label extends Issues_ServiceAbstract
     public function createLabel($text, $color)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user', 'label', 'create')) {
+        if (!$acl->isAllowed('label', 'create')) {
             return false;
         }
 
@@ -48,7 +48,7 @@ class Default_Service_Label extends Issues_ServiceAbstract
     public function getCreateForm()
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user', 'label', 'create')) {
+        if (!$acl->isAllowed('label', 'create')) {
             return false;
         }
 

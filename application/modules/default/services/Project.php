@@ -14,7 +14,7 @@ class Default_Service_Project extends Issues_ServiceAbstract
     public function createFromForm(Default_Form_Project_Create $form)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user','project','create')) {
+        if (!$acl->isAllowed('project', 'create')) {
             return false;
         }
 
