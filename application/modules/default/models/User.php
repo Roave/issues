@@ -155,10 +155,7 @@ class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Reso
      */
     public function addRole($role)
     {
-        if (!($role instanceof Default_Model_Role)) {
-            $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleById($role);
-        }
-
+        $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleDetect($role);
         Zend_Registry::get('Default_DiContainer')->getRoleService()->addUserToRole($this, $role);
         $this->_roles[$role->getRoleId()] = $role;
 
@@ -173,14 +170,7 @@ class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Reso
      */
     public function hasRole($role)
     {
-        if (!($role instanceof Default_Model_Role)) {
-            if (is_numeric($role)) {
-                $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleById($role);
-            } else {
-                $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleByName($role);
-            }
-        }
-
+        $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleDetect($role);
         foreach ($this->_roles as $r) {
             if ($role->getName() === $r->getName()) {
                 return true;
@@ -207,7 +197,7 @@ class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Reso
      */
     public function setRoles(array $roles)
     {
-        $this->_roles = $roles;
+        $this->_roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleDetect($roles);
         return $this;
     }
  
