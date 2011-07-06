@@ -28,6 +28,13 @@ class Default_Model_AclRecord extends Issues_Model_Abstract
      * @var string
      */
     protected $_type = "";
+
+    /**
+     * _skipAcl 
+     * 
+     * @var bool
+     */
+    protected $_skipAcl = true; 
  
     /**
      * Get roleId.

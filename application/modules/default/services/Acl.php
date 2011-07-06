@@ -29,7 +29,6 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         $this->_acl = new Zend_Acl();
 
         $this->_setupRoles();
-        $this->_setupResources();
         $this->_loadAclRecords();
     }
 
@@ -51,22 +50,6 @@ class Default_Service_Acl extends Issues_ServiceAbstract
     }
 
     /**
-     * _setupResources 
-     * 
-     * @return void
-     */
-    protected function _setupResources()
-    {
-        $this->_acl->addResource(new Zend_Acl_Resource('issue'));
-        $this->_acl->addResource(new Zend_Acl_Resource('comment'));
-        $this->_acl->addResource(new Zend_Acl_Resource('label'));
-        $this->_acl->addResource(new Zend_Acl_Resource('milestone'));
-        $this->_acl->addResource(new Zend_Acl_Resource('project'));
-        $this->_acl->addResource(new Zend_Acl_Resource('role'));
-        $this->_acl->addResource(new Zend_Acl_Resource('user'));
-    }
-
-    /**
      * _loadAclRecords 
      * 
      * @return void
@@ -75,6 +58,9 @@ class Default_Service_Acl extends Issues_ServiceAbstract
     {
         $records = $this->_mapper->getAllRecords();
         foreach ($records as $i) {
+            if ($i->getResource() && !$this->_acl->has($i->getResource())) {
+                $this->_acl->addResource($i->getResource());
+            }
             if ($i->getType() == 'allow') {
                 $this->_acl->allow($i->getRoleId(), $i->getResource() ?: null, $i->getAction() ?: null);
             } else {
@@ -88,18 +74,16 @@ class Default_Service_Acl extends Issues_ServiceAbstract
      */
     public function addResource($obj)
     {
-        if (!is_object($obj)) {
+        if (!is_object($obj) || $this->_acl->has($obj)) {
             return false;
         }
 
-        $class = get_class($obj);
-        $simpleName = explode('_', strtolower($class));
-        $simpleName = array_pop($simpleName);
+        $nameParts = explode('_', strtolower(get_class($obj)));
+        $simpleName = array_pop($nameParts);
 
-        if ($this->_acl->has($obj)) {
-            return false;
+        if (!$this->_acl->has($simpleName)) {
+            $this->_acl->addResource(new Zend_Acl_Resource($simpleName));
         }
-
         $this->_acl->addResource($obj->getResourceId(), $simpleName);
 
         return true;

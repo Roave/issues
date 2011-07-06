@@ -30,18 +30,6 @@ class Default_Model_Label extends Issues_Model_Abstract implements Zend_Acl_Reso
     protected $_issueCount;
 
     /**
-     * __construct 
-     * 
-     * @return void
-     */
-    public function __construct($options = null)
-    {
-        parent::__construct($options);
-        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        $acl->addResource($this);
-    }
- 
-    /**
      * Get labelId.
      *
      * @return int labelId

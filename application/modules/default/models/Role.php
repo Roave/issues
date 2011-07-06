@@ -17,26 +17,6 @@ class Default_Model_Role extends Issues_Model_Abstract
     protected $_name;
  
     /**
-     * __construct 
-     * 
-     * @return void
-     */
-    public function __construct($options = null)
-    {
-        parent::__construct($options);
-
-        /*
-         * Because roles are loaded (to be used as roles) during the creation of 
-         * the AclService, we *should not* try to add them to the AclService 
-         * until it has been instantiated or we will run into an infinite loop
-         */
-        if (Zend_Registry::get('Default_DiContainer')->hasAclService()) {
-            $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-            $acl->addResource($this);
-        }
-    }
-
-    /**
      * Get roleId.
      *
      * @return roleId

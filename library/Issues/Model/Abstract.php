@@ -1,6 +1,15 @@
 <?php
 abstract class Issues_Model_Abstract
 {
+    /**
+     * _skipAcl
+     *
+     * Set this to true to prevent a model from being loaded into the ACL 
+     * 
+     * @var boolean
+     */
+    protected $_skipAcl = false; 
+
    /**
     * Constructor
     *
@@ -14,6 +23,15 @@ abstract class Issues_Model_Abstract
         }
         if (is_array($options)) {
             $this->setOptions($options);
+        }
+        /*
+         * Because roles are loaded (to be used as roles) during the creation of 
+         * the AclService, we *should not* try to add them to the AclService 
+         * until it has been instantiated or we will run into an infinite loop
+         */
+        if (!$this->_skipAcl && Zend_Registry::get('Default_DiContainer')->hasAclService()) {
+            $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+            $acl->addResource($this);
         }
     }
 
