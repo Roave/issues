@@ -1,4 +1,6 @@
-<a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>" id="newIssue" class="floatRight"><?=$this->translate('new_issue');?></a>
+<? if(Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('user', 'issue', 'create')): ?>
+    <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>" id="newIssue" class="floatRight"><?=$this->translate('new_issue');?></a>
+<? endif; ?>
 
 <div id="infoPane" class="floatLeft">
     
@@ -36,14 +38,6 @@
         <?php endforeach; ?>
         <?php endif; ?>
     </ul>
-    <!--
-    <form method="post" action="<?= $this->url(array('controller' => 'labels', 'action' => 'post')); ?>" id="newLabelForm" class="floatRight">
-        <label id="newLabel" for="newLabelInput">
-            <input type="text" name="newLabelInput" tabIndex="1" id="newLabelInput" />
-        </label>
-        <button type="submit" id="newLabelButton">&nbsp;</button>
-    </form>
-    -->
     <?= $this->createLabelForm; ?>
     
 </div>
