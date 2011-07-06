@@ -2,6 +2,7 @@ Permissions
 ===========
 
 # Issues
+ - create
  - view
  - list
  - edit-own
@@ -9,6 +10,7 @@ Permissions
  - label-own
  - edit-all
  - assign-all
+ - label-all
  - comment
 
 # Comments
@@ -39,7 +41,6 @@ Permissions
  - list
  - create
  - edit
- - add-issue
 
 # Role
  - view
