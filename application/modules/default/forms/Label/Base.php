@@ -4,7 +4,7 @@ class Default_Form_Label_Base extends Issues_FormAbstract
     public function init()
     {
         $this->addElement('text', 'text', array(
-            'filters'       => array('StringTrim'),
+            'filters'       => array('StringTrim', 'HtmlEntities'),
             'validators'    => array(
                 array('StringLength', true, array(3, 50)),
                 array('Db_NoRecordExists', true, array(
@@ -26,7 +26,7 @@ class Default_Form_Label_Base extends Issues_FormAbstract
         ));
 
         $this->addElement('text', 'color', array(
-            'filters'       => array('StringTrim'),
+            'filters'       => array('StringTrim', 'HtmlEntities'),
             'validators'    => array(
                 array('StringLength', true, array(3, 50)),
             ),

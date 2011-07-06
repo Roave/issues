@@ -4,7 +4,7 @@ class Default_Form_Role_Base extends Issues_FormAbstract
     public function init()
     {
         $this->addElement('text', 'name', array(
-            'filters'       => array('StringTrim'),
+            'filters'       => array('StringTrim', 'HtmlEntities'),
             'validators'    => array(
                 array('StringLength', true, array(3, 255)),
                 array('Db_NoRecordExists', true, array(

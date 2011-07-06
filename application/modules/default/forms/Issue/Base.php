@@ -4,7 +4,7 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
     public function init()
     {
         $this->addElement('text', 'title', array(
-            'filters'    => array('StringTrim'),
+            'filters'    => array('StringTrim', 'HtmlEntities'),
             'validators' => array(
                 array('StringLength', true, array(5, 255)),
             ),
@@ -21,7 +21,7 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
         ));
 
         $this->addElement('textarea', 'description', array(
-            'filters'    => array('StringTrim'),
+            'filters'    => array('StringTrim', 'HtmlEntities'),
             'validators' => array(
                 array('StringLength', true, array(5)),
             ),
