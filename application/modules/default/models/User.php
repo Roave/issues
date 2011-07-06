@@ -83,6 +83,9 @@ class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Reso
                 }
             }
         }
+
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        $acl->addResource($this);
     }
  
     /**
