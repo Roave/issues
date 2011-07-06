@@ -144,7 +144,6 @@ INSERT INTO `acl_record` (`role_id`, `resource`, `action`, `type`) VALUES
 (1, 'user', 'register', 'allow'),
 (2, null, null, 'allow'),
 (2, 'user', 'login', 'deny'),
-(2, 'user', 'register', 'deny'),
 (3, null, 'view', 'allow'),
 (3, null, 'list', 'allow'),
 (3, 'issue', 'create', 'allow'),
@@ -171,4 +170,3 @@ INSERT INTO `acl_record` (`role_id`, `resource`, `action`, `type`) VALUES
 (3, 'role', null, 'deny'),
 (3, 'user', 'login', 'deny'),
 (3, 'user', 'register', 'deny'),
-(3, 'user', 'logout', 'allow');

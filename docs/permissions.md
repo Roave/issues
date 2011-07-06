@@ -54,6 +54,5 @@ Permissions
  - list
  - login
  - register
- - logout
  - edit-self
  - edit-all
