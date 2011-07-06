@@ -82,7 +82,14 @@ class Default_IssuesController extends Zend_Controller_Action
 
     public function getCommentForm()
     {
-        return $this->_commentService->getCreateForm()->setAction($this->_helper->url->simple('add-comment', null, null, array('id' => $this->_getParam('id'))));
+        $form = $this->_commentService->getCreateForm();
+        if ($form) {
+            return $form->setAction(
+                $this->_helper->url->simple('add-comment', null, null, array('id' => $this->_getParam('id')))
+            );
+        }
+
+        return false;
     }
 
     public function getCreateForm()

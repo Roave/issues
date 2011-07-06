@@ -10,6 +10,11 @@ class Default_Service_Comment extends Issues_ServiceAbstract
 
     public function getCreateForm()
     {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user', 'issue', 'comment')) {
+            return false;
+        }
+
         if (null === $this->_createForm) {
             $this->_createForm = new Default_Form_Comment_Create();
         }

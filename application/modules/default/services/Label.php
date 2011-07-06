@@ -47,6 +47,11 @@ class Default_Service_Label extends Issues_ServiceAbstract
 
     public function getCreateForm()
     {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user', 'label', 'create')) {
+            return false;
+        }
+
         if (null === $this->_createForm) {
             $this->_createForm = new Default_Form_Label_Create();
         }

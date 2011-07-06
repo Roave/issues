@@ -32,6 +32,12 @@ class Default_IndexController extends Zend_Controller_Action
 
     public function getCreateLabelForm()
     {
-        return $this->_labelService->getCreateForm()->setAction($this->_helper->url->direct('post','labels'));
+        $form = $this->_labelService->getCreateForm();
+
+        if ($form) {
+            return $form->setAction($this->_helper->url->direct('post','labels'));
+        } else {
+            return false;
+        }
     }
 }
