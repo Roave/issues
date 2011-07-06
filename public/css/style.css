@@ -122,6 +122,11 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Remove that annoying dotted line */
+.tabList li a:active, .tabList li a  {
+    outline: none;
+}
+
 .tabList li.active a {
     background-color: #F9F9F9;
     border-top: 1px solid #CCC;
