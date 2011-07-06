@@ -83,9 +83,16 @@ class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Reso
                 }
             }
         }
-
-        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        $acl->addResource($this);
+        
+        /*
+         * Because roles are loaded (to be used as roles) during the creation of 
+         * the AclService, we *should not* try to add them to the AclService 
+         * until it has been instantiated or we will run into an infinite loop
+         */
+        if (Zend_Registry::get('Default_DiContainer')->hasAclService()) {
+            $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+            $acl->addResource($this);
+        }
     }
  
     /**
