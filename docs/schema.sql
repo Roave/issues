@@ -90,9 +90,9 @@ CREATE TABLE `comment` (
 
 CREATE TABLE `acl_record` (
  `role_id` INT(11) UNSIGNED NOT NULL,
- `resource` VARCHAR(255) NOT NULL,
- `action` VARCHAR(255) NOT NULL,
- `type` ENUM('allow','deny') NOT NULL DEFAULT 'deny',
+ `resource` VARCHAR(255),
+ `action` VARCHAR(255),
+ `type` ENUM('allow','deny') NOT NULL DEFAULT 'allow',
  PRIMARY KEY (`role_id`,`resource`,`action`)
 ) ENGINE=InnoDB;
 
@@ -136,3 +136,39 @@ INSERT INTO `user_role` (`role_id`, `name`) VALUES
 (1, 'guest'),
 (2, 'admin'),
 (3, 'user');
+
+INSERT INTO `acl_record` (`role_id`, `resource`, `action`, `type`) VALUES
+(1, null, 'view', 'allow'),
+(1, null, 'list', 'allow'),
+(1, 'user', 'login', 'allow'),
+(1, 'user', 'register', 'allow'),
+(2, null, null, 'allow'),
+(2, 'user', 'login', 'deny'),
+(2, 'user', 'register', 'deny'),
+(3, null, 'view', 'allow'),
+(3, null, 'list', 'allow'),
+(3, 'issue', 'edit-own', 'allow'),
+(3, 'issue', 'assign-own', 'deny'),
+(3, 'issue', 'label-own', 'allow'),
+(3, 'issue', 'edit-all', 'deny'),
+(3, 'issue', 'assign-all', 'deny'),
+(3, 'issue', 'label-all', 'deny'),
+(3, 'issue', 'comment', 'allow'),
+(3, 'comment', 'edit-own', 'allow'),
+(3, 'comment', 'edit-all', 'deny'),
+(3, 'comment', 'delete-own', 'allow'),
+(3, 'comment', 'delete-all', 'deny'),
+(3, 'label', 'create', 'allow'),
+(3, 'label', 'delete', 'deny'),
+(3, 'label', 'color', 'deny'),
+(3, 'milestone', 'create', 'allow'),
+(3, 'milestone', 'edit', 'deny'),
+(3, 'milestone', 'add-issue', 'allow'),
+(3, 'milestone', 'remove-issue', 'deny'),
+(3, 'project', 'create', 'deny'),
+(3, 'project', 'edit', 'deny'),
+(3, 'project', 'add-issue', 'allow'),
+(3, 'role', null, 'deny'),
+(3, 'user', 'login', 'deny'),
+(3, 'user', 'register', 'deny'),
+(3, 'user', 'logout', 'allow');
