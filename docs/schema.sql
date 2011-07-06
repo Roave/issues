@@ -90,8 +90,8 @@ CREATE TABLE `comment` (
 
 CREATE TABLE `acl_record` (
  `role_id` INT(11) UNSIGNED NOT NULL,
- `resource` VARCHAR(255),
- `action` VARCHAR(255),
+ `resource` VARCHAR(255) DEFAULT NULL,
+ `action` VARCHAR(255) DEFAULT NULL,
  `type` ENUM('allow','deny') NOT NULL DEFAULT 'allow',
  PRIMARY KEY (`role_id`,`resource`,`action`)
 ) ENGINE=InnoDB;

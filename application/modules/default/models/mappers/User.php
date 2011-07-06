@@ -42,13 +42,27 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
             'user_id'       => $user->getUserId(),
             'username'      => $user->getUsername(),
             'password'      => sha1($user->getPassword().'somes@lt'),
-            'role'          => $user->getRole()->getRoleId(),
             'register_time' => new Zend_Db_Expr('NOW()'),
             'register_ip'   => new Zend_Db_Expr("INET_ATON('{$_SERVER['REMOTE_ADDR']}')"),
         );
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);
-        return $db->lastInsertId();
+        $userId = $db->lastInsertId();
+        $user->setUserId($userId);
+        $this->updateUserRoles($user);
+        return $userId;
+    }
+
+    public function updateUserRoles($user)
+    {
+        $db = $this->getWriteAdapter();
+        foreach ($user->getRoles() as $role) {
+            $data = array(
+                'user_id' => $user->getUserId(),
+                'role_id' => $role->getRoleId(),
+            );
+            $db->insert('user_role_linker', $data);
+        }
     }
 
     public function updateLastLogin($user)

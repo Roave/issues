@@ -21,6 +21,11 @@ class Default_Service_Role extends Issues_ServiceAbstract
         return $this->_mapper->getRoleByName($name);
     }
 
+    public function getRoleById($roleId)
+    {
+        return $this->_mapper->getRoleById($roleId);
+    }
+
     public function getRolesByUser($user)
     {
         return $this->_mapper->getRolesByUser($user);
