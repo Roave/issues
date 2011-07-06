@@ -1,5 +1,5 @@
 <?php
-class Default_Model_Issue extends Issues_Model_Abstract
+class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Resource_Interface 
 {
     /**
      * _issueId 
@@ -277,5 +277,15 @@ class Default_Model_Issue extends Issues_Model_Abstract
     {
         return Zend_Registry::get('Default_DiContainer')->getLabelService()
             ->getLabelsByIssue($this);
+    }
+
+    /**
+     * getResourceId 
+     * 
+     * @return string
+     */
+    public function getResourceId()
+    {
+        return 'issue-' . $this->getIssueId();
     }
 }

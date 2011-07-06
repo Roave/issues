@@ -1,5 +1,5 @@
 <?php
-class Default_Model_User extends Issues_Model_Abstract
+class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Resource_Interface
 {
     /**
      * User ID
@@ -336,5 +336,15 @@ class Default_Model_User extends Issues_Model_Abstract
     {
         $this->_settings = $settings;
         return $this;
+    }
+
+    /**
+     * getResourceId 
+     * 
+     * @return string
+     */
+    public function getResourceId()
+    {
+        return 'user-' . $this->getUserId();
     }
 }
