@@ -107,7 +107,11 @@ class Default_Service_User extends Issues_ServiceAbstract
 
     public function createFromForm(Default_Form_User_Register $form)
     {
-        //if (Zend_Auth::getInstance()->getIdentity()->getRole() != 'admin') return false;
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user', 'user', 'register')) {
+            return false;
+        }
+
         $user = new Default_Model_User();
         $user->setUsername($form->getValue('username'))
             ->setPassword($form->getValue('password'))
@@ -151,12 +155,19 @@ class Default_Service_User extends Issues_ServiceAbstract
 
     public function insertUserSetting($user, $key, $value)
     {
+        if (!$this->canEditUser($user)) {
+            return false;
+        }
+
         return $this->_mapper->insertUserSetting($user, $key, $value);
     }
 
     public function updateUserSetting($user, $key, $value)
     {
-        // @TODO check permissions here
+        if (!$this->canEditUser($user)) {
+            return false;
+        }
+
         return $this->_mapper->updateUserSetting($user, $key, $value);
     }
 
@@ -167,5 +178,24 @@ class Default_Service_User extends Issues_ServiceAbstract
             $timezone = $defaults['timezone'];
         }
         return $timezone;
+    }
+
+    public function canEditUser($user)
+    {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if ($acl->isAllowed('user', 'user', 'edit-all')) {
+            return true;
+        }
+
+        $identity = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()->getIdentity();
+
+        if ($acl->isAllowed('user', 'user', 'edit-self')) {
+            if ($user->getUserId() == $identity->getUserId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

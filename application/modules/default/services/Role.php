@@ -28,6 +28,11 @@ class Default_Service_Role extends Issues_ServiceAbstract
 
     public function addUserToRole($user, $role)
     {
+        $userService = Zend_Registry::get('Default_DiContainer')->getUserService();
+        if (!$userService->canEditUser($user)) {
+            return false;
+        }
+
         return $this->_mapper->addUserToRole($user, $role);
     }
 }
