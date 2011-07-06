@@ -156,7 +156,6 @@ class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Reso
     public function addRole($role)
     {
         $role = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRoleDetect($role);
-        Zend_Registry::get('Default_DiContainer')->getRoleService()->addUserToRole($this, $role);
         $this->_roles[$role->getRoleId()] = $role;
 
         return $this;
