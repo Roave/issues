@@ -6,6 +6,7 @@ class Default_Form_User_Base extends Issues_FormAbstract
         $this->addElement('text', 'username', array(
             'filters'    => array('StringTrim'),
             'validators' => array(
+                array('Alnum', true, array()),
                 array('StringLength', true, array(3, 128)),
                 array('Db_NoRecordExists', true, array(
                     'adapter'   => Zend_Registry::get('Default_DiContainer')

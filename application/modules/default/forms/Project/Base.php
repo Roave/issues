@@ -4,7 +4,7 @@ class Default_Form_Project_Base extends Issues_FormAbstract
     public function init()
     {
         $this->addElement('text', 'project_name', array(
-            'filters'    => array('StringTrim'),
+            'filters'    => array('StringTrim', 'HtmlEntities'),
             'validators' => array(
                 array('StringLength', true, array(2, 255)),
             ),
