@@ -169,4 +169,4 @@ INSERT INTO `acl_record` (`role_id`, `resource`, `action`, `type`) VALUES
 (3, 'project', 'edit', 'deny'),
 (3, 'role', null, 'deny'),
 (3, 'user', 'login', 'deny'),
-(3, 'user', 'register', 'deny'),
+(3, 'user', 'register', 'deny');
