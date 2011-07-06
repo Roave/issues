@@ -12,7 +12,7 @@ class Default_RegisterController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        if (!$this->_aclService->isAllowed('user', 'user', 'register')) {
+        if (!$this->_aclService->isAllowed('user', 'register')) {
             return $this->_helper->redirector('index', 'index');
         }
     }

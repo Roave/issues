@@ -12,7 +12,7 @@ class Default_AuthController extends Zend_Controller_Action
 
     public function loginAction()
     {
-        if (!$this->_aclService->isAllowed('user', 'user', 'login')) {
+        if (!$this->_aclService->isAllowed('user', 'login')) {
             return $this->_helper->redirector('index', 'index');
         }
     }

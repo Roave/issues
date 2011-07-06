@@ -135,8 +135,8 @@ class Default_Service_Acl extends Issues_ServiceAbstract
      * @param mixed $action 
      * @return void
      */
-    public function isAllowed($role, $resource, $action)
+    public function isAllowed($resource, $action)
     {
-        return $this->_acl->isAllowed($role, $resource, $action);
+        return $this->_acl->isAllowed('user', $resource, $action);
     }
 }

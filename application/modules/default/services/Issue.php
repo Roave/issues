@@ -34,7 +34,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
     public function createFromForm(Default_Form_Issue_Create $form)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user', 'issue', 'create')) {
+        if (!$acl->isAllowed('issue', 'create')) {
             return false;
         }
 
@@ -89,14 +89,14 @@ class Default_Service_Issue extends Issues_ServiceAbstract
     public function canLabelIssue($issue)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if ($acl->isAllowed('user', 'issue', 'label-all')) {
+        if ($acl->isAllowed('issue', 'label-all')) {
             return true;
         }
 
         $identity = Zend_Registry::get('Default_DiContainer')->getUserService()
             ->getIdentity();
 
-        if ($acl->isAllowed('user', 'issue', 'label-own')) {
+        if ($acl->isAllowed('issue', 'label-own')) {
             if ($identity->getUserId() == $issue->getCreatedBy()->getUserId()) {
                 return true;
             }

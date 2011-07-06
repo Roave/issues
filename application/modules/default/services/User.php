@@ -108,7 +108,7 @@ class Default_Service_User extends Issues_ServiceAbstract
     public function createFromForm(Default_Form_User_Register $form)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user', 'user', 'register')) {
+        if (!$acl->isAllowed('user', 'register')) {
             return false;
         }
 
@@ -183,14 +183,14 @@ class Default_Service_User extends Issues_ServiceAbstract
     public function canEditUser($user)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if ($acl->isAllowed('user', 'user', 'edit-all')) {
+        if ($acl->isAllowed('user', 'edit-all')) {
             return true;
         }
 
         $identity = Zend_Registry::get('Default_DiContainer')
             ->getUserService()->getIdentity();
 
-        if ($acl->isAllowed('user', 'user', 'edit-self')) {
+        if ($acl->isAllowed('user', 'edit-self')) {
             if ($user->getUserId() == $identity->getUserId()) {
                 return true;
             }

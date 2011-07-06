@@ -11,7 +11,7 @@ class Default_Service_Comment extends Issues_ServiceAbstract
     public function getCreateForm()
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user', 'issue', 'comment')) {
+        if (!$acl->isAllowed('issue', 'comment')) {
             return false;
         }
 
@@ -24,7 +24,7 @@ class Default_Service_Comment extends Issues_ServiceAbstract
     public function createFromForm($form, $issueId, $userId = null)
     {
         $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
-        if (!$acl->isAllowed('user', 'issue', 'comment')) {
+        if (!$acl->isAllowed('issue', 'comment')) {
             return false;
         }
 
