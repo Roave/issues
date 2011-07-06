@@ -8,6 +8,11 @@ class Default_ProjectsController extends Zend_Controller_Action
         $this->view->createForm = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
     }
 
+    public function indexAction()
+    {
+        $this->view->projects = $this->_projectService->getAllProjects();
+    }
+
     public function newAction()
     {
     }
@@ -27,12 +32,7 @@ class Default_ProjectsController extends Zend_Controller_Action
             $this->_helper->FlashMessenger->setNamespace('createForm')->addMessage($form);
             return $this->_helper->redirector('new');
         }
-        return $this->_helper->redirector('list', 'projects');
-    }
-
-    public function listAction()
-    {
-        $this->view->projects = $this->_projectService->getAllProjects();
+        return $this->_helper->redirector('index', 'projects');
     }
 
     public function getCreateForm()

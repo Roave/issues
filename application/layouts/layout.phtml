@@ -38,17 +38,22 @@
             </div>
             
             <div class="clearfix">
+                <?
+                 /**
+                  * TODO: Clean this up and/or switch to Zend_Navigation
+                  */
+                ?>
                 <ul id="primaryNavigation" class="tabList floatLeft">
-                    <li class="active">
+                    <li <? if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'index'): ?>class="active"<? endif; ?>>
                         <a href="<?=$this->url(array('controller'=>'index','action'=>'index'), null, true);?>"><?=$this->translate('issues');?></a>
                     </li>
-                    <li>
-                        <a href="#">Projects</a>
+                    <li <? if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'projects'): ?>class="active"<? endif; ?>>
+                        <a href="<?=$this->url(array('controller'=>'projects','action'=>'index'));?>">Projects</a>
                     </li>
-                    <li>
+                    <li <? if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'milestones'): ?>class="active"<? endif; ?>>
                         <a href="#"><?=$this->translate('milestones');?></a>
                     </li>
-                    <li>
+                    <li <? if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'members'): ?>class="active"<? endif; ?>>
                         <a href="#"><?=$this->translate('members');?></a>
                     </li>
                 </ul>
