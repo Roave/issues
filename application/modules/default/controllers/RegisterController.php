@@ -5,12 +5,17 @@ class Default_RegisterController extends Zend_Controller_Action
     {
         $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $fm = $this->getHelper('FlashMessenger')->setNamespace('registerForm')->getMessages(); 
-        //var_dump(count($fm));
         $this->view->registerForm = (count($fm) > 0) ? $fm[0] : $this->getRegisterForm();
+
+        $this->_aclService = Zend_Registry::get('Default_DiContainer')->getAclService();
     }
 
     public function indexAction()
-    {}
+    {
+        if (!$this->_aclService->isAllowed('user', 'user', 'register')) {
+            return $this->_helper->redirector('index', 'index');
+        }
+    }
 
     public function postAction()
     {

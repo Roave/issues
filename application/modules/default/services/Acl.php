@@ -76,9 +76,9 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         $records = $this->_mapper->getAllRecords();
         foreach ($records as $i) {
             if ($i->getType() == 'allow') {
-                $this->_acl->allow($i->getRoleId(), $i->getResource(), $i->getAction());
+                $this->_acl->allow($i->getRoleId(), $i->getResource() ?: null, $i->getAction() ?: null);
             } else {
-                $this->_acl->deny($i->getRoleId(), $i->getResource(), $i->getAction());
+                $this->_acl->deny($i->getRoleId(), $i->getResource() ?: null, $i->getAction() ?: null);
             }
         }
     }

@@ -6,11 +6,13 @@ class Default_AuthController extends Zend_Controller_Action
         $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $fm = $this->getHelper('FlashMessenger')->setNamespace('loginForm')->getMessages(); 
         $this->view->loginForm = (count($fm) > 0) ? $fm[0] : $this->getLoginForm();
+
+        $this->_aclService = Zend_Registry::get('Default_DiContainer')->getAclService();
     }
 
     public function loginAction()
     {
-        if (!Zend_Auth::getInstance()->getIdentity()->hasRole('guest')) {
+        if (!$this->_aclService->isAllowed('user', 'user', 'login')) {
             return $this->_helper->redirector('index', 'index');
         }
     }

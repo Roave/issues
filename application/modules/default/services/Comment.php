@@ -18,10 +18,13 @@ class Default_Service_Comment extends Issues_ServiceAbstract
 
     public function createFromForm($form, $issueId, $userId = null)
     {
-        $identity = Zend_Registry::get('Default_DiContainer')->getUserService()->getIdentity();
-        if ($identity->getRole()->getName() == 'guest') {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user', 'issue', 'comment')) {
             return false;
         }
+
+        $identity = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()->getIdentity();
 
         if ($userId === null) {
             $userId = $identity->getUserId();

@@ -33,9 +33,11 @@ class Default_Service_Issue extends Issues_ServiceAbstract
 
     public function createFromForm(Default_Form_Issue_Create $form)
     {
-        if (Zend_Auth::getInstance()->getIdentity()->getRole()->getName() == 'guest') {
-            return false; 
-        } 
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user', 'issue', 'create')) {
+            return false;
+        }
+
         $issue = new Default_Model_Issue();
         $issue->setTitle($form->getValue('title'))
             ->setDescription($form->getValue('description'))
@@ -47,9 +49,12 @@ class Default_Service_Issue extends Issues_ServiceAbstract
 
     public function addLabelToIssue($issue, $label)
     {
-        // TODO should probably check permissions here
         if (!($issue instanceof Default_Model_Issue)) {
             $issue = $this->_mapper->getIssueById($issue);
+        }
+
+        if (!$this->canLabelIssue($issue)) {
+            return false;
         }
 
         if (!($label instanceof Default_Model_Label)) {
@@ -61,9 +66,12 @@ class Default_Service_Issue extends Issues_ServiceAbstract
 
     public function removeLabelFromIssue($issue, $label)
     {
-        // TODO should probably check permissions here
         if (!($issue instanceof Default_Model_Issue)) {
             $issue = $this->_mapper->getIssueById($issue);
+        }
+
+        if (!$this->canLabelIssue($issue)) {
+            return false;
         }
 
         if (!($label instanceof Default_Model_Label)) {
@@ -76,6 +84,25 @@ class Default_Service_Issue extends Issues_ServiceAbstract
     public function countIssuesByLabel(Default_Model_Label $label)
     {
         return $this->_mapper->countIssuesByLabel($label);
+    }
+
+    public function canLabelIssue($issue)
+    {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if ($acl->isAllowed('user', 'issue', 'label-all')) {
+            return true;
+        }
+
+        $identity = Zend_Registry::get('Default_DiContainer')->getUserService()
+            ->getIdentity();
+
+        if ($acl->isAllowed('user', 'issue', 'label-own')) {
+            if ($identity->getUserId() == $issue->getCreatedBy()->getUserId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

@@ -13,9 +13,11 @@ class Default_Service_Project extends Issues_ServiceAbstract
 
     public function createFromForm(Default_Form_Project_Create $form)
     {
-        if (Zend_Auth::getInstance()->getIdentity()->getRole()->getName() == 'guest') {
-            return false; 
-        } 
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user','project','create')) {
+            return false;
+        }
+
         $project = new Default_Model_Project();
         $project->setName($form->getValue('project_name'));
         return $this->_mapper->insert($project);

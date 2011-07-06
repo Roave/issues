@@ -34,6 +34,11 @@ class Default_Service_Label extends Issues_ServiceAbstract
 
     public function createLabel($text, $color)
     {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if (!$acl->isAllowed('user', 'label', 'create')) {
+            return false;
+        }
+
         $label = new Default_Model_Label();
         $label->setText($text)->setColor($color);
         $this->_mapper->insert($label);
