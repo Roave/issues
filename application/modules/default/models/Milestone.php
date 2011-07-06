@@ -35,6 +35,18 @@ class Default_Model_Milestone extends Issues_Model_Abstract implements Zend_Acl_
      * @var array
      */
     protected $_storage = array();
+
+    /**
+     * __construct 
+     * 
+     * @return void
+     */
+    public function __construct($options = null)
+    {
+        parent::__construct($options);
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        $acl->addResource($this);
+    }
  
     /**
      * Get milestoneId.
