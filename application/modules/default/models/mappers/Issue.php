@@ -9,6 +9,9 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
                   ->where('issue_id = ?', $issueId);
+
+        $sql = $this->_addAclJoins($sql);
+
         $row = $db->fetchRow($sql);
         return ($row) ? new Default_Model_Issue($row) : false;
     }
@@ -21,6 +24,9 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         if ($status) {
             $sql->where('status = ?', $status);
         }
+
+        $sql = $this->_addAclJoins($sql);
+
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
@@ -91,8 +97,11 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from('issue_label_linker', array('count' => 'COUNT(*)'))
-            ->where('label_id = ?', $label->getLabelId());
+            ->from(array('ill'=>'issue_label_linker'), array('count' => 'COUNT(*)'))
+            ->join(array('i'=>'issue'), 'ill.issue_id = i.issue_id')
+            ->where('ill.label_id = ?', $label->getLabelId());
+
+        $sql = $this->_addAclJoins($sql, 'i', 'issue_id');
 
         return $db->fetchOne($sql);
     }
@@ -112,6 +121,8 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         if ($status) {
             $sql->where('i.status = ?', $status);
         }
+
+        $sql = $this->_addAclJoins($sql, 'i', 'issue_id');
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
