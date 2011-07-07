@@ -128,6 +128,37 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $this->_rowsToModels($rows);
     }
 
+    protected function _addAclJoins(Zend_Db_Select $sql, $alias = null, $primaryKey = null)
+    {
+        $sql = parent::_addAclJoins($sql, $alias, $primaryKey);
+
+        if ($alias === null) {
+            $alias = $this->getTableName();
+        }
+
+        $table = $this->getTableName();
+
+        if ($primaryKey === null) {
+            $primaryKey = $table . '_id';
+        }
+
+        $roles = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity()
+            ->getRoles();
+
+        $sql->join(array('p'=>'project'), "p.project_id = $alias.project", array())
+            ->joinLeft(
+                array('p_arr' => 'acl_resource_record'),
+                "`p_arr`.`resource_type` = 'project' AND `p_arr`.`resource_id` = `{$alias}`.`project`",
+                array())
+            ->where('((p.private = ?', 1)
+            ->where('p_arr.role_id IN (?))', $roles)
+            ->orWhere('p.private = ?)', 0);
+
+        return $sql;
+    }
+
     protected function _rowsToModels($rows)
     {
         if (!$rows) return array();
