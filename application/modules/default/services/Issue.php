@@ -2,6 +2,13 @@
 class Default_Service_Issue extends Issues_ServiceAbstract 
 {
     protected $_createForm;
+    protected $_aclService;
+
+    public function __construct(Issues_Model_Mapper_DbAbstract $mapper = null)
+    {
+        parent::__construct($mapper);
+        $this->_aclService = Zend_Registry::get('Default_DiContainer')->getAclService();
+    }
 
     public function getCreateForm()
     {
@@ -13,7 +20,13 @@ class Default_Service_Issue extends Issues_ServiceAbstract
 
     public function getIssueById($id)
     {
-        return $this->_mapper->getIssueById($id);
+        $issue = $this->_mapper->getIssueById($id);
+
+        if ($this->_aclService->isAllowed($issue, 'view')) {
+            return $issue;
+        } else {
+            return false;
+        }
     }
 
     public function getAllIssues()

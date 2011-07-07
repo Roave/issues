@@ -41,6 +41,10 @@ class Default_IssuesController extends Zend_Controller_Action
     {
         $this->_commentService = Zend_Registry::get('Default_DiContainer')->getCommentService();
         $this->view->issue = $this->_issueService->getIssueById($this->_getParam('id'));
+        if ($this->view->issue == false) {
+            return $this->_helper->redirector('list', 'issues');
+        }
+
         $this->view->comments = $this->_commentService->getCommentsByIssue($this->view->issue);
 
         $fm = $this->getHelper('FlashMessenger')->setNamespace('commentForm')->getMessages(); 

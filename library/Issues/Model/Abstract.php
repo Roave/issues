@@ -35,6 +35,11 @@ abstract class Issues_Model_Abstract
         }
     }
 
+    public function isPrivate()
+    {
+        return false;
+    }
+
     public function setOptions(array $options)
     {
         $classMethods = get_class_methods($this);

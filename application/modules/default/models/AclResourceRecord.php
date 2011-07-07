@@ -1,6 +1,9 @@
 <?php
 class Default_Model_AclResourceRecord extends Issues_Model_Abstract
 {
+
+    protected $_skipAcl = true;
+
     /**
      * _roleId 
      * 

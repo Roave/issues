@@ -84,7 +84,12 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         if (!$this->_acl->has($simpleName)) {
             $this->_acl->addResource(new Zend_Acl_Resource($simpleName));
         }
+
         $this->_acl->addResource($obj->getResourceId(), $simpleName);
+
+        if ($obj->isPrivate()) {
+            $this->_acl->deny(null, $obj->getResourceId(), null, new Default_Model_Acl_HasPermissionAssertion());
+        }
 
         return true;
     }
@@ -100,5 +105,11 @@ class Default_Service_Acl extends Issues_ServiceAbstract
     public function isAllowed($resource, $action)
     {
         return $this->_acl->isAllowed('user', $resource, $action);
+    }
+
+    public function getResourceRecords(array $roles, $resourceType, $resourceId)
+    {
+        $mapper = Zend_Registry::get('Default_DiContainer')->getAclResourceRecordMapper();
+        return $mapper->getResourceRecords($roles, $resourceType, $resourceId);
     }
 }
