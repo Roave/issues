@@ -65,7 +65,7 @@ class Default_Model_Role extends Issues_Model_Abstract
      */
     public function __toString()
     {
-        return $this->getRoleId();
+        return (string) $this->getRoleId();
     }
 
     /**
