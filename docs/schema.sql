@@ -96,6 +96,15 @@ CREATE TABLE `acl_record` (
  PRIMARY KEY (`role_id`,`resource`,`action`)
 ) ENGINE=InnoDB;
 
+CREATE TABLE `acl_resource_record` (
+  `role_id` INT(11) UNSIGNED NOT NULL,
+  `resource_type` VARCHAR(255) NOT NULL,
+  `resource_id` INT(11) unsigned NOT NULL,
+  `action` VARCHAR(255) DEFAULT NULL,
+  `type` ENUM('allow','deny') NOT NULL DEFAULT 'deny',
+  PRIMARY KEY (`role_id`,`resource_type`,`resource_id`,`action`)
+) ENGINE=InnoDB;
+
 ALTER TABLE `user_role_linker`
 ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ON DELETE CASCADE ON UPDATE CASCADE ;
@@ -129,6 +138,10 @@ ADD FOREIGN KEY (`issue`) REFERENCES `issue` (`issue_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `acl_record`
+ADD FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `acl_resource_record`
 ADD FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
