@@ -1,0 +1,6 @@
+<ul>
+    <?php foreach($this->milestones as $milestone): ?>
+        <li><?= $milestone->getName(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<a href="<?= $this->url(array('controller' => 'milestones', 'action' => 'new')); ?>"><?= $this->translate('new_milestone'); ?></a>

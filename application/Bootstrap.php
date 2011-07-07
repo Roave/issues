@@ -24,4 +24,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $userService->getIdentity();
     }
+
+    /**
+     * Initialize jQuery helpers 
+     * 
+     * @return void
+     */
+    protected function _initJquery()
+    {
+        $this->bootstrap('view');
+        $view = $this->getResource('view');
+        $view->addHelperPath('ZendX/JQuery/View/Helper', 'ZendX_JQuery_View_Helper');
+        $view->jQuery()->enable()
+        	 ->setVersion('1.6.2')
+        	 ->setUiVersion('1.8.14')
+        	 ->addStylesheet('https://ajax.googleapis.com/ajax/libs/jqueryui/'.$view->jQuery()->getUiVersion().'/themes/ui-lightness/jquery-ui.css')
+        	 ->uiEnable();
+    }
 }

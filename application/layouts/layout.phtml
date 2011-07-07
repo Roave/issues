@@ -5,11 +5,11 @@
     <head>
         <?= $this->headMeta() ?>
         <?= $this->headTitle('Issues') ?> 
+        <?= $this->jQuery() ?>
         <?= $this->headLink()
                  ->appendStylesheet('/css/rebase-min.css')
                  ->appendStylesheet('/css/style.css') ?>
         <?= $this->headScript()
-                 ->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js')
                  ->appendFile('/js/issues-global.js') ?>
         <link rel="shortcut icon" href="/images/icons/application_view_list.png" />
         <script type="text/javascript">
@@ -51,7 +51,7 @@
                         <a href="<?=$this->url(array('controller'=>'projects','action'=>'index'));?>">Projects</a>
                     </li>
                     <li <? if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'milestones'): ?>class="active"<? endif; ?>>
-                        <a href="#"><?=$this->translate('milestones');?></a>
+                        <a href="<?=$this->url(array('controller'=>'milestones','action'=>'index'));?>"><?=$this->translate('milestones');?></a>
                     </li>
                     <li <? if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'members'): ?>class="active"<? endif; ?>>
                         <a href="#"><?=$this->translate('members');?></a>

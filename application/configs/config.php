@@ -4,6 +4,7 @@ $config['autoloadernamespaces'][] = 'Issues';
 $config['resources']['layout']['layoutPath']  = APPLICATION_PATH . '/layouts';
 $config['resources']['layout']['layout'] = 'layout';
 $config['resources']['modules'] = array();
+$config['resources']['view'] = array();
 $config['bootstrap']['path']    = APPLICATION_PATH . '/Bootstrap.php';
 $config['bootstrap']['class']   = 'Bootstrap';
 

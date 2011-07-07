@@ -55,6 +55,7 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
     {
         $data = array(
             'name'      => $milestone->getName(),
+            'due_date'  => $milestone->getDueDate()->format('Y-m-d'),
             'private'   => $milestone->isPrivate() ? 1 : 0,
         );
 
