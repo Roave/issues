@@ -30,6 +30,8 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
+        $sql = $this->_addAclJoins($sql);
+
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
