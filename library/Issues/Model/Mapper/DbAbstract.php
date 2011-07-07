@@ -17,6 +17,13 @@ abstract class Issues_Model_Mapper_DbAbstract
     protected $_writeAdapter;
 
     /**
+     * The roles of the current user
+     * 
+     * @var array
+     */
+    protected $_roles = array();
+
+    /**
      * Default database adapter
      *
      * @var Zend_Db_Adapter_Abstract
@@ -98,6 +105,38 @@ abstract class Issues_Model_Mapper_DbAbstract
     public function getTableName()
     {
         return $this->_name;
+    }
+
+    /**
+     * _addAclJoins
+     * 
+     * @param Zend_Db_Select $sql 
+     * @param string $tableAlias the name/alias of the main table in the query
+     * @return Zend_Db_Select modified query
+     */
+    protected function _addAclJoins(Zend_Db_Select $sql, $tableAlias = null)
+    {
+        $roles = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity()
+            ->getRoles();
+
+        if ($tableAlias === null) {
+            $table = $this->getTableName();
+        } else {
+            $table = $tableAlias;
+        }
+
+        $sql->joinLeft(
+                'acl_resource_record',
+                "acl_resource_record.resource_type = '$table' "
+                    . "AND acl_resource_record.resource_id = $table.{$table}_id",
+                array())
+            ->where('(private = ?', 1)          // note the extra parentheses here
+            ->where('role_id IN (?))', $roles)  // they're important. don't touch
+            ->orWhere('private = ?', 0);
+
+        return $sql;
     }
 
     // static functions
