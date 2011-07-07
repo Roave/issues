@@ -13,6 +13,10 @@ class Default_ProjectsController extends Zend_Controller_Action
         $this->view->projects = $this->_projectService->getAllProjects();
     }
 
+    public function viewAction()
+    {
+    }
+
     public function newAction()
     {
     }
