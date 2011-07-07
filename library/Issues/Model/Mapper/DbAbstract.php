@@ -114,7 +114,7 @@ abstract class Issues_Model_Mapper_DbAbstract
      * @param string $tableAlias the name/alias of the main table in the query
      * @return Zend_Db_Select modified query
      */
-    protected function _addAclJoins(Zend_Db_Select $sql, $tableAlias = null)
+    protected function _addAclJoins(Zend_Db_Select $sql, $tableAlias = null, $primaryKey = null)
     {
         $roles = Zend_Registry::get('Default_DiContainer')
             ->getUserService()
@@ -127,14 +127,18 @@ abstract class Issues_Model_Mapper_DbAbstract
             $table = $tableAlias;
         }
 
+        if ($primaryKey === null) {
+            $primaryKey = $table . '_id';
+        }
+
         $sql->joinLeft(
                 'acl_resource_record',
                 "acl_resource_record.resource_type = '$table' "
-                    . "AND acl_resource_record.resource_id = $table.{$table}_id",
+                    . "AND acl_resource_record.resource_id = $table.{$primaryKey}",
                 array())
-            ->where('(private = ?', 1)          // note the extra parentheses here
+            ->where('((private = ?', 1)          // note the extra parentheses here
             ->where('role_id IN (?))', $roles)  // they're important. don't touch
-            ->orWhere('private = ?', 0);
+            ->orWhere('private = ?)', 0);
 
         return $sql;
     }
