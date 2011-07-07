@@ -16,6 +16,13 @@ class Default_Model_Project extends Issues_Model_Abstract implements Zend_Acl_Re
     protected $_name;
 
     /**
+     * _private 
+     * 
+     * @var boolean
+     */
+    protected $_private;
+
+    /**
      * Get projectId.
      *
      * @return projectId
@@ -66,5 +73,36 @@ class Default_Model_Project extends Issues_Model_Abstract implements Zend_Acl_Re
     public function getResourceId()
     {
         return 'project-' . $this->getProjectId();
+    }
+ 
+    /**
+     * Get private.
+     *
+     * @return private
+     */
+    public function getPrivate()
+    {
+        return $this->_private;
+    }
+ 
+    /**
+     * Set private.
+     *
+     * @param $private the value to be set
+     */
+    public function setPrivate($private)
+    {
+        $this->_private = $private;
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return private
+     */
+    public function isPrivate()
+    {
+        return $this->getPrivate();
     }
 }

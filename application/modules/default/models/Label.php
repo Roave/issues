@@ -30,6 +30,13 @@ class Default_Model_Label extends Issues_Model_Abstract implements Zend_Acl_Reso
     protected $_issueCount;
 
     /**
+     * _private 
+     * 
+     * @var boolean
+     */
+    protected $_private;
+
+    /**
      * Get labelId.
      *
      * @return int labelId
@@ -134,4 +141,35 @@ class Default_Model_Label extends Issues_Model_Abstract implements Zend_Acl_Reso
         return 'label-' . $this->getLabelId();
     }
 
+ 
+    /**
+     * Get private.
+     *
+     * @return private
+     */
+    public function getPrivate()
+    {
+        return $this->_private;
+    }
+ 
+    /**
+     * Set private.
+     *
+     * @param $private the value to be set
+     */
+    public function setPrivate($private)
+    {
+        $this->_private = $private;
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return private
+     */
+    public function isPrivate()
+    {
+        return $this->getPrivate();
+    }
 }

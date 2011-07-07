@@ -11,12 +11,14 @@ CREATE TABLE `issue` (
   `assigned_to` INT(11) UNSIGNED DEFAULT NULL,
   `created_time` DATETIME NOT NULL,
   `last_update_time` DATETIME DEFAULT NULL,
+  `private` BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`issue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `project` (
   `project_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
+  `private` BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`project_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -56,7 +58,8 @@ CREATE TABLE `user_role_linker` (
 CREATE TABLE `label` (
   `label_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `text` VARCHAR(50) NOT NULL ,
-  `color` VARCHAR(50) NOT NULL
+  `color` VARCHAR(50) NOT NULL,
+  `private` BOOLEAN NOT NULL DEFAULT '0',
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `issue_label_linker` (
@@ -76,6 +79,7 @@ CREATE TABLE `milestone` (
   `name` varchar(255) NOT NULL,
   `due_date` DATETIME DEFAULT NULL,
   `completed_date` DATETIME DEFAULT NULL,
+  `private` BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`milestone_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -85,6 +89,7 @@ CREATE TABLE `comment` (
   `created_by` INT(11) UNSIGNED NOT NULL,
   `issue` INT(11) UNSIGNED NOT NULL,
   `text` text NOT NULL,
+  `private` BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

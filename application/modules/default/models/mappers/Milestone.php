@@ -54,7 +54,8 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
     public function insert(Default_Model_Milestone $milestone)
     {
         $data = array(
-            'name'  => $milestone->getName(),
+            'name'      => $milestone->getName(),
+            'private'   => $milestone->isPrivate() ? 1 : 0,
         );
 
         $db = $this->getWriteAdapter();

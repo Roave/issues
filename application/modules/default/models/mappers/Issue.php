@@ -43,7 +43,9 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             'project'           => $issue->getProject()->getProjectId(),
             'created_by'        => $issue->getCreatedBy()->getUserId(),
             'created_time'      => new Zend_Db_Expr('NOW()'),
+            'private'           => $issue->isPrivate() ? 1 : 0,
         );
+
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();

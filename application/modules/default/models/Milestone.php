@@ -30,6 +30,13 @@ class Default_Model_Milestone extends Issues_Model_Abstract implements Zend_Acl_
     protected $_completedDate;
 
     /**
+     * _private 
+     * 
+     * @var boolean
+     */
+    protected $_private;
+
+    /**
      * Misc storager
      *
      * @var array
@@ -149,5 +156,36 @@ class Default_Model_Milestone extends Issues_Model_Abstract implements Zend_Acl_
     public function getResourceId()
     {
         return 'milestone-' . $this->getMilestoneId();
+    }
+ 
+    /**
+     * Get private.
+     *
+     * @return private
+     */
+    public function getPrivate()
+    {
+        return $this->_private;
+    }
+ 
+    /**
+     * Set private.
+     *
+     * @param $private the value to be set
+     */
+    public function setPrivate($private)
+    {
+        $this->_private = $private;
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return private
+     */
+    public function isPrivate()
+    {
+        return $this->getPrivate();
     }
 }

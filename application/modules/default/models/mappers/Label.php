@@ -54,8 +54,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
     public function insert(Default_Model_Label $label)
     {
         $data = array(
-            'text'  => $label->getText(),
-            'color' => $label->getColor()
+            'text'      => $label->getText(),
+            'color'     => $label->getColor(),
+            'private'   => $label->isPrivate ? 1 : 0,
         );
 
         $db = $this->getWriteAdapter();

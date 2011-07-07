@@ -65,6 +65,13 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
     protected $_lastUpdateTime;
  
     /**
+     * _private 
+     * 
+     * @var boolean
+     */
+    protected $_private;
+
+    /**
      * Get issueId.
      *
      * @return issueId
@@ -287,5 +294,36 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
     public function getResourceId()
     {
         return 'issue-' . $this->getIssueId();
+    }
+ 
+    /**
+     * Get private.
+     *
+     * @return private
+     */
+    public function getPrivate()
+    {
+        return $this->_private;
+    }
+ 
+    /**
+     * Set private.
+     *
+     * @param $private the value to be set
+     */
+    public function setPrivate($private)
+    {
+        $this->_private = $private;
+        return $this;
+    }
+
+    /**
+     * Get private
+     *
+     * @return private
+     */
+    public function isPrivate()
+    {
+        return $this->getPrivate();
     }
 }

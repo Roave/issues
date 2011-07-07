@@ -29,8 +29,10 @@ class Default_Model_Mapper_Project extends Issues_Model_Mapper_DbAbstract
     public function insert(Default_Model_Project $project)
     {
         $data = array(
-            'name' => $project->getName(),
+            'name'      => $project->getName(),
+            'private'   => $project->isPrivate() ? 1 : 0,
         );
+
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();
