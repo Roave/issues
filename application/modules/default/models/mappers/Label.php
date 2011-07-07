@@ -9,6 +9,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->where('label_id = ?', $id);
+
+        $sql = $this->_addAclJoins($sql);
+
         $row = $db->fetchRow($sql);
         return ($row) ? new Default_Model_Label($row) : false;
     }
@@ -18,6 +21,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
+
+        $sql = $this->_addAclJoins($sql);
+
         $rows = $db->fetchAll($sql);
         if (!$rows) return array();
 
@@ -40,6 +46,8 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         } else {
             $sql->where('ill.issue_id = ?', (int) $issue);
         }
+
+        $sql = $this->_addAclJoins($sql, 'l', 'label_id');
 
         $rows = $db->fetchAll($sql);
         if (!$rows) return array();

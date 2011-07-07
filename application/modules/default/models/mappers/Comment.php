@@ -9,6 +9,9 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->where('comment_id = ?', $id);
+
+        $sql = $this->_addAclJoins($sql);
+
         $row = $db->fetchRow($sql);
         return ($row) ? new Default_Model_Comment($row) : false;
     }
@@ -24,6 +27,8 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
         } else {
             $sql->where('issue = ?', (int) $issue);
         }
+
+        $sql = $this->_addAclJoins($sql);
 
         $rows = $db->fetchAll($sql);
         if (!$rows) return array();
