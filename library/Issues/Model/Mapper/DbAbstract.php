@@ -132,8 +132,8 @@ abstract class Issues_Model_Mapper_DbAbstract
                 "acl_resource_record.resource_type = '$table' "
                     . "AND acl_resource_record.resource_id = $table.{$table}_id",
                 array())
-            ->where('(private = ?', 1)
-            ->where('role_id IN (?))', $roles)
+            ->where('(private = ?', 1)          // note the extra parenthesis here
+            ->where('role_id IN (?))', $roles)  // they're important. don't touch
             ->orWhere('private = ?', 0);
 
         return $sql;
