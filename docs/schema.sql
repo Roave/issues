@@ -100,9 +100,7 @@ CREATE TABLE `acl_resource_record` (
   `role_id` INT(11) UNSIGNED NOT NULL,
   `resource_type` VARCHAR(255) NOT NULL,
   `resource_id` INT(11) unsigned NOT NULL,
-  `action` VARCHAR(255) DEFAULT NULL,
-  `type` ENUM('allow','deny') NOT NULL DEFAULT 'deny',
-  PRIMARY KEY (`role_id`,`resource_type`,`resource_id`,`action`)
+  PRIMARY KEY (`role_id`,`resource_type`,`resource_id`)
 ) ENGINE=InnoDB;
 
 ALTER TABLE `user_role_linker`
