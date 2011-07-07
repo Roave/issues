@@ -9,6 +9,9 @@ class Default_Model_Mapper_Project extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
                   ->where('project_id = ?', $projectId);
+
+        $sql = $this->_addAclJoins($sql);
+
         $row = $db->fetchRow($sql);
         return ($row) ? new Default_Model_Project($row) : false;
     }
@@ -18,6 +21,9 @@ class Default_Model_Mapper_Project extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
+
+        $sql = $this->_addAclJoins($sql);
+
         $rows = $db->fetchAll($sql);
         if (!$rows) return array();
         foreach ($rows as $i => $row) {
