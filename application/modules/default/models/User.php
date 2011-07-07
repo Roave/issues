@@ -1,5 +1,5 @@
 <?php
-class Default_Model_User extends Issues_Model_Abstract  implements Zend_Acl_Resource_Interface
+class Default_Model_User extends Issues_Model_Abstract implements Zend_Acl_Resource_Interface
 {
     /**
      * User ID
