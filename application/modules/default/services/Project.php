@@ -18,9 +18,19 @@ class Default_Service_Project extends Issues_ServiceAbstract
             return false;
         }
 
+        $permissions = $form->getValue('permissions');
+
         $project = new Default_Model_Project();
-        $project->setName($form->getValue('project_name'));
-        return $this->_mapper->insert($project);
+        $project->setName($form->getValue('project_name'))
+            ->setPrivate($permissions['private'] ? true : false);
+        $return = $this->_mapper->insert($project);
+
+        if ($permissions['private']) {
+            Zend_Registry::get('Default_DiContainer')->getAclService()
+                ->addResourceRecord($permissions['roles'], 'project', $return);
+        }
+
+        return $return;
     }
 
     public function getAllProjects()

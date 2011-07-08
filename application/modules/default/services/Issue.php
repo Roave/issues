@@ -51,13 +51,23 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             return false;
         }
 
+        $permissions = $form->getValue('permissions');
+
         $issue = new Default_Model_Issue();
         $issue->setTitle($form->getValue('title'))
             ->setDescription($form->getValue('description'))
             ->setStatus('open')
             ->setProject($form->getValue('project'))
-            ->setCreatedBy(Zend_Auth::getInstance()->getIdentity());
-        return $this->_mapper->insert($issue);
+            ->setCreatedBy(Zend_Auth::getInstance()->getIdentity())
+            ->setPrivate($permissions['private'] ? true : false);
+        $return = $this->_mapper->insert($issue);
+
+        if ($permissions['private']) {
+            Zend_Registry::get('Default_DiContainer')->getAclService()
+                ->addResourceRecord($permissions['roles'], 'issue', $return);
+        }
+
+        return $return;
     }
 
     public function addLabelToIssue($issue, $label)

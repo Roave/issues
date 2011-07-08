@@ -35,10 +35,20 @@ class Default_Service_Comment extends Issues_ServiceAbstract
             $userId = $identity->getUserId();
         }
 
+        $permissions = $form->getValue('permissions');
+
         $comment = new Default_Model_Comment();
         $comment->setCreatedBy($identity)
             ->setIssue($issueId)
-            ->setText($form->getValue('text'));
-        return $this->_mapper->insert($comment);
+            ->setText($form->getValue('text'))
+            ->setPrivate($permissions['private'] ? true : false);
+        $return = $this->_mapper->insert($comment);
+
+        if ($permissions['private']) {
+            Zend_Registry::get('Default_DiContainer')->getAclService()
+                ->addResourceRecord($permissions['roles'], 'comment', $return);
+        }
+
+        return $return;
     }
 }

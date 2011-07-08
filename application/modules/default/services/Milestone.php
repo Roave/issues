@@ -18,10 +18,20 @@ class Default_Service_Milestone extends Issues_ServiceAbstract
             return false;
         }
 
+        $permissions = $form->getValue('permissions');
+
         $milestone = new Default_Model_Milestone();
-        $milestone->setName($form->getValue('milestone_name'));
-        $milestone->setDueDate($form->getValue('milestone_duedate'));
-        return $this->_mapper->insert($milestone);
+        $milestone->setName($form->getValue('milestone_name'))
+            ->setDueDate($form->getValue('milestone_duedate'))
+            ->setPrivate($permissions['private'] ? true : false);
+        $return = $this->_mapper->insert($milestone);
+
+        if ($permissions['private']) {
+            Zend_Registry::get('Default_DiContainer')->getAclService()
+                ->addResourceRecord($permissions['roles'], 'milestone', $return);
+        }
+
+        return $return;
     }
 
     public function getMilestoneById($id)

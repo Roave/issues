@@ -12,6 +12,8 @@ class Default_Form_Project_Base extends Issues_FormAbstract
             'label'      => $this->translate('project_name')
         ));
 
+        $this->addSubForm(new Default_Form_Permission_Base(), 'permissions');
+
         $this->addElement('submit', 'submit', array(
             'required' => false,
             'ignore'   => true,

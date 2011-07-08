@@ -23,6 +23,8 @@ class Default_Form_Milestone_Base extends Issues_FormAbstract
         );
         $this->addElement($element);
 
+        $this->addSubForm(new Default_Form_Permission_Base(), 'permissions');
+
         $this->addElement('submit', 'submit', array(
             'required' => false,
             'ignore'   => true,

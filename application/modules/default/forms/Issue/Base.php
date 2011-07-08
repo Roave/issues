@@ -28,6 +28,8 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
             'required'   => true,
         ));
 
+        $this->addSubForm(new Default_Form_Permission_Base(), 'permissions');
+
         $this->addElement('submit', 'submit', array(
             'required' => false,
             'ignore'   => true,

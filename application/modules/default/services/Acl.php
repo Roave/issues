@@ -107,6 +107,12 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         return $this->_acl->isAllowed('user', $resource, $action);
     }
 
+    public function addResourceRecord(array $roles, $resourceType, $resourceId)
+    {
+        $mapper = Zend_Registry::get('Default_DiContainer')->getAclResourceRecordMapper();
+        return $mapper->addResourceRecord($roles, $resourceType, $resourceId);
+    }
+
     public function getResourceRecords(array $roles, $resourceType, $resourceId)
     {
         $mapper = Zend_Registry::get('Default_DiContainer')->getAclResourceRecordMapper();

@@ -3,6 +3,22 @@ class Default_Model_Mapper_AclResourceRecord extends Issues_Model_Mapper_DbAbstr
 {
     protected $_name = 'acl_resource_record';
 
+    public function addResourceRecord(array $roles, $resourceType, $resourceId)
+    {
+        $db = $this->getWriteAdapter();
+        foreach ($roles as $role) {
+            $data = array(
+                'role_id'       => $role,
+                'resource_type' => $resourceType,
+                'resource_id'   => $resourceId
+            );
+
+            $db->insert('acl_resource_record', $data);
+        }
+
+        return true;
+    }
+
     public function getResourceRecords(array $roles, $resourceType, $resourceId)
     {
         $db = $this->getReadAdapter();
