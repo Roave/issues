@@ -186,22 +186,32 @@ class Issues_Profiler
         $longestTime  = 0;
         $longestQuery = null;
         if($profiler->getTotalNumQueries() > 0){
-        foreach ($profiler->getQueryProfiles() as $query) {
-            if ($query->getElapsedSecs() > $longestTime) {
-                $longestTime  = $query->getElapsedSecs();
-                $longestQuery = $query->getQuery();
+            foreach ($profiler->getQueryProfiles() as $query) {
+                if ($query->getElapsedSecs() > $longestTime) {
+                    $longestTime  = $query->getElapsedSecs();
+                    $longestQuery = $query->getQuery();
+                }
             }
-        }
-        
-        $out .= '<table border="1" cellspacing="0" cellpadding="2" width="100%">';
-        $out .= '<tr><td width="40%"><b>Queries executed:</td><td>'. $queryCount .'</td></tr>';
-        $out .= '<tr><td><b>All queries length</td><td>'. $totalTime .'</td></tr>';
-        $out .= '<tr><td><b>Average query length:</td><td>'. $totalTime / $queryCount .'</td></tr>';
-        $out .= '<tr><td><b>Queries per second:</td><td>'. $queryCount / $totalTime .'</td></tr>';
-        $out .= '<tr><td valign="top"><b>Longest query:</td><td>'. $longestQuery .'</td></tr>';
-        $out .= '<tr><td><b>Longest query time:</td><td>'. $longestTime .'</td></tr>';
-        $out .= '</table>';
 
+            $out .= '<table border="1" cellspacing="0" cellpadding="2" width="100%">';
+            $out .= '<tr><td width="40%"><b>Queries executed:</td><td>'. $queryCount .'</td></tr>';
+            $out .= '<tr><td><b>All queries length</td><td>'. $totalTime .'</td></tr>';
+            $out .= '<tr><td><b>Average query length:</td><td>'. $totalTime / $queryCount .'</td></tr>';
+            $out .= '<tr><td><b>Queries per second:</td><td>'. $queryCount / $totalTime .'</td></tr>';
+            $out .= '<tr><td valign="top"><b>Longest query:</td><td>'. $longestQuery .'</td></tr>';
+            $out .= '<tr><td><b>Longest query time:</td><td>'. $longestTime .'</td></tr>';
+            $out .= '</table>';
+
+            $out .= '<table border="1" cellspacing="0" cellpadding="2" width="100%">';
+            $out .= '<tr><th>Query</th><th>Elapsed Time</th></tr>';
+            foreach ($profiler->getQueryProfiles() as $query) {
+                $out .= '<tr><td>';
+                $out .= $query->getQuery();
+                $out .= '</td><td>';
+                $out .= $query->getElapsedSecs();
+                $out .= '</td></tr>';
+            }
+            $out .= '</table>';
         } else {
             $out .= "No database hits... everything loaded from cache.";
         }
