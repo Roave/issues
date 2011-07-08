@@ -8,12 +8,13 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName())
-                  ->where('issue_id = ?', $issueId);
+            ->where('issue_id = ?', $issueId);
 
         $sql = $this->_addAclJoins($sql);
+        $sql = $this->_addRelationJoins($sql, 'issue');
 
         $row = $db->fetchRow($sql);
-        return ($row) ? new Default_Model_Issue($row) : false;
+        return ($row) ? $this->_rowToModel($row) : false;
     }
 
     public function filterIssues($status = false)
@@ -26,6 +27,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         }
 
         $sql = $this->_addAclJoins($sql);
+        $sql = $this->_addRelationJoins($sql, 'issue');
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
@@ -79,7 +81,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         try {
             $db->insert('issue_label_linker', $data);
         } catch (Exception $e) {} // probably a duplicate key
-        return true;
+            return true;
     }
 
     public function removeLabelFromIssue(Default_Model_Issue $issue, Default_Model_Label $label)
@@ -152,9 +154,42 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
                 array('p_arr' => 'acl_resource_record'),
                 "`p_arr`.`resource_type` = 'project' AND `p_arr`.`resource_id` = `{$alias}`.`project`",
                 array())
-            ->where('((p.private = ?', 1)
-            ->where('p_arr.role_id IN (?))', $roles)
-            ->orWhere('p.private = ?)', 0);
+                ->where('((p.private = ?', 1)
+                ->where('p_arr.role_id IN (?))', $roles)
+                ->orWhere('p.private = ?)', 0);
+
+        return $sql;
+    }
+
+    protected function _addRelationJoins(Zend_Db_Select $sql, $alias = null)
+    {
+        $alias = $alias ?: 'i';
+
+        $sql->join(array('r_project'=>'project'), "r_project.project_id = $alias.project", array(
+            'project.project_id'    => 'project_id',
+            'project.name'          => 'name',
+            'project.private'       => 'private'
+        ));
+
+        $sql->join(array('r_createdby'=>'user'), "r_createdby.user_id = $alias.created_by", array(
+            'created_by.user_id'        => 'user_id',
+            'created_by.username'       => 'username',
+            'created_by.password'       => 'password',
+            'created_by.last_login'     => 'last_login',
+            'created_by.last_ip'        => new Zend_Db_Expr('INET_NTOA(`r_createdby`.`last_ip`)'),
+            'created_by.register_time'  => 'register_time',
+            'created_by.register_ip'    => new Zend_Db_Expr('INET_NTOA(`r_createdby`.`register_ip`)')
+        ));
+
+        $sql->joinLeft(array('r_assignedto'=>'user'), "r_assignedto.user_id = $alias.assigned_to", array(
+            'assigned_to.user_id'        => 'user_id',
+            'assigned_to.username'       => 'username',
+            'assigned_to.password'       => 'password',
+            'assigned_to.last_login'     => 'last_login',
+            'assigned_to.last_ip'        => new Zend_Db_Expr('INET_NTOA(`r_assignedto`.`last_ip`)'),
+            'assigned_to.register_time'  => 'register_time',
+            'assigned_to.register_ip'    => new Zend_Db_Expr('INET_NTOA(`r_assignedto`.`register_ip`)')
+        ));
 
         return $sql;
     }
@@ -162,9 +197,69 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
     protected function _rowsToModels($rows)
     {
         if (!$rows) return array();
+
         foreach ($rows as $i => $row) {
-            $rows[$i] = new Default_Model_Issue($row);
+            $rows[$i] = $this->_rowToModel($row);
         }
         return $rows;
+    }
+
+    protected function _rowToModel($row)
+    {
+        if (array_key_exists('project.project_id', $row)) {
+            $row['project'] = new Default_Model_Project(array(
+                'project_id'    => $row['project.project_id'],
+                'name'          => $row['project.name'],
+                'private'       => $row['project.private']
+            ));
+
+            unset($row['project.project_id'],
+                $row['project.name'],
+                $row['project.private']);
+        }
+
+        if (array_key_exists('created_by.user_id', $row)) {
+            $row['created_by'] = new Default_Model_User(array(
+                'user_id'       => $row['created_by.user_id'],
+                'username'      => $row['created_by.username'],
+                'password'      => $row['created_by.password'],
+                'last_login'    => $row['created_by.last_login'],
+                'last_ip'       => $row['created_by.last_ip'],
+                'register_time' => $row['created_by.register_time'],
+                'register_ip'   => $row['created_by.register_ip'],
+            ));
+
+            unset($row['created_by.user_id'],
+                $row['created_by.username'],
+                $row['created_by.password'],
+                $row['created_by.last_login'],
+                $row['created_by.last_ip'],
+                $row['created_by.register_time'],
+                $row['created_by.register_ip']
+            );
+        }
+
+        if (array_key_exists('assigned_to.user_id', $row) && $row['assigned_to.user_id'] != null) {
+            $row['created_by'] = new Default_Model_User(array(
+                'user_id'       => $row['assigned_to.user_id'],
+                'username'      => $row['assigned_to.username'],
+                'password'      => $row['assigned_to.password'],
+                'last_login'    => $row['assigned_to.last_login'],
+                'last_ip'       => $row['assigned_to.last_ip'],
+                'register_time' => $row['assigned_to.register_time'],
+                'register_ip'   => $row['assigned_to.register_ip'],
+            ));
+        }
+
+        unset($row['assigned_to.user_id'],
+            $row['assigned_to.username'],
+            $row['assigned_to.password'],
+            $row['assigned_to.last_login'],
+            $row['assigned_to.last_ip'],
+            $row['assigned_to.register_time'],
+            $row['assigned_to.register_ip']
+        );
+
+        return new Default_Model_Issue($row);
     }
 }
