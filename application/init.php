@@ -18,6 +18,12 @@ defined('APPLICATION_ENV')
 // Set the include path
 set_include_path(implode(PATH_SEPARATOR, array(get_include_path(), LIBRARY_PATH)));
 
+require_once LIBRARY_PATH . "/Issues/Profiler.php";
+Issues_Profiler::enable();
+Issues_Profiler::start('all');
+
+Issues_Profiler::start('bootstrap');
+
 try {
     require_once 'Zend/Application.php';
     $application = new Zend_Application(
@@ -29,4 +35,15 @@ try {
     die('config fail');
 }
 
+Issues_Profiler::stop('bootstrap');
+
+$front = Zend_Controller_Front::getInstance();
+$front->returnResponse(true);
+
+Issues_Profiler::start('app');
 $application->run();
+Issues_Profiler::stop('app');
+
+Issues_Profiler::stop('all');
+
+echo $front->getResponse();

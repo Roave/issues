@@ -1,6 +1,15 @@
 <?php
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+
+    protected function _initProfiler()
+    {
+        $this->bootstrap('db');
+        $profiler = new Zend_Db_Profiler('All DB Queries');
+        $profiler->setEnabled(true);
+        $this->getResource('db')->setProfiler($profiler);
+    }
+
     /**
      * Initialize database
      *
