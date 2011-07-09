@@ -6,6 +6,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
 
     public function getLabelById($id)
     {
+        if ($model = $this->_cachedModel($this->getTableName().'-'.$id)){
+            return $model;
+        }
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName())

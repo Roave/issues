@@ -27,9 +27,9 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             $sql->where('status = ?', $status);
         }
 
+        $sql = $this->_addLabelConcat($sql);
         $sql = $this->_addAclJoins($sql);
         $sql = $this->_addRelationJoins($sql, 'issue');
-
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
@@ -159,6 +159,15 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
                 ->where('p_arr.role_id IN (?))', $roles)
                 ->orWhere('p.private = ?)', 0);
 
+        return $sql;
+    }
+
+    protected function _addLabelConcat(Zend_Db_Select $sql, $alias = null)
+    {
+        $alias = $alias ?: $this->getTableName();
+        $sql->joinLeft(array('ill'=>'issue_label_linker'), "{$alias}.issue_id = ill.issue_id"); 
+        $sql->columns(array('labels'=>'GROUP_CONCAT(DISTINCT ill.label_id SEPARATOR \' \')'));
+        $sql->group($alias.'.issue_id');
         return $sql;
     }
 

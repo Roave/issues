@@ -24,6 +24,11 @@ abstract class Issues_Model_Mapper_DbAbstract
     protected $_roles = array();
 
     /**
+     * Storage
+     */
+    protected $_storage = array();
+
+    /**
      * Default database adapter
      *
      * @var Zend_Db_Adapter_Abstract
@@ -191,7 +196,19 @@ abstract class Issues_Model_Mapper_DbAbstract
     protected function _rowToModel($row, $class = false)
     {
         if ($class == false) $class = $this->_modelClass;
-        return ($row) ? new $class($row) : false;
+        $model = ($row) ? new $class($row) : false;
+        if ($model instanceof Zend_Acl_Resource_Interface) {
+            $this->_storage[$model->getResourceId()] = $model;
+        }
+        return $model;
+    }
+
+    protected function _cachedModel($resourceId)
+    {
+        if (!isset($this->_storage[$resourceId])) {
+            return false;
+        }  
+        return $this->_storage[$resourceId];
     }
 }
 

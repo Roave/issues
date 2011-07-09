@@ -72,6 +72,13 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
     protected $_private;
 
     /**
+     * _labels
+     *
+     * @var array
+     */
+    protected $_labels;
+
+    /**
      * Get issueId.
      *
      * @return issueId
@@ -280,12 +287,6 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
         return $this;
     }
 
-    public function getLabels()
-    {
-        return Zend_Registry::get('Default_DiContainer')->getLabelService()
-            ->getLabelsByIssue($this);
-    }
-
     /**
      * getResourceId 
      * 
@@ -325,5 +326,26 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
     public function isPrivate()
     {
         return $this->getPrivate();
+    }
+ 
+    /**
+     * Get labels.
+     *
+     * @return labels
+     */
+    public function getLabels()
+    {
+        return $this->_labels ?: array();
+    }
+ 
+    /**
+     * Set labels.
+     *
+     * @param $labels the value to be set
+     */
+    public function setLabels($labels)
+    {
+        $this->_labels = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelDetect($labels);
+        return $this;
     }
 }
