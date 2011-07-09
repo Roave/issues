@@ -15,8 +15,8 @@
                 <div class="progressBarInner" style="width: <?=$i->getProgress()?>%;"></div>
             </div>
             <div class="milestoneIssueCount clearfix">
-                <div class="floatLeft"><?=count($i->getIssues('closed'))?> <?=$this->translate('closed_issues');?></div>
-                <div class="floatRight"><?=count($i->getIssues('open'))?> <?=$this->translate('open_issues');?></div>
+                <div class="floatLeft"><?=$i->getClosedCount()?> <?=$this->translate('closed_issues');?></div>
+                <div class="floatRight"><?=$i->getOpenCount()?> <?=$this->translate('open_issues');?></div>
             </div>
         </div>
         <?php endforeach; ?>

@@ -27,7 +27,7 @@ class Default_IndexController extends Zend_Controller_Action
 
         $this->view->usersSelect = $this->_userService->getUsersForSelect();
 
-        $this->view->milestonesSelect = $this->_milestoneService->getMilestonesForSelect();
+        $this->view->milestonesSelect = $this->_milestoneService->getMilestonesForSelect($this->view->milestones);
     }
 
     public function getCreateLabelForm()

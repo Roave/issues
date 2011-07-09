@@ -15,12 +15,22 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         return $this->_rowToModel($row);
     }
 
-    public function getAllMilestones()
+    public function getAllMilestones($counts = false)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from($this->getTableName());
-        $sql = $this->_addAclJoins($sql);
+            ->from(array('m'=>$this->getTableName()), 'm.*');
+
+        if ($counts === true) {
+            $sql->joinLeft(array('iml'=>'issue_milestone_linker'), 'iml.milestone_id = m.milestone_id')
+                ->joinLeft(array('i'=>'issue'), 'status')
+                ->columns(array('open_count'=>'CASE WHEN i.status = \'open\' THEN COUNT(iml.issue_id) END'))
+                ->columns(array('closed_count'=>'CASE WHEN i.status = \'closed\' THEN COUNT(iml.issue_id) END'))
+                ->group('m.milestone_id');
+        }
+
+        $sql = $this->_addAclJoins($sql, 'm', 'milestone_id');
+
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }

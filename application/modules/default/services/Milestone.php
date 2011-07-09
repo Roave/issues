@@ -46,12 +46,14 @@ class Default_Service_Milestone extends Issues_ServiceAbstract
 
     public function getAllMilestones()
     {
-        return $this->_mapper->getAllMilestones();
+        return $this->_mapper->getAllMilestones(true);
     }
 
-    public function getMilestonesForSelect()
+    public function getMilestonesForSelect($milestones = null)
     {
-        $milestones = $this->_mapper->getAllMilestones();
+        if ($milestones == null) {
+            $milestones = $this->_mapper->getAllMilestones();
+        }
 
         $return = array();
         foreach ($milestones as $i) {

@@ -37,11 +37,18 @@ class Default_Model_Milestone extends Issues_Model_Abstract implements Zend_Acl_
     protected $_private;
 
     /**
-     * Misc storager
-     *
-     * @var array
+     * _openCount 
+     * 
+     * @var int
      */
-    protected $_storage = array();
+    protected $_openCount;
+
+    /**
+     * _closedCount 
+     * 
+     * @var int
+     */
+    protected $_closedCount;
 
     /**
      * Get milestoneId.
@@ -127,25 +134,15 @@ class Default_Model_Milestone extends Issues_Model_Abstract implements Zend_Acl_
         return $this;
     }
 
-    public function getIssues($status = null)
-    {
-        if (!isset($this->_storage["getIssues-$status"])) {
-            $this->_storage["getIssues-$status"] = Zend_Registry::get('Default_DiContainer')->getIssueService()
-                ->getIssuesByMilestone($this, $status);
-        }
-
-        return $this->_storage["getIssues-$status"];
-    }
-
     public function getProgress()
     {
-        $allIssues = count($this->getIssues());
+        $allIssues = $this->getOpenCount() + $this->getClosedCount();
 
         if ($allIssues === 0) {
             return 0.0;
         }
 
-        return (count($this->getIssues('closed')) / $allIssues) * 100;
+        return ($this->getClosedCount() / $allIssues) * 100;
     }
 
     /**
@@ -187,5 +184,47 @@ class Default_Model_Milestone extends Issues_Model_Abstract implements Zend_Acl_
     public function isPrivate()
     {
         return $this->getPrivate();
+    }
+ 
+    /**
+     * Get openCount.
+     *
+     * @return openCount
+     */
+    public function getOpenCount()
+    {
+        return $this->_openCount;
+    }
+ 
+    /**
+     * Set openCount.
+     *
+     * @param $openCount the value to be set
+     */
+    public function setOpenCount($openCount)
+    {
+        $this->_openCount = (int)$openCount;
+        return $this;
+    }
+ 
+    /**
+     * Get closedCount.
+     *
+     * @return closedCount
+     */
+    public function getClosedCount()
+    {
+        return $this->_closedCount;
+    }
+ 
+    /**
+     * Set closedCount.
+     *
+     * @param $closedCount the value to be set
+     */
+    public function setClosedCount($closedCount)
+    {
+        $this->_closedCount = (int)$closedCount;
+        return $this;
     }
 }
