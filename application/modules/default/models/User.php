@@ -65,27 +65,6 @@ class Default_Model_User extends Issues_Model_Abstract implements Zend_Acl_Resou
     protected $_settings;
 
     /**
-     * __construct 
-     * 
-     * @param mixed $options 
-     * @return void
-     */
-    public function __construct($options = null)
-    {
-        parent::__construct($options);
-
-        if (!isset($this->_roles)) {
-            $this->_roles = array();
-            if ($this->getUserId()) {
-                $roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRolesByUser($this);
-                foreach ($roles as $r) {
-                    $this->_roles[$r->getRoleId()] = $r;
-                }
-            }
-        }
-    }
- 
-    /**
      * Get userId.
      *
      * @return userId
