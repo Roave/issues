@@ -72,10 +72,11 @@ class Default_Service_User extends Issues_ServiceAbstract
                 $this->_mapper->getTableName(),
                 'username',
                 'password',
-                'SHA1(CONCAT(?,"somes@lt"))'
+                'SHA2(CONCAT(?, `'.$this->_mapper->getTableName().'`.`salt`), 512)'
             );
             $this->setAuthAdapter($authAdapter);
             $this->_authAdapter->setIdentity($username);
+            $password = hash('sha512', $username.$password.Zend_Registry::get('hash_salt'));
             $this->_authAdapter->setCredential($password);
         }
         return $this->_authAdapter;
@@ -199,5 +200,35 @@ class Default_Service_User extends Issues_ServiceAbstract
         }
 
         return false;
+    }
+
+    /**
+     * randomBytes 
+     *
+     * returns X random raw binary bytes
+     * 
+     * @param int $byteLength 
+     * @return string
+     */
+    public function randomBytes($byteLength)
+    {
+        if (function_exists('openssl_random_pseudo_bytes')) {
+           $data = openssl_random_pseudo_bytes($byteLength);
+        } elseif (is_readable('/dev/urandom')) {
+            $fp = @fopen('/dev/urandom','rb');
+            if ($fp !== false) {
+                $data = fread($fp, $byteLength);
+                fclose($fp);
+            }
+        } elseif (class_exists('COM')) {
+            // @TODO: Someone care to test on Windows? Not it!
+            try {
+                $capi = new COM('CAPICOM.Utilities.1');
+                $data = $capi->GetRandom($btyeLength,0);
+            } catch (Exception $ex) {
+                // Fail silently
+            }
+        }
+        return $data;
     }
 }

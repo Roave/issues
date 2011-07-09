@@ -26,14 +26,15 @@ CREATE TABLE `project` (
 CREATE TABLE `user` (
   `user_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL,
-  `password` VARCHAR(255) NOT NULL,
+  `password` CHAR(128) NOT NULL,
+  `salt` CHAR(128) NOT NULL,
   `last_login` DATETIME DEFAULT NULL,
   `last_ip` INT(11) DEFAULT NULL,
   `register_time` DATETIME NOT NULL,
   `register_ip` INT(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
-  KEY `username_password` (`username` , `password`)
+  KEY `username_password` (`username`,`password`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_settings` (
@@ -148,7 +149,7 @@ ALTER TABLE `acl_resource_record`
 ADD FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO `user_role` (`role_id`, `name`) VALUES
+INSERT INTO `user_role` (`role_id`,`name`) VALUES
 (1, 'guest'),
 (2, 'admin'),
 (3, 'user');
