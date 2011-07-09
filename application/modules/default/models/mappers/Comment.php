@@ -2,6 +2,7 @@
 class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'comment';
+    protected $_modelClass = 'Default_Model_Class';
 
     public function getCommentById($id)
     {
@@ -9,11 +10,9 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->where('comment_id = ?', $id);
-
         $sql = $this->_addAclJoins($sql);
-
         $row = $db->fetchRow($sql);
-        return ($row) ? new Default_Model_Comment($row) : false;
+        return $this->_rowToModel($row);
     }
 
     public function getCommentsByIssue($issue)
@@ -31,13 +30,7 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
         $sql = $this->_addAclJoins($sql);
 
         $rows = $db->fetchAll($sql);
-        if (!$rows) return array();
-
-        $return = array();
-        foreach ($rows as $i => $row) {
-            $return[$i] = new Default_Model_Comment($row);
-        }
-        return $return;
+        return $this->_rowsToModels($rows);
     }
 
     public function insert(Default_Model_Comment $comment)

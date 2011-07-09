@@ -2,6 +2,7 @@
 class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'milestone';
+    protected $_modelClass = 'Default_Model_Milestone';
 
     public function getMilestoneById($id)
     {
@@ -9,11 +10,9 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->where('milestone_id = ?', $id);
-
         $sql = $this->_addAclJoins($sql);
-
         $row = $db->fetchRow($sql);
-        return ($row) ? new Default_Model_Milestone($row) : false;
+        return $this->_rowToModel($row);
     }
 
     public function getAllMilestones()
@@ -21,18 +20,9 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
-
         $sql = $this->_addAclJoins($sql);
-
         $rows = $db->fetchAll($sql);
-
-        if (!$rows) return array();
-
-        $return = array();
-        foreach ($rows as $i => $row) {
-            $return[$i] = new Default_Model_Milestone($row);
-        }
-        return $return;
+        return $this->_rowsToModels($rows);
     }
 
     public function getMilestonesByIssue($issue)
@@ -49,15 +39,8 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         }
 
         $sql = $this->_addAclJoins($sql, 'm', 'milestone_id');
-
         $rows = $db->fetchAll($sql);
-        if (!$rows) return array();
-
-        $return = array();
-        foreach ($rows as $i => $row) {
-            $return[$i] = new Default_Model_Milestone($row);
-        }
-        return $return;
+        return $this->_rowsToModels($rows);
     }
 
     public function insert(Default_Model_Milestone $milestone)

@@ -15,13 +15,13 @@ class Default_Service_Label extends Issues_ServiceAbstract
 
     public function getAllLabels()
     {
-        return $this->_mapper->getAllLabels();
+        return $this->_mapper->getAllLabels(true);
     }
 
     public function getLabelsForSelect(array $labels = null)
     {
         if ($labels === null) {
-            $labels = $this->getAllLabels();
+            $labels = $this->getAllLabels(true);
         }
 
         $result = array();

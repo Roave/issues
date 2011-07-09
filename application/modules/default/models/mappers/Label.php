@@ -2,6 +2,7 @@
 class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'label';
+    protected $_modelClass = 'Default_Model_Label';
 
     public function getLabelById($id)
     {
@@ -13,25 +14,25 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $sql = $this->_addAclJoins($sql);
 
         $row = $db->fetchRow($sql);
-        return ($row) ? new Default_Model_Label($row) : false;
+        return $this->_rowToModel($row);
     }
 
-    public function getAllLabels()
+    public function getAllLabels($counts = false, $project = false)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from($this->getTableName());
+            ->from(array('l' => $this->getTableName()));
 
-        $sql = $this->_addAclJoins($sql);
+        if ($counts === true) {
+            $sql->joinLeft(array('ill'=>'issue_label_linker'), 'ill.label_id = l.label_id')
+                ->columns(array('count'=>'COUNT(ill.issue_id)'))
+                ->group('l.label_id');
+        }
+
+        $sql = $this->_addAclJoins($sql, 'l', 'label_id');
 
         $rows = $db->fetchAll($sql);
-        if (!$rows) return array();
-
-        $return = array();
-        foreach ($rows as $i => $row) {
-            $return[$i] = new Default_Model_Label($row);
-        }
-        return $return;
+        return $this->_rowsToModels($rows);
     }
 
     public function getLabelsByIssue($issue)
@@ -50,13 +51,7 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $sql = $this->_addAclJoins($sql, 'l', 'label_id');
 
         $rows = $db->fetchAll($sql);
-        if (!$rows) return array();
-
-        $return = array();
-        foreach ($rows as $i => $row) {
-            $return[$i] = new Default_Model_Label($row);
-        }
-        return $return;
+        return $this->_rowsToModels($rows);
     }
 
     public function insert(Default_Model_Label $label)
@@ -71,5 +66,4 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();
     }
-    
 }

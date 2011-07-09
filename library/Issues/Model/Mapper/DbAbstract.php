@@ -163,5 +163,35 @@ abstract class Issues_Model_Mapper_DbAbstract
         return self::$_defaultAdapter;
     }
 
+
+    /**
+     * Convert DB rows to model classes 
+     * 
+     * @param array $rows 
+     * @param string $class 
+     * @return array
+     */
+    protected function _rowsToModels($rows, $class = false)
+    {
+        if ($class == false) $class = $this->_modelClass;
+        if (!$rows) return array();
+        foreach ($rows as $i => $row) {
+            $rows[$i] = $this->_rowToModel($row, $class);
+        }
+        return $rows;
+    }
+
+    /**
+     * Convert DB row to model classes 
+     * 
+     * @param array $row 
+     * @param string $class 
+     * @return mixed
+     */
+    protected function _rowToModel($row, $class = false)
+    {
+        if ($class == false) $class = $this->_modelClass;
+        return ($row) ? new $class($row) : false;
+    }
 }
 

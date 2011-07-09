@@ -2,6 +2,7 @@
 class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'issue';
+    protected $_modelClass = 'Default_Model_Issue';
 
     public function getIssueById($issueId)
     {
@@ -194,17 +195,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $sql;
     }
 
-    protected function _rowsToModels($rows)
-    {
-        if (!$rows) return array();
-
-        foreach ($rows as $i => $row) {
-            $rows[$i] = $this->_rowToModel($row);
-        }
-        return $rows;
-    }
-
-    protected function _rowToModel($row)
+    protected function _rowToModel($row, $class = false)
     {
         if (array_key_exists('project.project_id', $row)) {
             $row['project'] = new Default_Model_Project(array(
@@ -259,7 +250,6 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             $row['assigned_to.register_time'],
             $row['assigned_to.register_ip']
         );
-
-        return new Default_Model_Issue($row);
+        return parent::_rowToModel($row);
     }
 }

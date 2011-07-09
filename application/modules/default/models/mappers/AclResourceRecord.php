@@ -2,6 +2,7 @@
 class Default_Model_Mapper_AclResourceRecord extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'acl_resource_record';
+    protected $_modelClass = 'Default_Model_AclResourceRecord';
 
     public function addResourceRecord(array $roles, $resourceType, $resourceId)
     {
@@ -15,7 +16,6 @@ class Default_Model_Mapper_AclResourceRecord extends Issues_Model_Mapper_DbAbstr
 
             $db->insert('acl_resource_record', $data);
         }
-
         return true;
     }
 
@@ -29,14 +29,5 @@ class Default_Model_Mapper_AclResourceRecord extends Issues_Model_Mapper_DbAbstr
             ->where('role_id IN (?)', $roles);
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
-    }
-
-    protected function _rowsToModels($rows)
-    {
-        if (!$rows) return array();
-        foreach ($rows as $i => $row) {
-            $rows[$i] = new Default_Model_AclResourceRecord($row);
-        }
-        return $rows;
     }
 }

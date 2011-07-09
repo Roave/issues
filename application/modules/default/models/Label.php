@@ -27,7 +27,7 @@ class Default_Model_Label extends Issues_Model_Abstract implements Zend_Acl_Reso
      *
      * @var int
      */
-    protected $_issueCount;
+    protected $_count;
 
     /**
      * _private 
@@ -112,12 +112,7 @@ class Default_Model_Label extends Issues_Model_Abstract implements Zend_Acl_Reso
      */
     public function getIssueCount()
     {
-        if (!isset($this->_issueCount)) {
-            $this->_issueCount = Zend_Registry::get('Default_DiContainer')
-                ->getIssueService()
-                ->countIssuesByLabel($this);
-        }
-        return $this->_issueCount;
+        return $this->_count;
     }
  
     /**
@@ -125,9 +120,9 @@ class Default_Model_Label extends Issues_Model_Abstract implements Zend_Acl_Reso
      *
      * @param int $count the value to be set
      */
-    public function setCount($issueCount)
+    public function setCount($count)
     {
-        $this->_issueCount = $issueCount;
+        $this->_count = $count;
         return $this;
     }
 

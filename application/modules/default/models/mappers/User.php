@@ -2,6 +2,7 @@
 class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'user';
+    protected $_modelClass = 'Default_Model_User';
 
     protected $_fields;
 
@@ -20,10 +21,7 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
             ->from($this->getTableName(), $this->_fields)
             ->where('username = ?', $username);
         $row = $db->fetchRow($sql);
-        if ($row && $addSettings) {
-            $row = $this->_addSettings($row);
-        }
-        return ($row) ? new Default_Model_User($row) : false;
+        return $this->_rowToModel($row);
     }
 
     public function getUserById($userId)
@@ -33,7 +31,7 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
             ->from($this->getTableName(), $this->_fields)
                   ->where('user_id = ?', $userId);
         $row = $db->fetchRow($sql);
-        return ($row) ? new Default_Model_User($row) : false;
+        return $this->_rowToModel($row);
     }
 
     public function insert(Default_Model_User $user)
@@ -81,13 +79,7 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName());
         $rows = $db->fetchAll($sql);
-        if (!$rows) return array();
-
-        $return = array();
-        foreach ($rows as $i => $row) {
-            $return[$i] = new Default_Model_User($row);
-        }
-        return $return;
+        return $this->_rowsToModels($rows);
     }
 
     public function getUserSettings($user)
