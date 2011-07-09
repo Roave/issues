@@ -197,18 +197,40 @@ abstract class Issues_Model_Mapper_DbAbstract
     {
         if ($class == false) $class = $this->_modelClass;
         $model = ($row) ? new $class($row) : false;
-        if ($model instanceof Zend_Acl_Resource_Interface) {
-            $this->_storage[$model->getResourceId()] = $model;
-        }
+        if ($model) $this->_addModelToCache($model);
         return $model;
     }
 
-    protected function _cachedModel($resourceId)
+    protected function _setCachedModel($model, $keys)
     {
-        if (!isset($this->_storage[$resourceId])) {
+        if (is_array($keys)) {
+            foreach ($keys as $key) {
+                $this->_storage[$key] = $model;
+            }
+        } else {
+            $this->_storage[$keys] = $model;
+        }
+    }
+
+    protected function _getCachedModel($key)
+    {
+        if (!isset($this->_storage[$key])) {
             return false;
         }  
-        return $this->_storage[$resourceId];
+        return $this->_storage[$key];
+    }
+
+    /**
+     * _addModelToCache 
+     *
+     * Override this method to enable model caching
+     * 
+     * @param mixed $model 
+     * @return void
+     */
+    protected function _addModelToCache($model)
+    {
+        return false;
     }
 }
 

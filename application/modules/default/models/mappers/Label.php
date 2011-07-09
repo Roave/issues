@@ -6,9 +6,7 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
 
     public function getLabelById($id)
     {
-        if ($model = $this->_cachedModel($this->getTableName().'-'.$id)){
-            return $model;
-        }
+        if ($model = $this->_getCachedModel($id)) return $model;
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName())
@@ -68,5 +66,11 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();
+    }
+
+    protected function _addModelToCache($model)
+    {
+        $keys = array($model->getLabelId(), $model->getText());
+        $this->_setCachedModel($model, $keys);
     }
 }

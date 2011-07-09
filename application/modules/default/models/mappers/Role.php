@@ -15,6 +15,7 @@ class Default_Model_Mapper_Role extends Issues_Model_Mapper_DbAbstract
 
     public function getRoleById($roleId)
     {
+        if ($model = $this->_getCachedModel($roleId)) return $model;
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName())
@@ -25,6 +26,7 @@ class Default_Model_Mapper_Role extends Issues_Model_Mapper_DbAbstract
 
     public function getRoleByName($name)
     {
+        if ($model = $this->_getCachedModel($name)) return $model;
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName())
@@ -64,5 +66,11 @@ class Default_Model_Mapper_Role extends Issues_Model_Mapper_DbAbstract
         );
 
         return $db->getWriteAdapter()->insert('user_role_linker', $data);
+    }
+
+    protected function _addModelToCache($model)
+    {
+        $keys = array($model->getRoleId(), $model->getName());
+        $this->_setCachedModel($model, $keys);
     }
 }
