@@ -55,6 +55,16 @@ class Default_Model_Project extends Issues_Model_Abstract implements Zend_Acl_Re
     }
  
     /**
+     * Get URL.
+     *
+     * @return URL
+     */
+    public function getUrl()
+    {
+        return '#';
+    }
+ 
+    /**
      * Set name.
      *
      * @param $name the value to be set
