@@ -1,0 +1,6 @@
+<h1>Issues</h1>
+<ul>
+<?php foreach ($this->issues as $i) : ?>
+    <li><a href="<?=$this->url(array('controller'=>'issues', 'action'=>'view', 'id'=>$i->getIssueId()))?>"><?=$i->getTitle()?></a></li>
+<?php endforeach; ?>
+</ul>

@@ -34,6 +34,29 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $this->_rowsToModels($rows);
     }
 
+    public function getIssuesByProject($project)
+    {
+        if ($project instanceof Issues_Model_Project) {
+            $project = $project->getProjectId();
+        } else {
+            if (!is_numeric($project)) {
+                return false;
+            }
+        }
+
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from($this->getTableName())
+            ->where('project = ?', $project);
+
+        $sql = $this->_addAclJoins($sql);
+        $sql = $this->_addLabelConcat($sql);
+        $sql = $this->_addRelationJoins($sql, 'issue');
+
+        $rows = $db->fetchAll($sql);
+        return $this->_rowsToModels($rows);
+    }
+
     public function getAllIssues()
     {
         $db = $this->getReadAdapter();
@@ -165,7 +188,10 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
     protected function _addLabelConcat(Zend_Db_Select $sql, $alias = null)
     {
         $alias = $alias ?: $this->getTableName();
-        $sql->joinLeft(array('ill'=>'issue_label_linker'), "{$alias}.issue_id = ill.issue_id"); 
+
+        // have to have array() as the last param or issue_id will get 
+        // overwritten with a 0 if there are no issues to join
+        $sql->joinLeft(array('ill'=>'issue_label_linker'), "{$alias}.issue_id = ill.issue_id", array()); 
         $sql->columns(array('labels'=>'GROUP_CONCAT(DISTINCT ill.label_id SEPARATOR \' \')'));
         $sql->group($alias.'.issue_id');
         return $sql;

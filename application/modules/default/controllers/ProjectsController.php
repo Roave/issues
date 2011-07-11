@@ -15,6 +15,9 @@ class Default_ProjectsController extends Zend_Controller_Action
 
     public function viewAction()
     {
+        $this->view->issues = Zend_Registry::get('Default_DiContainer')
+            ->getIssueService()
+            ->getIssuesByProject($this->_getParam('id'));
     }
 
     public function newAction()

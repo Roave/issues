@@ -34,6 +34,11 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $this->_mapper->getAllIssues();
     }
 
+    public function getIssuesByProject($project)
+    {
+        return $this->_mapper->getIssuesByProject($project);
+    }
+
     public function getIssuesByMilestone($milestone, $status = null)
     {
         return $this->_mapper->getIssuesByMilestone($milestone, $status);
