@@ -134,19 +134,13 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
     public function getIssueCounts()
     {
-        $return = array(
-            'all'           => 0,
-            'mine'          => 0, 
-            'unassigned'    => 0
-        );
-        return $return;
         $db = $this->getReadAdapter();
 
         $all = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'all'"), 'COUNT(*)'));
 
         $userId = Zend_Registry::get('Default_DiContainer')
-            ->getUserService()->getIdentity()->getUserId();
+            ->getUserService()->getIdentity()->getUserId() ?: 0;
 
         $mine = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'mine'"), 'COUNT(*)'))
