@@ -2,7 +2,7 @@
 class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
 {
     protected $_name = 'comment';
-    protected $_modelClass = 'Default_Model_Class';
+    protected $_modelClass = 'Default_Model_Comment';
 
     public function getCommentById($id)
     {
