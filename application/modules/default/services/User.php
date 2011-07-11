@@ -118,18 +118,13 @@ class Default_Service_User extends Issues_ServiceAbstract
         $user = new Default_Model_User();
         $user->setUsername($form->getValue('username'))
             ->setPassword($form->getValue('password'))
-            ->addRole(2);
+            ->addRole(3);
+
+        $user->setSettings($this->getDefaultUserSettings());
+
         $userId = $this->_mapper->insert($user);
-        $this->insertDefaultUserSettings($userId);
 
         return $userId;
-    }
-
-    public function insertDefaultUserSettings($userId)
-    {
-        foreach ($this->getDefaultUserSettings() as $k => $v) {
-            $this->insertUserSetting($userId, $k, $v);
-        }
     }
 
     public function getAllUsers()
