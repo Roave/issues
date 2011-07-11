@@ -18,6 +18,8 @@ class Default_Service_User extends Issues_ServiceAbstract
         $this->_userModel = $this->_mapper->getUserByUsername($username, true);
         $roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRolesByUser($this->_userModel);
         $this->_userModel->setRoles($roles);
+        $settings = $this->getUserSettings($this->_userModel);
+        $this->_userModel->setSettings($settings);
         $auth->getStorage()->write($this->_userModel);
         $this->_mapper->updateLastLogin($this->_userModel);
         return true;
