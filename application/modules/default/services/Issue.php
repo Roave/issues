@@ -29,6 +29,11 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         }
     }
 
+    public function getIssueCounts()
+    {
+        return $this->_mapper->getIssueCounts();
+    }
+
     public function getAllIssues()
     {
         return $this->_mapper->getAllIssues();

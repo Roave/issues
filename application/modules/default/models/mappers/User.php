@@ -49,6 +49,11 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
         $userId = $db->lastInsertId();
         $user->setUserId($userId);
         $this->updateUserRoles($user);
+
+        foreach ($user->getSettings() as $k => $v) {
+            $this->insertUserSetting($user, $k, $v);
+        }
+
         return $userId;
     }
 
@@ -113,7 +118,7 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
 
         $data = array(
             'user_id'   => $user,
-            'key'       => $key,
+            'name'      => $key,
             'value'     => $value
         );
 

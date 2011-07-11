@@ -132,6 +132,37 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $db->fetchOne($sql);
     }
 
+    public function getIssueCounts()
+    {
+        $db = $this->getReadAdapter();
+
+        $all = $db->select()
+            ->from('issue', array(new Zend_Db_Expr("'all'"), 'COUNT(*)'));
+
+        $userId = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()->getIdentity()->getUserId();
+
+        $mine = $db->select()
+            ->from('issue', array(new Zend_Db_Expr("'mine'"), 'COUNT(*)'))
+            ->where('assigned_to = ?', $userId);
+
+        $unassigned = $db->select()
+            ->from('issue', array(new Zend_Db_Expr("'unassigned'"), 'COUNT(*)'))
+            ->where('isnull(assigned_to)');
+
+        $result = $db->fetchAll($db->select()->union(array(
+            $all, $mine, $unassigned
+        )));
+
+        $return = array(
+            'all'           => $result[0]['COUNT(*)'],
+            'mine'          => $result[1]['COUNT(*)'],
+            'unassigned'    => $result[2]['COUNT(*)']
+        );
+
+        return $return;
+    }
+
     public function getIssuesByMilestone($milestone, $status = null)
     {
         if ($milestone instanceof Default_Model_Milestone) {

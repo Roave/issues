@@ -65,20 +65,20 @@
                     <button type="submit" id="siteSearchButton"><?=$this->translate('go');?></button>
                 </form>
             </div>
-            
+            <?php $counts = Zend_Registry::get('Default_DiContainer')->getIssueService()->getIssueCounts(); ?>
             <div class="tabListBottom">
                 <ul class="tabListSubNav clearfix">
                     <li class="active">
-                        <a href="#"><?=$this->translate('all_issues');?> (17)</a>
+                        <a href="#"><?=$this->translate('all_issues');?> (<?=$counts['all']?>)</a>
                     </li>
                     <li>
-                        <a href="#"><?=$this->translate('my_issues');?> (3)</a>
+                        <a href="#"><?=$this->translate('my_issues');?> (<?=$counts['mine']?>)</a>
                     </li>
                     <li>
                         <a href="#"><?=$this->translate('mentioning_you');?> (0)</a>
                     </li>
                     <li>
-                        <a href="#"><?=$this->translate('unassigned_issues');?> (3)</a>
+                        <a href="#"><?=$this->translate('unassigned_issues');?> (<?=$counts['unassigned']?>)</a>
                     </li>
                 </ul>
             </div>

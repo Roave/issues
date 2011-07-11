@@ -18,6 +18,8 @@ class Default_Service_User extends Issues_ServiceAbstract
         }
         $roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRolesByUser($userModel);
         $userModel->setRoles($roles);
+        $settings = $this->getUserSettings($userModel);
+        $userModel->setSettings($settings);
         $auth->getStorage()->write($userModel);
         $this->_mapper->updateLastLogin($userModel);
         return true;
@@ -116,18 +118,13 @@ class Default_Service_User extends Issues_ServiceAbstract
         $user->setUsername($form->getValue('username'))
              ->setSalt(hash('sha512', $this->randomBytes(128)))
              ->setPassword($this->hashPassword($form->getValue('password'), $user->getSalt()))
-             ->addRole(2);
+             ->addRole(3);
+
+        $user->setSettings($this->getDefaultUserSettings());
+
         $userId = $this->_mapper->insert($user);
-        $this->insertDefaultUserSettings($userId);
 
         return $userId;
-    }
-
-    public function insertDefaultUserSettings($userId)
-    {
-        foreach ($this->getDefaultUserSettings() as $k => $v) {
-            $this->insertUserSetting($userId, $k, $v);
-        }
     }
 
     public function getAllUsers()

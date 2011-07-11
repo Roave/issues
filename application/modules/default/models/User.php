@@ -156,16 +156,6 @@ class Default_Model_User extends Issues_Model_Abstract implements Zend_Acl_Resou
     }
 
     /**
-     * Get the salted password 
-     * 
-     * @return string
-     */
-    public function getSaltedPassword()
-    {
-        return hash('sha512', $this->getPassword().$this->getSalt());
-    }
-
-    /**
      * Add a role to this user
      *
      * @param int|Default_Model_Role $role
