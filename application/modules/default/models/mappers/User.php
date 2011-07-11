@@ -36,15 +36,11 @@ class Default_Model_Mapper_User extends Issues_Model_Mapper_DbAbstract
 
     public function insert(Default_Model_User $user)
     {
-        $userService = Zend_Registry::get('Default_DiContainer')->getUserService(); 
-        $salt = hash('sha512', $userService->randomBytes(128));
-        $step1 = hash('sha512', $user->getUsername().$user->getPassword().Zend_Registry::get('hash_salt'));
-        $step2 = hash('sha512', $step1.$salt);
         $data = array(
             'user_id'       => $user->getUserId(),
             'username'      => $user->getUsername(),
-            'password'      => $step2,
-            'salt'          => $salt,
+            'password'      => $user->getPassword(),
+            'salt'          => $user->getSalt(),
             'register_time' => new Zend_Db_Expr('NOW()'),
             'register_ip'   => new Zend_Db_Expr("INET_ATON('{$_SERVER['REMOTE_ADDR']}')"),
         );

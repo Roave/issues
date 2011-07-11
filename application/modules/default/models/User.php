@@ -23,6 +23,13 @@ class Default_Model_User extends Issues_Model_Abstract implements Zend_Acl_Resou
     protected $_password;
 
     /**
+     * Salt 
+     * 
+     * @var string
+     */
+    protected $_salt;
+
+    /**
      * Role
      *
      * @var Default_Model_Role
@@ -125,6 +132,37 @@ class Default_Model_User extends Issues_Model_Abstract implements Zend_Acl_Resou
     {
         $this->_password = $password;
         return $this;
+    }
+ 
+    /**
+     * Get salt.
+     *
+     * @return salt
+     */
+    public function getSalt()
+    {
+        return $this->_salt;
+    }
+ 
+    /**
+     * Set salt.
+     *
+     * @param $salt the value to be set
+     */
+    public function setSalt($salt)
+    {
+        $this->_salt = $salt;
+        return $this;
+    }
+
+    /**
+     * Get the salted password 
+     * 
+     * @return string
+     */
+    public function getSaltedPassword()
+    {
+        return hash('sha512', $this->getPassword().$this->getSalt());
     }
 
     /**
