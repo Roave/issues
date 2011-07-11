@@ -1,6 +1,13 @@
-<ul>
-    <?php foreach($this->issues as $issue): ?>
-        <li><?= $issue->getTitle(); ?></li>
-    <?php endforeach; ?>
-</ul>
+<?php if ($this->issues): ?>
+    <ul>
+        <?php foreach($this->issues as $issue): ?>
+            <li><?= $issue->getTitle(); ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <div id="noIssues">
+        <p>There are no issues to be displayed at this time.</p>
+    </div>
+<?php endif; ?>
+
 <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>"><?= $this->translate('new_issue'); ?></a>
