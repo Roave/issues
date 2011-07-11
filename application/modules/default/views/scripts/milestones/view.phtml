@@ -1,0 +1,9 @@
+<?php $dateFormat = $this->user->getSetting('date-format'); ?>
+<h1><?= $this->milestone->getName() ?></h1>
+Due: <?= $this->milestone->getDueDate()->format($dateFormat) ?>
+<h2>Issues</h2>
+<ul>
+<?php foreach ($this->issues as $i): ?>
+    <li><a href="<?=$this->url(array('controller'=>'issues', 'action'=>'view', 'id'=>$i->getIssueId()))?>"><?=$i->getTitle()?></a></li>
+<?php endforeach; ?>
+</ul>

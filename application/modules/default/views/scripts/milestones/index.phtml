@@ -1,6 +1,6 @@
 <ul>
     <?php foreach($this->milestones as $milestone): ?>
-        <li><?= $milestone->getName(); ?></li>
+        <li><a href="<?= $this->url(array('action' => 'view', 'id' => $milestone->getMilestoneId())) ?>"><?= $milestone->getName(); ?></a></li>
     <?php endforeach; ?>
 </ul>
 <a href="<?= $this->url(array('controller' => 'milestones', 'action' => 'new')); ?>"><?= $this->translate('new_milestone'); ?></a>

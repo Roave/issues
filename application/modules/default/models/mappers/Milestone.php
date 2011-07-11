@@ -22,7 +22,7 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
             ->from(array('m'=>$this->getTableName()), 'm.*');
 
         if ($counts === true) {
-            $sql->joinLeft(array('iml'=>'issue_milestone_linker'), 'iml.milestone_id = m.milestone_id')
+            $sql->joinLeft(array('iml'=>'issue_milestone_linker'), 'iml.milestone_id = m.milestone_id', array())
                 ->joinLeft(array('i'=>'issue'), 'iml.issue_id = i.issue_id', 'status')
                 ->columns(array('open_count'=>'SUM(CASE WHEN i.status = \'open\' THEN 1 ELSE 0 END)'))
                 ->columns(array('closed_count'=>'SUM(CASE WHEN i.status = \'closed\' THEN 1 ELSE 0 END)'))
@@ -39,7 +39,7 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from(array('iml'=>'issue_milestone_linker'))
+            ->from(array('iml'=>'issue_milestone_linker'), array())
             ->join(array('m'=>'milestone'), 'iml.milestone_id = m.milestone_id');
 
         if ($issue instanceof Default_Model_Issue) {
