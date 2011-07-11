@@ -4,22 +4,24 @@ class Default_Service_User extends Issues_ServiceAbstract
     protected $_loginForm;
     protected $_registerForm;
     protected $_authAdapter;
-    protected $_userModel;
     protected $_auth;
 
     public function authenticate($username, $password)
     {
-        $adapter = $this->getAuthAdapter($username, $password);
-        $auth    = $this->getAuth();
-        $result  = $auth->authenticate($adapter);
+        $userModel = $this->_mapper->getUserByUsername($username, true);
+        $password  = $this->hashPassword($password, $userModel->getSalt());
+        $adapter   = $this->getAuthAdapter($username, $password);
+        $auth      = $this->getAuth();
+        $result    = $auth->authenticate($adapter);
         if (!$result->isValid()) {
             return false;
         }
-        $this->_userModel = $this->_mapper->getUserByUsername($username, true);
-        $roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRolesByUser($this->_userModel);
-        $this->_userModel->setRoles($roles);
-        $auth->getStorage()->write($this->_userModel);
-        $this->_mapper->updateLastLogin($this->_userModel);
+        $roles = Zend_Registry::get('Default_DiContainer')->getRoleService()->getRolesByUser($userModel);
+        $userModel->setRoles($roles);
+        $settings = $this->getUserSettings($userModel);
+        $userModel->setSettings($settings);
+        $auth->getStorage()->write($userModel);
+        $this->_mapper->updateLastLogin($userModel);
         return true;
     }
 
@@ -71,14 +73,11 @@ class Default_Service_User extends Issues_ServiceAbstract
                        ->getReadAdapter(),
                 $this->_mapper->getTableName(),
                 'username',
-                'password',
-                'SHA2(CONCAT(?, `'.$this->_mapper->getTableName().'`.`salt`), 512)'
+                'password'
             );
             $this->setAuthAdapter($authAdapter);
-            $this->_authAdapter->setIdentity($username);
-            $password = hash('sha512', $username.$password.Zend_Registry::get('hash_salt'));
-            $this->_authAdapter->setCredential($password);
         }
+        $this->_authAdapter->setIdentity($username)->setCredential($password);
         return $this->_authAdapter;
     }
     
@@ -117,19 +116,15 @@ class Default_Service_User extends Issues_ServiceAbstract
 
         $user = new Default_Model_User();
         $user->setUsername($form->getValue('username'))
-            ->setPassword($form->getValue('password'))
-            ->addRole(2);
+             ->setSalt(hash('sha512', $this->randomBytes(128)))
+             ->setPassword($this->hashPassword($form->getValue('password'), $user->getSalt()))
+             ->addRole(3);
+
+        $user->setSettings($this->getDefaultUserSettings());
+
         $userId = $this->_mapper->insert($user);
-        $this->insertDefaultUserSettings($userId);
 
         return $userId;
-    }
-
-    public function insertDefaultUserSettings($userId)
-    {
-        foreach ($this->getDefaultUserSettings() as $k => $v) {
-            $this->insertUserSetting($userId, $k, $v);
-        }
     }
 
     public function getAllUsers()
@@ -200,6 +195,11 @@ class Default_Service_User extends Issues_ServiceAbstract
         }
 
         return false;
+    }
+
+    public function hashPassword($password, $salt)
+    {
+        return hash('sha512', $password.$salt);
     }
 
     /**

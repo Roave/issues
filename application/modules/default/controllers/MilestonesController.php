@@ -4,8 +4,6 @@ class Default_MilestonesController extends Zend_Controller_Action
     public function init()
     {
         $this->_milestoneService = Zend_Registry::get('Default_DiContainer')->getMilestoneService();
-        $fm = $this->getHelper('FlashMessenger')->setNamespace('createForm')->getMessages(); 
-        $this->view->createForm = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
     }
 
     public function indexAction()
@@ -13,13 +11,29 @@ class Default_MilestonesController extends Zend_Controller_Action
         $this->view->milestones = $this->_milestoneService->getAllMilestones();
     }
 
+    public function viewAction()
+    {
+        $this->view->milestone = $this->_milestoneService->getMilestoneById($this->_getParam('id'));
+        $this->view->issues = Zend_Registry::get('Default_DiContainer')
+            ->getIssueService()
+            ->getIssuesByMilestone($this->view->milestone);
+
+        $this->view->user = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity();
+    }
+
     public function newAction()
     {
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('createForm')->getMessages(); 
+        $this->view->createForm = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
     }
 
     public function postAction()
     {
-        $form = $this->view->createForm;
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('createForm')->getMessages(); 
+        $form = (count($fm) > 0) ? $fm[0] : $this->getCreateForm();
+
         $request = $this->getRequest();
         if (!$request->isPost()) return $this->_helper->redirector('new');
         if (false === $form->isValid($request->getPost())) {

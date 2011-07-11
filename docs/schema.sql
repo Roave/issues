@@ -5,7 +5,7 @@ CREATE TABLE `issue` (
   `issue_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `description` TEXT NOT NULL,
-  `status` ENUM('open' , 'closed') NOT NULL DEFAULT 'open',
+  `status` ENUM('open','closed') NOT NULL DEFAULT 'open',
   `project` INT(11) UNSIGNED NOT NULL,
   `created_by` INT(11) UNSIGNED NOT NULL,
   `assigned_to` INT(11) UNSIGNED DEFAULT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `user_role_linker` (
 
 CREATE TABLE `label` (
   `label_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `text` VARCHAR(50) NOT NULL ,
+  `text` VARCHAR(50) NOT NULL,
   `color` VARCHAR(50) NOT NULL,
   `private` BOOLEAN NOT NULL DEFAULT '0'
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;

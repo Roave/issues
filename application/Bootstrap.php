@@ -30,8 +30,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->bootstrap('db');
         $this->bootstrap('modules');
-        $options = $this->getOptions();
-        Zend_Registry::set('hash_salt', $options['hash_salt']);
         $userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $userService->getIdentity();
     }
