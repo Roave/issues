@@ -439,15 +439,15 @@ a:hover {
 
 
 /* -------------------------------------------------------------------------- */
-/* -----| LOG IN FORM |------------------------------------------------------ */
+/* -----| FORMS |------------------------------------------------------------ */
 /* -------------------------------------------------------------------------- */
 
-#loginFormWrapper {
+.formWrapper {
     margin: 0 auto;
     width: 400px;
 }
 
-#loginFormTitle {
+.formTitle {
     background: url("/images/sprites/gradients.png") repeat-x scroll left top #DEDEDE;
     background: -moz-linear-gradient(center top , #E9E9E9, #B3B3B3) repeat scroll 0 0 transparent;
     border: 1px solid #CCCCCC;
@@ -459,13 +459,16 @@ a:hover {
     padding: 6px;
 }
 
-.form {
-    margin: 0;
+.formWrapper form {
     padding: 20px;
     border-left: 1px solid #CCC;
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     background-color: #F6F6F6;
+}
+
+.form {
+    margin: 0;
 }
 
 .form dd {
@@ -489,6 +492,22 @@ a:hover {
     width: 100%;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+}
+
+form .error {
+    color: #900;
+    font-size: .8em;
+    margin-bottom: 1em;
+}
+
+form .errors {
+    color: #900;
+    font-size: .75em;
+    margin: 0;
+}
+
+form .errors li {
+    list-style: none;
 }
 
 /* -------------------------------------------------------------------------- */
