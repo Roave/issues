@@ -38,6 +38,12 @@
             </div>
             
             <div class="clearfix">
+                <select id="projectSelect" class="floatLeft">
+                    <?php foreach ($this->projects as $project): ?>
+                        <option><?php echo $project['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                
                 <?
                  /**
                   * TODO: Clean this up and/or switch to Zend_Navigation
