@@ -106,7 +106,7 @@ a:hover {
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     border: 1px solid transparent;
-    border-bottom: 1px solid #CCC;
+    /* border-bottom: 1px solid #CCC; */
     color: #999;
     display: block;
     font-size: .9em;
@@ -437,6 +437,59 @@ a:hover {
     padding: 2px 7px;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* -----| LOG IN FORM |------------------------------------------------------ */
+/* -------------------------------------------------------------------------- */
+
+#loginFormWrapper {
+    margin: 0 auto;
+    width: 400px;
+}
+
+#loginFormTitle {
+    background: url("/images/sprites/gradients.png") repeat-x scroll left top #DEDEDE;
+    background: -moz-linear-gradient(center top , #E9E9E9, #B3B3B3) repeat scroll 0 0 transparent;
+    border: 1px solid #CCCCCC;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: #707070;
+    font-size: 1em;
+    margin: 0;
+    padding: 6px;
+}
+
+.form {
+    margin: 0;
+    padding: 20px;
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    background-color: #F6F6F6;
+}
+
+.form dd {
+    margin: 0 0 1em;
+}
+
+.form label {
+    color: #999;
+    display: inline-block;
+    font-size: .85em;
+    padding: 2px 0;
+    text-transform: uppercase;
+}
+
+.form input {
+    border: 1px solid #CCC;
+    border-top-color: #ACACAC;
+    box-sizing: border-box;
+    display: block;
+    padding: 5px;
+    width: 100%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 
 /* -------------------------------------------------------------------------- */
 /* -----| MISCELLANEOUS |---------------------------------------------------- */
