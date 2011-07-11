@@ -134,6 +134,12 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
     public function getIssueCounts()
     {
+        $return = array(
+            'all'           => 0,
+            'mine'          => 0, 
+            'unassigned'    => 0
+        );
+        return $return;
         $db = $this->getReadAdapter();
 
         $all = $db->select()
