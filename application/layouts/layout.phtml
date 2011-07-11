@@ -46,7 +46,7 @@
                 <?php if (count($this->projects) > 1): ?>
                     <select id="projectSelect" class="floatLeft">
                         <?php foreach ($this->projects as $project): ?>
-                            <option value="<?php echo $project->getUrl(); ?>"><?php echo $project->getName(); ?></option>
+                            <option value="<?php echo $project->getUrlSafeName(); ?>"><?php echo $project->getName(); ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>

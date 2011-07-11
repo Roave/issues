@@ -59,9 +59,13 @@ class Default_Model_Project extends Issues_Model_Abstract implements Zend_Acl_Re
      *
      * @return URL
      */
-    public function getUrl()
+    public function getUrlSafeName()
     {
-        return '#';
+        $url = strtolower(trim($this->getName()));
+        $url = preg_replace('/[^a-z0-9]+/', '-', $url);  // replace non-alphanum with hyphen
+        $url = preg_replace('/[-]{2,}/', '-', $url);    // replace multiple hyphens with 1
+        $url = trim($url, '-');                         // trim extra hyphens
+        return $url;
     }
  
     /**
