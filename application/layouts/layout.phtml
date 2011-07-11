@@ -39,6 +39,19 @@
             
             <div class="clearfix">
                 <?
+                  /**
+                   * TODO: Make this selection box out of HTML/CSS with anchor tags
+                   */
+                ?>
+                <?php if (count($this->projects) > 1): ?>
+                    <select id="projectSelect" class="floatLeft">
+                        <?php foreach ($this->projects as $project): ?>
+                            <option value="<?php echo $project->getUrl(); ?>"><?php echo $project->getName(); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+                
+                <?
                  /**
                   * TODO: Clean this up and/or switch to Zend_Navigation
                   */

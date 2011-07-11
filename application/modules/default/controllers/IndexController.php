@@ -3,6 +3,10 @@ class Default_IndexController extends Zend_Controller_Action
 {
     public function init()
     {
+        // Get a list of projects from the DB
+        $this->_projectService = Zend_Registry::get('Default_DiContainer')->getProjectService();
+        $this->view->projects = $this->_projectService->getAllProjects();
+        
         $this->_issueService = Zend_Registry::get('Default_DiContainer')->getIssueService();
         $this->_labelService = Zend_Registry::get('Default_DiContainer')->getLabelService();
         $this->_userService = Zend_Registry::get('Default_DiContainer')->getUserService();
@@ -14,6 +18,8 @@ class Default_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        // print_r($this->view->projects); die(); // Debugging
+        
         $this->view->labels = $this->_labelService->getAllLabels();
         $this->view->openIssues = $this->_issueService->filterIssues('open');
         $this->view->closedIssues = $this->_issueService->filterIssues('closed');
