@@ -193,6 +193,10 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
     protected function _addAclJoins(Zend_Db_Select $sql, $alias = null, $primaryKey = null)
     {
+        if (Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('issue', 'view-all')) {
+            return $sql;
+        }
+
         $sql = parent::_addAclJoins($sql, $alias, $primaryKey);
 
         if ($alias === null) {

@@ -10,7 +10,9 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->where('milestone_id = ?', $id);
-        $sql = $this->_addAclJoins($sql);
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('milestone', 'view-all')) {
+            $sql = $this->_addAclJoins($sql);
+        }
         $row = $db->fetchRow($sql);
         return $this->_rowToModel($row);
     }
@@ -29,7 +31,9 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
                 ->group('m.milestone_id');
         }
 
-        $sql = $this->_addAclJoins($sql, 'm', 'milestone_id');
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('milestone', 'view-all')) {
+            $sql = $this->_addAclJoins($sql, 'm', 'milestone_id');
+        }
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
@@ -48,7 +52,9 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
             $sql->where('iml.issue_id = ?', (int) $issue);
         }
 
-        $sql = $this->_addAclJoins($sql, 'm', 'milestone_id');
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('milestone', 'view-all')) {
+            $sql = $this->_addAclJoins($sql, 'm', 'milestone_id');
+        }
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }

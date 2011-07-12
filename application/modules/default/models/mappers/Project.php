@@ -10,7 +10,9 @@ class Default_Model_Mapper_Project extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
                   ->where('project_id = ?', $projectId);
-        $sql = $this->_addAclJoins($sql);
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('project', 'view-all')) {
+            $sql = $this->_addAclJoins($sql);
+        }
         $row = $db->fetchRow($sql);
         return $this->_rowToModel($row);
     }
@@ -20,7 +22,9 @@ class Default_Model_Mapper_Project extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
-        $sql = $this->_addAclJoins($sql);
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('project', 'view-all')) {
+            $sql = $this->_addAclJoins($sql);
+        }
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
