@@ -22,7 +22,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
     {
         $issue = $this->_mapper->getIssueById($id);
 
-        if ($this->_aclService->isAllowed($issue, 'view')) {
+        if ($this->_aclService->isAllowed($issue, 'view') || $this->_aclService->isAllowed('issue', 'view-all')) {
             return $issue;
         } else {
             return false;
