@@ -78,7 +78,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setCreatedBy(Zend_Auth::getInstance()->getIdentity())
             ->setAssignedTo($form->getValue('assigned_to'))
             ->setPrivate($permissions['private'] ? true : false);
-        $return = $this->_mapper->insert($issue);
+        $return = $this->_mapper->save($issue);
 
         $milestones = $form->getValue('milestones');
         if ($milestones) {

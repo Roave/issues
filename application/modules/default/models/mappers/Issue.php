@@ -68,7 +68,16 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $this->_rowsToModels($rows);
     }
 
-    public function insert(Default_Model_Issue $issue)
+    public function save(Default_Model_Issue $issue)
+    {
+        if ($issue->getIssueId() == null) {
+            return $this->_insert($issue);
+        } else {
+            return $this->_update($issue);
+        }
+    }
+
+    protected function _insert(Default_Model_Issue $issue)
     {
         $data = array(
             'title'             => $issue->getTitle(),
@@ -84,6 +93,24 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();
+    }
+
+    protected function _update(Default_Model_Issue $issue)
+    {
+        $data = array(
+            'title'             => $issue->getTitle(),
+            'description'       => $issue->getDescription(),
+            'status'            => $issue->getStatus(),
+            'project'           => $issue->getProject()->getProjectId(),
+            'assigned_to'       => $issue->getAssignedTo()->getUserId(),
+            'private'           => $issue->isPrivate() ? 1 : 0,
+            'last_update_time'  => new Zend_Db_Expr('NOW()')
+        );
+
+        return $this->getWriteAdapter()
+            ->update('issue', $data, array(
+                'issue_id = ?'  => $issue->getIssueId()
+            ));
     }
 
     public function updateLastUpdate($issue)
