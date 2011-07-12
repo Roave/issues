@@ -11,9 +11,9 @@ class Default_Form_Permission_Base extends Issues_Form_SubForm
 
         $this->addElement(new Issues_Form_Element_RoleSelect('roles', array(
             'label'         => 'Roles',
-            'allowEmpty'    => false,
+            'allowEmpty'    => true,
             'validators'    => array(
-                new Issues_Validate_FieldDepends('private', 'checked')
+                new Issues_Validate_FieldDepends('permissions[private]', 'checked')
             )
         )));
     }
