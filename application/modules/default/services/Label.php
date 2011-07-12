@@ -62,14 +62,23 @@ class Default_Service_Label extends Issues_ServiceAbstract
     {
         if (!($label instanceof Default_Model_Label)) {
             if (is_numeric($label)) {
-                $label = array(Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelById($label));
+                $thisLabel = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelById($label);
+                $label = ($thisLabel) ? $thisLabel : NULL;
             } elseif (is_array($label)) {
                 foreach ($label as $i => $thisLabel) {
-                    $label[$i] = $this->getLabelDetect($thisLabel);
+                    $thisLabel = $this->getLabelDetect($thisLabel);
+                    if (!$thisLabel) {
+                        unset($label[$i]);
+                        continue;
+                    }
+                    $label[$i] = $thisLabel;
                 }
             } elseif(is_string($label) && trim($label) && (strstr($label,' ') !== false || is_numeric($label))) {
                 $label = $this->getLabelDetect(explode(' ',$label));
             }
+        }
+        if (is_array($label)) {
+            return array_values($label);
         }
         return $label;
     }
