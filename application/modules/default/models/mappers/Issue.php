@@ -138,6 +138,8 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $all = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'all'"), 'COUNT(*)'));
+        $all = $this->_addAclJoins($all);
+        $all = $this->_addRelationJoins($all, 'issue');
 
         $userId = Zend_Registry::get('Default_DiContainer')
             ->getUserService()->getIdentity()->getUserId() ?: 0;
@@ -145,10 +147,14 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $mine = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'mine'"), 'COUNT(*)'))
             ->where('assigned_to = ?', $userId);
+        $mine = $this->_addAclJoins($mine);
+        $mine = $this->_addRelationJoins($mine, 'issue');
 
         $unassigned = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'unassigned'"), 'COUNT(*)'))
             ->where('isnull(assigned_to)');
+        $unassigned = $this->_addAclJoins($unassigned);
+        $unassigned = $this->_addRelationJoins($unassigned, 'issue');
 
         $result = $db->fetchAll($db->select()->union(array(
             $all, $mine, $unassigned
