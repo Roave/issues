@@ -27,7 +27,7 @@ CREATE TABLE `user` (
   `user_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL,
   `password` CHAR(128) NOT NULL,
-  `salt` CHAR(128) NOT NULL,
+  `salt` BINARY(16) NOT NULL,
   `last_login` DATETIME DEFAULT NULL,
   `last_ip` INT(11) DEFAULT NULL,
   `register_time` DATETIME NOT NULL,
