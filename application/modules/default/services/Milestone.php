@@ -34,6 +34,11 @@ class Default_Service_Milestone extends Issues_ServiceAbstract
         return $return;
     }
 
+    public function addIssueToMilestone($milestone, $issue)
+    {
+        $this->_mapper->addIssueToMilestone($milestone, $issue);
+    }
+
     public function getMilestoneById($id)
     {
         return $this->_mapper->getMilestoneById($id);

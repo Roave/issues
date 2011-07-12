@@ -71,4 +71,34 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         $db->insert($this->getTableName(), $data);
         return $db->lastInsertId();
     }
+
+    public function addIssueToMilestone($milestone, $issue)
+    {
+        if ($milestone instanceof Default_Model_Milestone) {
+            $milestone = $milestone->getMilestoneId();
+        } else if (!is_numeric($milestone)) {
+            return false;
+        }
+
+        if ($issue instanceof Default_Model_Issue) {
+            $issue = $issue->getIssue();
+        } else if (!is_numeric($issue)) {
+            return false;
+        }
+
+        $db = $this->getWriteAdapter();
+        $data = array(
+            'milestone_id'  => $milestone,
+            'issue_id'      => $issue
+        );
+
+        try {
+            $db->insert('issue_milestone_linker', $data);
+        } catch (Exception $e) {
+            // probably a duplicate key
+            return false;
+        }
+
+        return true;
+    }
 }

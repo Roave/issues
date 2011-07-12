@@ -28,6 +28,10 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
             'required'   => true,
         ));
 
+        $milestones = new Issues_Form_Element_MilestoneSelect('milestones');
+        $milestones->setLabel('Milestones');
+        $this->addElement($milestones);
+
         $this->addSubForm(new Default_Form_Permission_Base(), 'permissions');
 
         $this->addElement('submit', 'submit', array(

@@ -72,6 +72,15 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setPrivate($permissions['private'] ? true : false);
         $return = $this->_mapper->insert($issue);
 
+        $milestones = $form->getValue('milestones');
+        if ($milestones) {
+            foreach ($milestones as $i) {
+                Zend_Registry::get('Default_DiContainer')
+                    ->getMilestoneService()
+                    ->addIssueToMilestone($i, $return);
+            }
+        }
+
         if ($permissions['private']) {
             Zend_Registry::get('Default_DiContainer')->getAclService()
                 ->addResourceRecord($permissions['roles'], 'issue', $return);
