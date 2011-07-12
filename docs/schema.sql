@@ -27,14 +27,13 @@ CREATE TABLE `user` (
   `user_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL,
   `password` CHAR(128) NOT NULL,
-  `salt` CHAR(128) NOT NULL,
+  `salt` BINARY(16) NOT NULL,
   `last_login` DATETIME DEFAULT NULL,
   `last_ip` INT(11) DEFAULT NULL,
   `register_time` DATETIME NOT NULL,
   `register_ip` INT(11) NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`),
-  KEY `username_password` (`username`,`password`)
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_settings` (
@@ -42,19 +41,21 @@ CREATE TABLE `user_settings` (
   `name` VARCHAR(50) NOT NULL,
   `value` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`,`name`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_role` (
   `role_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
+  `weight` INT(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`role_id`),
+  KEY `weight` (`weight`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4;
 
 CREATE TABLE `user_role_linker` (
   `user_id` INT(11) UNSIGNED NOT NULL,
   `role_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`)
-) ENGINE = InnoDB;
+) ENGINE=InnoDB;
 
 CREATE TABLE `label` (
   `label_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -67,7 +68,7 @@ CREATE TABLE `issue_label_linker` (
   `issue_id` INT(11) UNSIGNED NOT NULL,
   `label_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`issue_id`,`label_id`)
-) ENGINE = InnoDB;
+) ENGINE=InnoDB;
 
 CREATE TABLE `issue_milestone_linker` (
   `issue_id` INT(11) UNSIGNED NOT NULL,
@@ -95,19 +96,19 @@ CREATE TABLE `comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `acl_record` (
- `role_id` INT(11) UNSIGNED NOT NULL,
- `resource` VARCHAR(255) DEFAULT NULL,
- `action` VARCHAR(255) DEFAULT NULL,
- `type` ENUM('allow','deny') NOT NULL DEFAULT 'allow',
- PRIMARY KEY (`role_id`,`resource`,`action`)
-) ENGINE=InnoDB;
+  `role_id` INT(11) UNSIGNED NOT NULL,
+  `resource` VARCHAR(255) DEFAULT NULL,
+  `action` VARCHAR(255) DEFAULT NULL,
+  `type` ENUM('allow','deny') NOT NULL DEFAULT 'allow',
+  UNIQUE KEY `role_resource_action` (`role_id`,`resource`,`action`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `acl_resource_record` (
   `role_id` INT(11) UNSIGNED NOT NULL,
   `resource_type` VARCHAR(255) NOT NULL,
   `resource_id` INT(11) unsigned NOT NULL,
   PRIMARY KEY (`role_id`,`resource_type`,`resource_id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `user_role_linker`
 ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
@@ -149,41 +150,31 @@ ALTER TABLE `acl_resource_record`
 ADD FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO `user_role` (`role_id`,`name`) VALUES
-(1, 'guest'),
-(2, 'admin'),
-(3, 'user');
+INSERT INTO `user_role` (`role_id`,`name`,`weight`) VALUES
+(1, 'guest', 0),
+(2, 'admin', 99),
+(3, 'user',  10);
 
 INSERT INTO `acl_record` (`role_id`, `resource`, `action`, `type`) VALUES
+-- GUEST PERMISSIONS
 (1,  NULL,         'view',          'allow'),
 (1,  NULL,         'list',          'allow'),
 (1,  'user',       'login',         'allow'),
 (1,  'user',       'register',      'allow'),
+-- ADMIN PERMISSIONS
 (2,  NULL,         NULL,            'allow'),
-(2,  'user',       'login',         'deny'),
-(3,  NULL,         'view',          'allow'),
-(3,  NULL,         'list',          'allow'),
+-- USER PERMISSIONS
+(3,  'user',       'login',         'deny'),
+(3,  'user',       'register',      'deny'),
+(3,  'user',       'logout',        'allow'),
 (3,  'issue',      'create',        'allow'),
 (3,  'issue',      'edit-own',      'allow'),
-(3,  'issue',      'assign-own',    'deny'),
 (3,  'issue',      'label-own',     'allow'),
-(3,  'issue',      'edit-all',      'deny'),
-(3,  'issue',      'assign-all',    'deny'),
-(3,  'issue',      'label-all',     'deny'),
 (3,  'issue',      'comment',       'allow'),
 (3,  'comment',    'edit-own',      'allow'),
-(3,  'comment',    'edit-all',      'deny'),
+(3,  'comment',    'edit-all',      'allow'),
 (3,  'comment',    'delete-own',    'allow'),
-(3,  'comment',    'delete-all',    'deny'),
 (3,  'label',      'create',        'allow'),
-(3,  'label',      'delete',        'deny'),
-(3,  'label',      'color',         'deny'),
 (3,  'milestone',  'create',        'allow'),
-(3,  'milestone',  'edit',          'deny'),
 (3,  'milestone',  'add-issue',     'allow'),
-(3,  'milestone',  'remove-issue',  'deny'),
-(3,  'project',    'create',        'deny'),
-(3,  'project',    'edit',          'deny'),
-(3,  'role',       NULL,            'deny'),
-(3,  'user',       'login',         'deny'),
-(3,  'user',       'register',      'deny');
+(3,  'project',    'view',          'allow');

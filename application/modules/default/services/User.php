@@ -9,6 +9,7 @@ class Default_Service_User extends Issues_ServiceAbstract
     public function authenticate($username, $password)
     {
         $userModel = $this->_mapper->getUserByUsername($username, true);
+        if (!$userModel) return false;
         $password  = $this->hashPassword($password, $userModel->getSalt());
         $adapter   = $this->getAuthAdapter($username, $password);
         $auth      = $this->getAuth();
@@ -116,8 +117,9 @@ class Default_Service_User extends Issues_ServiceAbstract
 
         $user = new Default_Model_User();
         $user->setUsername($form->getValue('username'))
-             ->setSalt(hash('sha512', $this->randomBytes(128)))
+             ->setSalt($this->randomBytes(16))
              ->setPassword($this->hashPassword($form->getValue('password'), $user->getSalt()))
+             ->addRole(1)
              ->addRole(3);
 
         $user->setSettings($this->getDefaultUserSettings());

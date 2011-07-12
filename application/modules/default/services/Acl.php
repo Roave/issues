@@ -97,10 +97,9 @@ class Default_Service_Acl extends Issues_ServiceAbstract
     /**
      * isAllowed 
      * 
-     * @param mixed $role 
-     * @param mixed $resource 
-     * @param mixed $action 
-     * @return void
+     * @param string $resource 
+     * @param string $action 
+     * @return bool
      */
     public function isAllowed($resource, $action)
     {

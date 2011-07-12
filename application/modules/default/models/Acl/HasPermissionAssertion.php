@@ -7,11 +7,11 @@ class Default_Model_Acl_HasPermissionAssertion implements Zend_Acl_Assert_Interf
             throw new Issues_Model_Exception('Invalid resource for this assertion');
         }
 
+        list($resourceType, $resourceId) = explode('-', $resource->getResourceId());
+
         if (!$resource->isPrivate()) {
             return $acl->isAllowed($role, $resourceType, $privilege);
         }
-
-        list($resourceType, $resourceId) = explode('-', $resource->getResourceId());
 
         $userService = Zend_Registry::get('Default_DiContainer')->getUserService();
         $userRoles = $userService->getIdentity()->getRoles();

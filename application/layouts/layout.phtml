@@ -28,7 +28,7 @@
                     <?=$this->translate('issues');?>
                 </div>
                 <div id="accountInfo" class="floatRight">
-                    <?php if(!Zend_Auth::getInstance()->getIdentity()->hasRole('guest')): ?>
+                    <? if(Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('user', 'logout')): ?>
                     Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
                     <?php else: ?>
                     <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'), null, true);?>"><?= $this->translate('sign_in'); ?></a> |

@@ -12,7 +12,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
             ->from($this->getTableName())
             ->where('label_id = ?', $id);
 
-        $sql = $this->_addAclJoins($sql);
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('label', 'view-all')) {
+            $sql = $this->_addAclJoins($sql);
+        }
 
         $row = $db->fetchRow($sql);
         return $this->_rowToModel($row);
@@ -30,7 +32,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
                 ->group('l.label_id');
         }
 
-        $sql = $this->_addAclJoins($sql, 'l', 'label_id');
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('label', 'view-all')) {
+            $sql = $this->_addAclJoins($sql, 'l', 'label_id');
+        }
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
@@ -49,7 +53,9 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
             $sql->where('ill.issue_id = ?', (int) $issue);
         }
 
-        $sql = $this->_addAclJoins($sql, 'l', 'label_id');
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('label', 'view-all')) {
+            $sql = $this->_addAclJoins($sql, 'l', 'label_id');
+        }
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);

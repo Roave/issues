@@ -10,7 +10,9 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from($this->getTableName())
             ->where('comment_id = ?', $id);
-        $sql = $this->_addAclJoins($sql);
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('comment', 'view-all')) {
+            $sql = $this->_addAclJoins($sql);
+        }
         $row = $db->fetchRow($sql);
         return $this->_rowToModel($row);
     }
@@ -27,7 +29,9 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
             $sql->where('issue = ?', (int) $issue);
         }
 
-        $sql = $this->_addAclJoins($sql);
+        if (!Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('comment', 'view-all')) {
+            $sql = $this->_addAclJoins($sql);
+        }
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
