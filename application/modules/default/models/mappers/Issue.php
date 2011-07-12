@@ -137,7 +137,8 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db = $this->getReadAdapter();
 
         $all = $db->select()
-            ->from('issue', array(new Zend_Db_Expr("'all'"), 'COUNT(*)'));
+            ->from('issue', array(new Zend_Db_Expr("'all'"), 'COUNT(*)'))
+            ->where('status = ?', 'open');
         $all = $this->_addAclJoins($all);
         $all = $this->_addRelationJoins($all, 'issue');
 
@@ -146,13 +147,15 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $mine = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'mine'"), 'COUNT(*)'))
-            ->where('assigned_to = ?', $userId);
+            ->where('assigned_to = ?', $userId)
+            ->where('status = ?', 'open');
         $mine = $this->_addAclJoins($mine);
         $mine = $this->_addRelationJoins($mine, 'issue');
 
         $unassigned = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'unassigned'"), 'COUNT(*)'))
-            ->where('isnull(assigned_to)');
+            ->where('isnull(assigned_to)')
+            ->where('status = ?', 'open');
         $unassigned = $this->_addAclJoins($unassigned);
         $unassigned = $this->_addRelationJoins($unassigned, 'issue');
 
