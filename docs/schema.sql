@@ -33,8 +33,7 @@ CREATE TABLE `user` (
   `register_time` DATETIME NOT NULL,
   `register_ip` INT(11) NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`),
-  KEY `username_password` (`username`,`password`)
+  UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user_settings` (
