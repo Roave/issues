@@ -21,6 +21,7 @@ class Default_Service_User extends Issues_ServiceAbstract
         $userModel->setRoles($roles);
         $settings = $this->getUserSettings($userModel);
         $userModel->setSettings($settings);
+        $userModel->addRole(1); // All users inherit guest permisisons
         $auth->getStorage()->write($userModel);
         $this->_mapper->updateLastLogin($userModel);
         return true;
