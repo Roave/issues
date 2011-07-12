@@ -21,7 +21,6 @@ class Default_Service_User extends Issues_ServiceAbstract
         $userModel->setRoles($roles);
         $settings = $this->getUserSettings($userModel);
         $userModel->setSettings($settings);
-        $userModel->addRole(1); // All users inherit guest permisisons
         $auth->getStorage()->write($userModel);
         $this->_mapper->updateLastLogin($userModel);
         return true;
@@ -120,6 +119,7 @@ class Default_Service_User extends Issues_ServiceAbstract
         $user->setUsername($form->getValue('username'))
              ->setSalt($this->randomBytes(16))
              ->setPassword($this->hashPassword($form->getValue('password'), $user->getSalt()))
+             ->addRole(1)
              ->addRole(3);
 
         $user->setSettings($this->getDefaultUserSettings());

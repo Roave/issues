@@ -161,10 +161,8 @@ INSERT INTO `acl_record` (`role_id`, `resource`, `action`, `type`) VALUES
 (1,  NULL,         'list',          'allow'),
 (1,  'user',       'login',         'allow'),
 (1,  'user',       'register',      'allow'),
--- ADMIN PERSMISSIONS
+-- ADMIN PERMISSIONS
 (2,  NULL,         NULL,            'allow'),
-(2,  'user',       'login',         'deny'),
-(2,  'user',       'register',      'deny'),
 -- USER PERMISSIONS
 (3,  'user',       'login',         'deny'),
 (3,  'user',       'register',      'deny'),
