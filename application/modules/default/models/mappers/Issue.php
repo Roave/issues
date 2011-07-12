@@ -84,11 +84,14 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             'description'       => $issue->getDescription(),
             'status'            => $issue->getStatus(),
             'project'           => $issue->getProject()->getProjectId(),
-            'assigned_to'       => $issue->getAssignedTo()->getUserId(),
             'created_by'        => $issue->getCreatedBy()->getUserId(),
             'created_time'      => new Zend_Db_Expr('NOW()'),
             'private'           => $issue->isPrivate() ? 1 : 0,
         );
+
+        if ($issue->getAssignedTo() != null) {
+            $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
+        }
 
         $db = $this->getWriteAdapter();
         $db->insert($this->getTableName(), $data);
@@ -102,10 +105,15 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             'description'       => $issue->getDescription(),
             'status'            => $issue->getStatus(),
             'project'           => $issue->getProject()->getProjectId(),
-            'assigned_to'       => $issue->getAssignedTo()->getUserId(),
             'private'           => $issue->isPrivate() ? 1 : 0,
             'last_update_time'  => new Zend_Db_Expr('NOW()')
         );
+
+        if ($issue->getAssignedTo() != null) {
+            $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
+        } else {
+            $data['assigned_to'] = null;
+        }
 
         return $this->getWriteAdapter()
             ->update('issue', $data, array(
@@ -220,6 +228,29 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
+    }
+
+    public function clearIssueMilestones($issue)
+    {
+        if ($issue instanceof Default_Model_Issue) {
+            $issue = $issue->getIssueId();
+        }
+
+        $this->getWriteAdapter()->delete('issue_milestone_linker', array(
+            'issue_id = ?'  => $issue
+        ));
+    }
+
+    public function clearIssueResourceRecords($issue)
+    {
+        if ($issue instanceof Default_Model_Issue) {
+            $issue = $issue->getIssueId();
+        }
+
+        $this->getWriteAdapter()->delete('acl_resource_record', array(
+            'resource_type = ?' => 'issue',
+            'resource_id = ?'   => $issue
+        ));
     }
 
     protected function _addAclJoins(Zend_Db_Select $sql, $alias = null, $primaryKey = null)

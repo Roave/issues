@@ -48,6 +48,40 @@ class Default_IssuesController extends Zend_Controller_Action
         }
     }
 
+    public function updateAction()
+    {
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('editForm')->getMessages();
+        if (count($fm) > 0) {
+            $form = $fm[0];
+        } else {
+            $issue = $this->_issueService->getIssueById($this->_getParam('id'));
+            $form = $this->getEditForm($issue);
+        }
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return $this->_helper->redirector
+                ->gotoSimple('edit', null, null, array('id' => $this->_getParam('id')));
+        }
+
+        if (false === $form->isValid($request->getPost())) {
+            $form->setDescription($this->view->translate('edit_issue_failed'));
+            $this->_helper->FlashMessenger->setNamespace('editForm')->addMessage($form);
+            return $this->_helper->redirector
+                ->gotoSimple('edit', null, null, array('id' => $this->_getParam('id')));
+        }
+
+        if (!$this->_issueService->updateFromForm($form, $this->_getParam('id'))) {
+            $form->setDescription($this->view->translate('edit_issue_failed'));
+            $this->_helper->FlashMessenger->setNamespace('editForm')->addMessage($form);
+            return $this->_helper->redirector
+                ->gotoSimple('edit', null, null, array('id' => $this->_getParam('id')));
+        }
+
+        return $this->_helper->redirector
+            ->gotoSimple('view', null, null, array('id' => $this->_getParam('id')));
+    }
+
     public function viewAction()
     {
         $this->_commentService = Zend_Registry::get('Default_DiContainer')->getCommentService();
@@ -115,6 +149,6 @@ class Default_IssuesController extends Zend_Controller_Action
     public function getEditForm($issue)
     {
         return $this->_issueService->getEditForm($issue)
-            ->setAction($this->_helper->url->direct('update'));
+            ->setAction($this->_helper->url->simple('update', 'issues', 'default', array('id' => $this->_getParam('id'))));
     }
 }

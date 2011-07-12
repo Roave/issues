@@ -13,7 +13,7 @@ class Default_Form_Permission_Base extends Issues_Form_SubForm
             'label'         => 'Roles',
             'allowEmpty'    => true,
             'validators'    => array(
-                new Issues_Validate_FieldDepends('permissions[private]', 'checked')
+                new Issues_Validate_FieldDepends('private', 'checked')
             )
         )));
     }

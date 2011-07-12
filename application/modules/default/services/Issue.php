@@ -97,6 +97,71 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $return;
     }
 
+    public function updateFromForm(Default_Form_Issue_Edit $form, $issueId)
+    {
+        $issue = $this->getIssueById($issueId);
+        if (!$issue) {
+            return false;
+        }
+
+        if (!$this->canEditIssue($issue)) {
+            return false;
+        }
+
+        $issue->setTitle($form->getValue('title'))
+            ->setDescription($form->getValue('description'))
+            ->setProject($form->getValue('project'))
+            ->setAssignedTo($form->getValue('assigned_to'))
+            ->setPrivate($form->getSubform('permissions')->getElement('private')->isChecked());
+        $result = $this->_mapper->save($issue);
+
+        $this->_mapper->clearIssueMilestones($issue);
+        $milestones = $form->getValue('milestones');
+        if ($milestones) {
+            foreach ($milestones as $i) {
+                Zend_Registry::get('Default_DiContainer')
+                    ->getMilestoneService()
+                    ->addIssueToMilestone($i, $issue->getIssueId());
+            }
+        }
+
+        $this->_mapper->clearIssueResourceRecords($issue);
+
+        if ($issue->isPrivate()) {
+            Zend_Registry::get('Default_DiContainer')
+                ->getAclService()
+                ->addResourceRecord(
+                    $form->getSubform('permissions')->getElement('roles')->getValue(),
+                    'issue',
+                    $issue->getIssueId());
+        }
+
+        return $result;
+    }
+
+    public function canEditIssue(Default_Model_Issue $issue)
+    {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if ($acl->isAllowed('issue', 'edit-all')) {
+            return true;
+        }
+
+        $user = Zend_Registry::get('Default_DiContainer')->getUserService()
+            ->getIdentity();
+
+        if ($acl->isAllowed('issue', 'edit-own')) {
+            if ($issue->getAssignedTo()->getUserId() == $user->getUserId()) {
+                return true;
+            }
+
+            if ($issue->getCreatedBy()->getUserId() == $user->getUserId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function addLabelToIssue($issue, $label)
     {
         if (!($issue instanceof Default_Model_Issue)) {
