@@ -1,8 +1,10 @@
 <?php
-class Default_Form_Permission_Base extends Issues_FormAbstract
+class Default_Form_Permission_Base extends Issues_Form_SubForm
 {
     public function init()
     {
+        $this->setLabel('Permissions');
+
         $this->addElement('checkbox', 'private', array(
             'label'             => 'Private?',
         ));
