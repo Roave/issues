@@ -12,7 +12,8 @@ CREATE TABLE `issue` (
   `created_time` DATETIME NOT NULL,
   `last_update_time` DATETIME DEFAULT NULL,
   `private` BOOLEAN NOT NULL DEFAULT '0',
-  PRIMARY KEY (`issue_id`)
+  PRIMARY KEY (`issue_id`),
+  KEY `status_assignee` (`status`, `assigned_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `project` (
