@@ -117,4 +117,10 @@ class Default_Service_Acl extends Issues_ServiceAbstract
         $mapper = Zend_Registry::get('Default_DiContainer')->getAclResourceRecordMapper();
         return $mapper->getResourceRecords($roles, $resourceType, $resourceId);
     }
+
+    public function getRolesForResource($resourceType, $resourceId)
+    {
+        $mapper = Zend_Registry::get('Default_DiContainer')->getAclResourceRecordMapper();
+        return $mapper->getRolesForResource($resourceType, $resourceId);
+    }
 }

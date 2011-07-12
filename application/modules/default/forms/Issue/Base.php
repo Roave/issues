@@ -20,7 +20,19 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
                         ->getProjectsForForm(),
         ));
 
+        $this->addElement('select', 'assigned_to', array(
+            'required'      => false,
+            'label'         => 'Assigned To',
+            'multiOptions'  => array_merge(
+                array('0' => 'Nobody'),
+                Zend_Registry::get('Default_DiContainer')
+                    ->getUserService()
+                    ->getUsersForSelect())
+            )
+        );
+
         $this->addElement('textarea', 'description', array(
+            'label'      => 'Description',
             'filters'    => array('StringTrim', 'HtmlEntities'),
             'validators' => array(
                 array('StringLength', true, array(5)),

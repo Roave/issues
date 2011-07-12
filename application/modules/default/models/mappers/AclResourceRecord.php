@@ -30,4 +30,22 @@ class Default_Model_Mapper_AclResourceRecord extends Issues_Model_Mapper_DbAbstr
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
+
+    public function getRolesForResource($resourceType, $resourceId)
+    {
+        $db = $this->getReadAdapter();
+        $sql = $db->select()
+            ->from($this->getTableName())
+            ->where('resource_type = ?', $resourceType)
+            ->where('resource_id = ?', $resourceId);
+        $rows = $db->fetchAll($sql);
+        if (!$rows) return array();
+
+        $result = array();
+        foreach ($rows as $row) {
+            $result[] = new Default_Model_Role($row);
+        }
+
+        return $result;
+    }
 }

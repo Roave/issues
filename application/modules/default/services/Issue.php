@@ -18,6 +18,13 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $this->_createForm;
     }
 
+    public function getEditForm($issue)
+    {
+        $form = new Default_Form_Issue_Edit();
+        $form->setDefaultValues($issue);
+        return $form;
+    }
+
     public function getIssueById($id)
     {
         $issue = $this->_mapper->getIssueById($id);
@@ -69,6 +76,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setStatus('open')
             ->setProject($form->getValue('project'))
             ->setCreatedBy(Zend_Auth::getInstance()->getIdentity())
+            ->setAssignedTo($form->getValue('assigned_to'))
             ->setPrivate($permissions['private'] ? true : false);
         $return = $this->_mapper->insert($issue);
 

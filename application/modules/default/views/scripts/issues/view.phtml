@@ -1,3 +1,4 @@
+<a href="<?= $this->url(array('controller' => 'issues', 'action' => 'edit', 'id'=>$this->issue->getIssueId())); ?>" class="newIssue floatRight"><?=$this->translate('edit_issue');?></a>
 <h1>#<?=$this->issue->getIssueId()?> <?=$this->issue->getTitle()?></h1>
 
 <?php $dateFormat = $this->user->getSetting('date-format') ?: 'F jS, Y G:i:s'; ?>
@@ -22,6 +23,8 @@ Last updated: <?=$this->issue->getLastUpdateTime()->format($dateFormat);?><br />
 <?php endif; ?>
 
 Status: <?=$this->issue->getStatus()?><br />
+<hr />
+<?=$this->issue->getDescription()?>
 <hr />
 
 <?php if ($this->comments) : ?>

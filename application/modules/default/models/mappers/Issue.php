@@ -75,6 +75,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             'description'       => $issue->getDescription(),
             'status'            => $issue->getStatus(),
             'project'           => $issue->getProject()->getProjectId(),
+            'assigned_to'       => $issue->getAssignedTo()->getUserId(),
             'created_by'        => $issue->getCreatedBy()->getUserId(),
             'created_time'      => new Zend_Db_Expr('NOW()'),
             'private'           => $issue->isPrivate() ? 1 : 0,

@@ -37,6 +37,17 @@ class Default_IssuesController extends Zend_Controller_Action
         return $this->_helper->redirector('list', 'issues');
     }
 
+    public function editAction()
+    {
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('editForm')->getMessages();
+        if (count($fm) > 0) {
+            $this->view->editForm = $fm[0];
+        } else {
+            $issue = $this->_issueService->getIssueById($this->_getParam('id'));
+            $this->view->editForm = $this->getEditForm($issue);
+        }
+    }
+
     public function viewAction()
     {
         $this->_commentService = Zend_Registry::get('Default_DiContainer')->getCommentService();
@@ -99,5 +110,11 @@ class Default_IssuesController extends Zend_Controller_Action
     public function getCreateForm()
     {
         return $this->_issueService->getCreateForm()->setAction($this->_helper->url->direct('post'));
+    }
+
+    public function getEditForm($issue)
+    {
+        return $this->_issueService->getEditForm($issue)
+            ->setAction($this->_helper->url->direct('update'));
     }
 }
