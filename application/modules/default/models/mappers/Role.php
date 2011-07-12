@@ -8,7 +8,8 @@ class Default_Model_Mapper_Role extends Issues_Model_Mapper_DbAbstract
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-                  ->from($this->getTableName());
+                  ->from($this->getTableName())
+                  ->order('weight ASC');
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
@@ -45,7 +46,8 @@ class Default_Model_Mapper_Role extends Issues_Model_Mapper_DbAbstract
         $sql = $db->select()
             ->from(array('ur'=>$this->getTableName()))
             ->join(array('url'=>'user_role_linker'), 'url.role_id = ur.role_id')
-            ->where('url.user_id = ?', $user);
+            ->where('url.user_id = ?', $user)
+            ->order('weight ASC');
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
     }
