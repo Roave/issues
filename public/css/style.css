@@ -209,7 +209,7 @@ a:hover {
     width: 658px;
 }
 
-#newIssue {
+.newIssue {
     background: #0B5394 url(/images/sprites/gradients.png) repeat-x left -120px;
     border-radius: 3px;
     color: #FFF;
@@ -225,7 +225,7 @@ a:hover {
     -webkit-border-radius: 3px;
 }
 
-#newIssue:active {
+.newIssue:active {
     background-position: left -180px;
 }
 

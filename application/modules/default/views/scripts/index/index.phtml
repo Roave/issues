@@ -1,5 +1,5 @@
 <? if(Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('issue', 'create')): ?>
-    <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>" id="newIssue" class="floatRight"><?=$this->translate('new_issue');?></a>
+    <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'new')); ?>" class="floatRight newIssue"><?=$this->translate('new_issue');?></a>
 <? endif; ?>
 
 <div id="infoPane" class="floatLeft">
