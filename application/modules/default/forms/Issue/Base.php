@@ -20,6 +20,15 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
                         ->getProjectsForForm(),
         ));
 
+        $this->addElement('select', 'status', array(
+            'required'      => true,
+            'label'         => $this->translate('status'),
+            'multiOptions'  => array(
+                'open'      => 'Open',
+                'closed'    => 'Closed'
+            )
+        ));
+
         $this->addElement('select', 'assigned_to', array(
             'required'      => false,
             'label'         => 'Assigned To',

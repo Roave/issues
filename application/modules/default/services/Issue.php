@@ -111,6 +111,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         $issue->setTitle($form->getValue('title'))
             ->setDescription($form->getValue('description'))
             ->setProject($form->getValue('project'))
+            ->setStatus($form->getValue('status'))
             ->setAssignedTo($form->getValue('assigned_to'))
             ->setPrivate($form->getSubform('permissions')->getElement('private')->isChecked());
         $result = $this->_mapper->save($issue);

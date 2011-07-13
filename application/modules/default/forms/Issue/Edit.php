@@ -22,7 +22,8 @@ class Default_Form_Issue_Edit extends Default_Form_Issue_Base
             'title'         => $issue->getTitle(),
             'project'       => $issue->getProject()->getProjectId(),
             'description'   => $issue->getDescription(),
-            'milestones'    => $milestoneIds
+            'milestones'    => $milestoneIds,
+            'status'        => $issue->getStatus()
         );
 
         if ($issue->getAssignedTo() != null) {
