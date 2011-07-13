@@ -90,6 +90,12 @@ class Default_IssuesController extends Zend_Controller_Action
             return $this->_helper->redirector('list', 'issues');
         }
 
+        if ($this->_issueService->canEditIssue($this->view->issue)) {
+            $this->view->canEdit = true;
+        } else {
+            $this->view->canEdit = false;
+        }
+
         $this->view->comments = $this->_commentService->getCommentsByIssue($this->view->issue);
 
         $fm = $this->getHelper('FlashMessenger')->setNamespace('commentForm')->getMessages(); 

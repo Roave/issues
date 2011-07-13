@@ -1,4 +1,7 @@
+<?php if ($this->canEdit) : ?>
 <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'edit', 'id'=>$this->issue->getIssueId())); ?>" class="newIssue floatRight"><?=$this->translate('edit_issue');?></a>
+<?php endif; ?>
+<h1>#<?=$this->issue->getIssueId()?> <?=$this->issue->getTitle()?></h1>
 <h1>#<?=$this->issue->getIssueId()?> <?=$this->issue->getTitle()?></h1>
 
 <?php $dateFormat = $this->user->getSetting('date-format') ?: 'F jS, Y G:i:s'; ?>
