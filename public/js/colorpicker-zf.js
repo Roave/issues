@@ -4,7 +4,7 @@
  * @author Evan Coury (http://blog.evan.pro/)
  */
 (function($){
-  $.fn.colorpicker = function(o, data) {
-    this.miniColors(o, data);
+  $.fn.colorpicker = function() {
+    return this.colorPicker();
   };
-})( jQuery );
+})(jQuery);

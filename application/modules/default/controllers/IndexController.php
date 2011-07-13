@@ -14,9 +14,9 @@ class Default_IndexController extends Zend_Controller_Action
         $this->_aclService = Zend_Registry::get('Default_DiContainer')->getAclService();
 
         $this->view->user = $this->_userService->getIdentity();
-        $this->view->headScript()->appendFile('/js/minicolors/jquery.miniColors.min.js');
+        $this->view->headScript()->appendFile('/js/colorpicker/jquery.colorPicker.js');
         $this->view->headScript()->appendFile('/js/colorpicker-zf.js');
-        $this->view->headLink()->appendStylesheet('/js/minicolors/jquery.miniColors.css');
+        $this->view->headLink()->appendStylesheet('/js/colorpicker/colorPicker.css');
     }
 
     public function indexAction()

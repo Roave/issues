@@ -3,6 +3,13 @@ class Default_Form_Label_Base extends Issues_FormAbstract
 {
     public function init()
     {
+        $element = new ZendX_JQuery_Form_Element_ColorPicker('color', array(
+            'decorators'    => array(
+                'UiWidgetElement'
+            )
+        ));
+        $this->addElement($element);
+
         $this->addElement('text', 'text', array(
             'filters'       => array('StringTrim', 'HtmlEntities'),
             'validators'    => array(
@@ -24,9 +31,6 @@ class Default_Form_Label_Base extends Issues_FormAbstract
             'required'      => true,
             'label'         => $this->translate('label_name')
         ));
-
-        $element = new ZendX_JQuery_Form_Element_ColorPicker('color');
-        $this->addElement($element);
 
         $this->addElement('button', 'submit', array(
             'required'   => false,

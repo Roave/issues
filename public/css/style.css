@@ -428,7 +428,7 @@ a:hover {
     display: inline-block;
     float: left;
     padding: 3px;
-    width: 228px;
+    width: 205px;
 }
 
 #newLabelInput {
@@ -446,6 +446,12 @@ a:hover {
     font-weight: bold;
     float: left;
     padding: 2px 7px;
+}
+
+.color_picker {
+    margin-top: 1px;
+    margin-right: 2px;
+    float: left;
 }
 
 
