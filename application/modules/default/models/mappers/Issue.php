@@ -100,25 +100,64 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
     protected function _update(Default_Model_Issue $issue)
     {
-        $data = array(
-            'title'             => $issue->getTitle(),
-            'description'       => $issue->getDescription(),
-            'status'            => $issue->getStatus(),
-            'project'           => $issue->getProject()->getProjectId(),
-            'private'           => $issue->isPrivate() ? 1 : 0,
-            'last_update_time'  => new Zend_Db_Expr('NOW()')
-        );
+        $db = $this->getWriteAdapter();
+        $oldIssue = $this->getIssueById($issue->getIssueId());
 
-        if ($issue->getAssignedTo() != null) {
-            $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
-        } else {
-            $data['assigned_to'] = null;
+        $data = array();
+        if ($oldIssue->getTitle() != $issue->getTitle()) {
+            $data['title'] = $issue->getTitle();
+            $oldData['title'] = $oldIssue->getTitle();
         }
 
-        return $this->getWriteAdapter()
-            ->update('issue', $data, array(
-                'issue_id = ?'  => $issue->getIssueId()
-            ));
+        if ($oldIssue->getDescription() != $issue->getDescription()) {
+            $data['description'] = $issue->getDescription();
+            $oldData['description'] = $oldIssue->getDescription();
+        }
+
+        if ($oldIssue->getStatus() != $issue->getStatus()) {
+            $data['status'] = $issue->getStatus();
+            $oldData['status'] = $oldIssue->getStatus();
+        }
+
+        if ($oldIssue->getProject() != $issue->getProject()) {
+            $data['project'] = $issue->getProject();
+            $oldData['project'] = $oldIssue->getProject();
+        }
+
+        if ($oldIssue->getPrivate() != $issue->getPrivate()) {
+            $data['private'] = $issue->getPrivate() ? 1 : 0;
+            $oldData['private'] = $oldIssue->getPrivate() ? 1 : 0;
+        }
+
+        if (($oldIssue->getAssignedTo() != null) && ($issue->getAssignedTo() != null)) {
+            if ($oldIssue->getAssignedTo()->getUserId() != $issue->getAssignedTo()->getUserId()) {
+                $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
+                $oldData['assigned_to'] = $oldIssue->getAssignedTo()->getUserId();
+            }
+        } else if (($oldIssue->getAssignedTo() == null) && ($issue->getAssignedTo() != null)) {
+            $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
+            $oldData['assigned_to'] = '';
+        } else if (($oldIssue->getAssignedTo() != null) && ($issue->getAssignedTo() == null)) {
+            $data['assigned_to'] = '';
+            $oldData['assigned_to'] = $oldIssue->getAssignedTo()->getUserId();
+        } else if ($oldIssue->getAssignedTo() == null && $issue->getAssignedTo() == null) {
+            // no update
+        }
+
+        if (!count($data)) {
+            return true;
+        }
+
+        // save audit trail
+        foreach ($data as $field => $newValue) {
+            $this->auditTrail($issue, 'update', $field, $oldData[$field], $newValue);
+        }
+
+        $data['last_update_time'] = new Zend_Db_Expr('NOW()');
+
+        return $db->update('issue', $data, array(
+            'issue_id = ?'  => $issue->getIssueId()
+        ));
     }
 
     public function updateLastUpdate($issue)
@@ -140,8 +179,13 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db = $this->getWriteAdapter();
         try {
             $db->insert('issue_label_linker', $data);
-        } catch (Exception $e) {} // probably a duplicate key
-            return true;
+
+            $this->auditTrail($issue, 'add-label', '', '', $label->getLabelId());
+        } catch (Exception $e) {
+            // probably a duplicate key
+        }
+
+        return true;
     }
 
     public function removeLabelFromIssue(Default_Model_Issue $issue, Default_Model_Label $label)
@@ -152,7 +196,11 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         );
 
         $db = $this->getWriteAdapter();
-        $db->delete('issue_label_linker', $where);
+        $rowsAffected = $db->delete('issue_label_linker', $where);
+
+        if ($rowsAffected > 0) {
+            $this->auditTrail($issue, 'remove-label', '', $label->getLabelId(), '');
+        }
     }
 
     public function countIssuesByLabel(Default_Model_Label $label)
@@ -230,15 +278,76 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $this->_rowsToModels($rows);
     }
 
-    public function clearIssueMilestones($issue)
+    public function updateIssueMilestones($issue, $milestones, $audit = false)
     {
+        $read = $this->getReadAdapter();
+        $write = $this->getWriteAdapter();
+
         if ($issue instanceof Default_Model_Issue) {
             $issue = $issue->getIssueId();
         }
 
-        $this->getWriteAdapter()->delete('issue_milestone_linker', array(
-            'issue_id = ?'  => $issue
-        ));
+        // read the existing milestones from the database
+        $sql = $read->select()
+            ->from('issue_milestone_linker', array('milestone_id'))
+            ->where('issue_id = ?', $issue);
+        $existingMilestones = $read->fetchAll($sql);
+
+        $existing = array();
+        if ($existingMilestones) {
+            foreach ($existingMilestones as $i) {
+                $existing[] = $i['milestone_id'];
+            }
+        }
+
+        // compute milestones to be deleted from the db
+        $toDelete = array();
+        if ($existing) {
+            foreach ($existing as $i) {
+                if (!in_array($i, $milestones)) {
+                    $toDelete[] = $i;
+                }
+            }
+        }
+
+        // delete milestones from the db
+        if (count($toDelete)) {
+            $write->delete('issue_milestone_linker', array(
+                'issue_id = ?'          => $issue,
+                'milestone_id IN (?)'   => $toDelete
+            )); 
+
+            if ($audit) {
+                foreach ($toDelete as $i) {
+                    $this->auditTrail($issue, 'delete-milestone', '', $i, '');
+                }
+            }
+        }
+
+        // compute milestones to be added to the db
+        $toAdd = array();
+        if ($existing) {
+            foreach ($milestones as $i) {
+                if (!in_array($i, $existing)) {
+                    $toAdd[] = $i;
+                }
+            }
+        } else {
+            $toAdd = $milestones;
+        }
+
+        // add milestones to the database
+        foreach ($toAdd as $i) {
+            $write->insert('issue_milestone_linker', array(
+                'issue_id'      => $issue,
+                'milestone_id'  => $i
+            ));
+
+            // audit trail
+            if ($audit) {
+                $this->auditTrail($issue, 'add-milestone', '', '', $i);
+            }
+        }
     }
 
     public function clearIssueResourceRecords($issue)
@@ -250,6 +359,29 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $this->getWriteAdapter()->delete('acl_resource_record', array(
             'resource_type = ?' => 'issue',
             'resource_id = ?'   => $issue
+        ));
+    }
+
+    public function auditTrail($issue, $action, $field = '', $oldValue = '', $newValue = '')
+    {
+        if ($issue instanceof Default_Model_Issue) {
+            $issue = $issue->getIssueId();
+        }
+
+        $userId = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity()
+            ->getUserId();
+
+        $db = $this->getWriteAdapter();
+        return $db->insert('issue_history', array(
+            'issue_id'          => $issue,
+            'revision_author'   => $userId,
+            'revision_time'     => new Zend_Db_Expr('NOW()'),
+            'action'            => $action,
+            'field'             => $field,
+            'old_value'         => $oldValue,
+            'new_value'         => $newValue
         ));
     }
 

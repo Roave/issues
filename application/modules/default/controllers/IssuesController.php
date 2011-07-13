@@ -90,6 +90,12 @@ class Default_IssuesController extends Zend_Controller_Action
             return $this->_helper->redirector('list', 'issues');
         }
 
+        if ($this->_issueService->canEditIssue($this->view->issue)) {
+            $this->view->canEdit = true;
+        } else {
+            $this->view->canEdit = false;
+        }
+
         $this->view->comments = $this->_commentService->getCommentsByIssue($this->view->issue);
 
         $fm = $this->getHelper('FlashMessenger')->setNamespace('commentForm')->getMessages(); 
@@ -124,6 +130,60 @@ class Default_IssuesController extends Zend_Controller_Action
             ->redirector->gotoSimple('view', 'issues', 'default', array('id' => $this->_getParam('id')));
     }
 
+    public function editCommentAction()
+    {
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('editCommentForm')->getMessages();
+        if (count($fm) > 0) {
+            $this->view->form = $fm[0];
+        } else {
+            $comment = $this->_commentService->getCommentById($this->_getParam('id'));
+            $this->view->form = $this->getEditCommentForm($comment);
+        }
+    }
+
+    public function deleteCommentAction()
+    {
+        $comment = $this->_commentService->getCommentById($this->_getParam('id'));
+        $this->_commentService->deleteComment($comment);
+
+        return $this->_helper->redirector
+            ->gotoSimple('view', 'issues', 'default', array('id' => $comment->getIssue()->getIssueId()));
+    }
+
+    public function updateCommentAction()
+    {
+        $comment = $this->_commentService->getCommentById($this->_getParam('id'));
+        $fm = $this->getHelper('FlashMessenger')->setNamespace('editCommentForm')->getMessages();
+        if (count($fm) > 0) {
+            $form = $fm[0];
+        } else {
+            $form = $this->getEditCommentForm($comment);
+        }
+
+        $request = $this->getRequest();
+        if (!$request->isPost()) {
+            return $this->_helper->redirector
+                ->gotoSimple('edit-comment', null, null, array('id' => $this->_getParam('id')));
+        }
+
+        if (false === $form->isValid($request->getPost())) {
+            $form->setDescription($this->view->translate('edit_comment_failed'));
+            $this->_helper->FlashMessenger->setNamespace('editCommentForm')->addMessage($form);
+            return $this->_helper->redirector
+                ->gotoSimple('edit-comment', null, null, array('id' => $this->_getParam('id')));
+        }
+
+        if (!$this->_commentService->updateFromForm($form, $comment)) {
+            $form->setDescription($this->view->translate('edit_comment_failed'));
+            $this->_helper->FlashMessenger->setNamespace('editCommentForm')->addMessage($form);
+            return $this->_helper->redirector
+                ->gotoSimple('edit-comment', null, null, array('id' => $this->_getParam('id')));
+        }
+
+        return $this->_helper->redirector
+            ->gotoSimple('view', null, null, array('id' => $comment->getIssue()->getIssueId()));
+    }
+
     public function listAction()
     {
         $this->view->issues = $this->_issueService->getAllIssues();
@@ -139,6 +199,12 @@ class Default_IssuesController extends Zend_Controller_Action
         }
 
         return false;
+    }
+
+    public function getEditCommentForm($comment)
+    {
+        return $this->_commentService->getEditForm($comment)
+            ->setAction($this->_helper->url->simple('update-comment', 'issues', 'default', array('id' => $this->_getParam('id'))));
     }
 
     public function getCreateForm()
