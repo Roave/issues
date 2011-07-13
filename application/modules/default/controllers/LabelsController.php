@@ -16,7 +16,7 @@ class Default_LabelsController extends Zend_Controller_Action
             $this->_helper->FlashMessenger->addMessage($form);
             return $this->_helper->redirector('index', 'index');
         }
-        if (!$this->_labelService->createLabel($form->getValue('text'), '#000')) {
+        if (!$this->_labelService->createLabel($form->getValue('text'), $form->getValue('color'))) {
             $form->setDescription($this->view->translate('new_label_failed'));
             $this->_helper->FlashMessenger->addMessage($form);
             return $this->_helper->redirector('index','index');

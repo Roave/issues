@@ -25,15 +25,8 @@ class Default_Form_Label_Base extends Issues_FormAbstract
             'label'         => $this->translate('label_name')
         ));
 
-        $this->addElement('text', 'color', array(
-            'filters'       => array('StringTrim', 'HtmlEntities'),
-            'validators'    => array(
-                array('StringLength', true, array(3, 50)),
-            ),
-            'required'      => true,
-            'label'         => $this->translate('color'),
-            'decorators'    => array('ViewHelper'),
-        ));
+        $element = new ZendX_JQuery_Form_Element_ColorPicker('color');
+        $this->addElement($element);
 
         $this->addElement('button', 'submit', array(
             'required'   => false,

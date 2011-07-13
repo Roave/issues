@@ -4,7 +4,7 @@ class Default_Form_Label_Create extends Default_Form_Label_Base
     public function init()
     {
         parent::init();
-        $this->removeElement('color');
+        //$this->removeElement('color');
         $this->setAttrib('id', 'newLabelForm');
         $this->setAttrib('class', 'floatRight');
         $this->getElement('submit')->setAttrib('id', 'newLabelButton');
