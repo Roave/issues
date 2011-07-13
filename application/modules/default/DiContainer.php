@@ -211,4 +211,12 @@ class Default_DiContainer extends Issues_DiContainerAbstract
         }
         return $this->_storage['aclResourceRecordMapper'];
     }
+
+    public function getIssueHistoryMapper()
+    {
+        if (!isset($this->_storage['issueHistoryMapper'])) {
+            $this->_storage['issueHistoryMapper'] = new Default_Model_Mapper_IssueHistory();
+        }
+        return $this->_storage['issueHistoryMapper'];
+    }
 }
