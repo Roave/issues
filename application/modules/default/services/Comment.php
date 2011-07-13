@@ -108,6 +108,9 @@ class Default_Service_Comment extends Issues_ServiceAbstract
             ->setPrivate($permissions['private'] ? true : false);
         $return = $this->_mapper->save($comment);
 
+        Zend_Registry::get('Default_DiContainer')->getIssueMapper()
+            ->auditTrail($issueId, 'comment', '', '', $return);
+
         if ($permissions['private']) {
             Zend_Registry::get('Default_DiContainer')->getAclService()
                 ->addResourceRecord($permissions['roles'], 'comment', $return);

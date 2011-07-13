@@ -362,7 +362,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         ));
     }
 
-    public function auditTrail($issue, $action, $field, $oldValue, $newValue)
+    public function auditTrail($issue, $action, $field = '', $oldValue = '', $newValue = '')
     {
         if ($issue instanceof Default_Model_Issue) {
             $issue = $issue->getIssueId();
