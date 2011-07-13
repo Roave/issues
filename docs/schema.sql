@@ -93,6 +93,7 @@ CREATE TABLE `comment` (
   `issue` INT(11) UNSIGNED NOT NULL,
   `text` text NOT NULL,
   `private` BOOLEAN NOT NULL DEFAULT '0',
+  `deleted` BOOLEAN NOT NULL DEFAULT '0',
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -124,6 +125,20 @@ CREATE TABLE `issue_history` (
   KEY (`revision_id`),
   KEY (`revision_author`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `comment_history` (
+  `comment_id` INT(11) UNSIGNED NOT NULL,
+  `revision_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `revision_author` INT(11) UNSIGNED DEFAULT NULL,
+  `revision_time` DATETIME NOT NULL,
+  `action` VARCHAR(255) NOT NULL COMMENT 'update/delete',
+  `field` VARCHAR(255) DEFAULT NULL,
+  `old_value` LONGTEXT,
+  `new_value` LONGTEXT,
+  PRIMARY KEY (`comment_id`,`revision_id`),
+  KEY (`revision_id`),
+  KEY (`revision_author`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `user_role_linker`
 ADD FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
@@ -170,6 +185,14 @@ ADD FOREIGN KEY (`issue_id`) REFERENCES `issue` (`issue_id`)
 ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `issue_history`
+ADD FOREIGN KEY (`revision_author`) REFERENCES `user` (`user_id`)
+ON DELETE SET NULL ON UPDATE SET NULL;
+
+ALTER TABLE `comment_history`
+ADD FOREIGN KEY (`comment_id`) REFERENCES `comment` (`comment_id`)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `comment_history`
 ADD FOREIGN KEY (`revision_author`) REFERENCES `user` (`user_id`)
 ON DELETE SET NULL ON UPDATE SET NULL;
 

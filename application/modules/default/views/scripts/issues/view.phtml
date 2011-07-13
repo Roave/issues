@@ -32,7 +32,8 @@ Status: <?=$this->issue->getStatus()?><br />
 
 <?php if ($this->comments) : ?>
     <?php foreach ($this->comments as $i) : ?>
-        Comment by <?=$i->getCreatedBy()->getUsername()?> on <?=$i->getCreatedTime()->format($dateFormat);?><br />
+        Comment by <?=$i->getCreatedBy()->getUsername()?> on <?=$i->getCreatedTime()->format($dateFormat);?>
+        [<a href="<?=$this->url(array('action'=>'edit-comment', 'id'=>$i->getCommentId()))?>">Edit</a>]<br />
         <blockquote><?=$i->getText()?></blockquote>
     <?php endforeach; ?>
 <?php endif; ?>
