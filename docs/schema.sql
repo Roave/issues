@@ -117,7 +117,7 @@ CREATE TABLE `issue_history` (
   `revision_author` INT(11) UNSIGNED NULL,
   `revision_time` DATETIME NOT NULL,
   `action` VARCHAR(255) NOT NULL COMMENT 'update/delete/add-label/etc',
-  `field` VARCHAR(255) NOT NULL,
+  `field` VARCHAR(255) NULL,
   `old_value` LONGTEXT NULL,
   `new_value` LONGTEXT NULL,
   PRIMARY KEY (`issue_id`,`revision_id`),

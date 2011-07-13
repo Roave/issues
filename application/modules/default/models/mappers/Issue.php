@@ -100,25 +100,79 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
     protected function _update(Default_Model_Issue $issue)
     {
-        $data = array(
-            'title'             => $issue->getTitle(),
-            'description'       => $issue->getDescription(),
-            'status'            => $issue->getStatus(),
-            'project'           => $issue->getProject()->getProjectId(),
-            'private'           => $issue->isPrivate() ? 1 : 0,
-            'last_update_time'  => new Zend_Db_Expr('NOW()')
-        );
+        $db = $this->getWriteAdapter();
+        $oldIssue = $this->getIssueById($issue->getIssueId());
 
-        if ($issue->getAssignedTo() != null) {
-            $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
-        } else {
-            $data['assigned_to'] = null;
+        $data = array();
+        if ($oldIssue->getTitle() != $issue->getTitle()) {
+            $data['title'] = $issue->getTitle();
+            $oldData['title'] = $oldIssue->getTitle();
         }
 
-        return $this->getWriteAdapter()
-            ->update('issue', $data, array(
-                'issue_id = ?'  => $issue->getIssueId()
-            ));
+        if ($oldIssue->getDescription() != $issue->getDescription()) {
+            $data['description'] = $issue->getDescription();
+            $oldData['description'] = $oldIssue->getDescription();
+        }
+
+        if ($oldIssue->getStatus() != $issue->getStatus()) {
+            $data['status'] = $issue->getStatus();
+            $oldData['status'] = $oldIssue->getStatus();
+        }
+
+        if ($oldIssue->getProject() != $issue->getProject()) {
+            $data['project'] = $issue->getProject();
+            $oldData['project'] = $oldIssue->getProject();
+        }
+
+        if ($oldIssue->getPrivate() != $issue->getPrivate()) {
+            $data['private'] = $issue->getPrivate() ? 1 : 0;
+            $oldData['private'] = $oldIssue->getPrivate() ? 1 : 0;
+        }
+
+        if (($oldIssue->getAssignedTo() != null) && ($issue->getAssignedTo() != null)) {
+            if ($oldIssue->getAssignedTo()->getUserId() != $issue->getAssignedTo()->getUserId()) {
+                $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
+                $oldData['assigned_to'] = $oldIssue->getAssignedTo()->getUserId();
+            }
+        } else if (($oldIssue->getAssignedTo() == null) && ($issue->getAssignedTo() != null)) {
+            $data['assigned_to'] = $issue->getAssignedTo()->getUserId();
+            $oldData['assigned_to'] = '';
+        } else if (($oldIssue->getAssignedTo() != null) && ($issue->getAssignedTo() == null)) {
+            $data['assigned_to'] = '';
+            $oldData['assigned_to'] = $oldIssue->getAssignedTo()->getUserId();
+        } else if ($oldIssue->getAssignedTo() == null && $issue->getAssignedTo() == null) {
+            // no update
+        }
+
+        if (!count($data)) {
+            return false;
+        }
+
+        // save audit trail
+        $userId = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity()
+            ->getUserId();
+
+        foreach ($data as $field => $newValue) {
+            $auditData = array(
+                'issue_id'          => $issue->getIssueId(),
+                'revision_author'   => $userId,
+                'revision_time'     => new Zend_Db_Expr('NOW()'),
+                'action'            => 'update',
+                'field'             => $field,
+                'old_value'         => $oldData[$field],
+                'new_value'         => $newValue
+            );
+
+            $db->insert('issue_history', $auditData);
+        }
+
+        $data['last_update_time'] = new Zend_Db_Expr('NOW()');
+
+        return $db->update('issue', $data, array(
+            'issue_id = ?'  => $issue->getIssueId()
+        ));
     }
 
     public function updateLastUpdate($issue)
