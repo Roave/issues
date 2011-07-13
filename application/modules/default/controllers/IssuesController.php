@@ -141,6 +141,15 @@ class Default_IssuesController extends Zend_Controller_Action
         }
     }
 
+    public function deleteCommentAction()
+    {
+        $comment = $this->_commentService->getCommentById($this->_getParam('id'));
+        $this->_commentService->deleteComment($comment);
+
+        return $this->_helper->redirector
+            ->gotoSimple('view', 'issues', 'default', array('id' => $comment->getIssue()->getIssueId()));
+    }
+
     public function updateCommentAction()
     {
         $comment = $this->_commentService->getCommentById($this->_getParam('id'));

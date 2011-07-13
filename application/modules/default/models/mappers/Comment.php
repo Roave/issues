@@ -21,7 +21,8 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from('comment');
+            ->from('comment')
+            ->where('deleted = ?', 0);
 
         if ($issue instanceof Default_Model_Issue) {
             $sql->where('issue = ?', $issue->getIssueId());
@@ -74,7 +75,12 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
 
         if ($oldComment->getPrivate() != $comment->getPrivate()) {
             $data['private'] = $comment->getPrivate() ? 1 : 0;
-            $oldData['private'] = $oldComment->getPrivate ? 1 : 0;
+            $oldData['private'] = $oldComment->getPrivate() ? 1 : 0;
+        }
+
+        if ($oldComment->isDeleted() != $comment->isDeleted()) {
+            $data['deleted'] = $comment->getDeleted() ? 1 : 0;
+            $oldData['deleted'] = $oldComment->getDeleted() ? 1 : 0;
         }
 
         if (!count($data)) {

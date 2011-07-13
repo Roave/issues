@@ -2,7 +2,6 @@
 <a href="<?= $this->url(array('controller' => 'issues', 'action' => 'edit', 'id'=>$this->issue->getIssueId())); ?>" class="newIssue floatRight"><?=$this->translate('edit_issue');?></a>
 <?php endif; ?>
 <h1>#<?=$this->issue->getIssueId()?> <?=$this->issue->getTitle()?></h1>
-<h1>#<?=$this->issue->getIssueId()?> <?=$this->issue->getTitle()?></h1>
 
 <?php $dateFormat = $this->user->getSetting('date-format') ?: 'F jS, Y G:i:s'; ?>
 
@@ -33,7 +32,12 @@ Status: <?=$this->issue->getStatus()?><br />
 <?php if ($this->comments) : ?>
     <?php foreach ($this->comments as $i) : ?>
         Comment by <?=$i->getCreatedBy()->getUsername()?> on <?=$i->getCreatedTime()->format($dateFormat);?>
-        [<a href="<?=$this->url(array('action'=>'edit-comment', 'id'=>$i->getCommentId()))?>">Edit</a>]<br />
+        <?php if (Zend_Registry::get('Default_DiContainer')->getCommentService()->canEditComment($i)) : ?>
+        [<a href="<?=$this->url(array('action'=>'edit-comment', 'id'=>$i->getCommentId()))?>">Edit</a>]
+        <?php endif; ?>
+        <?php if (Zend_Registry::get('Default_DiContainer')->getCommentService()->canDeleteComment($i)) : ?>
+        [<a href="<?=$this->url(array('action'=>'delete-comment', 'id'=>$i->getCommentId()))?>">Delete</a>]<br />
+        <?php endif; ?>
         <blockquote><?=$i->getText()?></blockquote>
     <?php endforeach; ?>
 <?php endif; ?>

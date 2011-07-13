@@ -44,6 +44,13 @@ class Default_Model_Comment extends Issues_Model_Abstract implements Zend_Acl_Re
     protected $_private;
 
     /**
+     * _deleted 
+     * 
+     * @var boolean
+     */
+    protected $_deleted;
+
+    /**
      * Get commentId.
      *
      * @return commentId
@@ -196,5 +203,36 @@ class Default_Model_Comment extends Issues_Model_Abstract implements Zend_Acl_Re
     public function isPrivate()
     {
         return $this->getPrivate();
+    }
+ 
+    /**
+     * Get deleted.
+     *
+     * @return deleted
+     */
+    public function getDeleted()
+    {
+        return $this->_deleted;
+    }
+
+    /**
+     * isDeleted 
+     * 
+     * @return boolean
+     */
+    public function isDeleted()
+    {
+        return $this->getDeleted();
+    }
+ 
+    /**
+     * Set deleted.
+     *
+     * @param $deleted the value to be set
+     */
+    public function setDeleted($deleted)
+    {
+        $this->_deleted = $deleted ? true : false;
+        return $this;
     }
 }

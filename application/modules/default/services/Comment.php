@@ -45,6 +45,39 @@ class Default_Service_Comment extends Issues_ServiceAbstract
         return false;
     }
 
+    public function canDeleteComment(Default_Model_Comment $comment)
+    {
+        $acl = Zend_Registry::get('Default_DiContainer')->getAclService();
+        if ($acl->isAllowed('comment', 'delete-all')) {
+            return true;
+        }
+
+        $userId = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()->getIdentity()->getUserId();
+
+        if ($acl->isAllowed('comment', 'delete-own')) {
+            if ($comment->getCreatedBy()->getUserId() == $userId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function deleteComment($comment)
+    {
+        if (!($comment instanceof Default_Model_Comment)) {
+            $comment = $this->getCommentById($comment);
+        }
+
+        if (!$this->canDeleteComment($comment)) {
+            return false;
+        }
+
+        $comment->setDeleted(true);
+        return $this->_mapper->save($comment);
+    }
+
     public function getEditForm(Default_Model_Comment $comment)
     {
         $form = new Default_Form_Comment_Edit();
