@@ -149,11 +149,6 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         }
 
         // save audit trail
-        $userId = Zend_Registry::get('Default_DiContainer')
-            ->getUserService()
-            ->getIdentity()
-            ->getUserId();
-
         foreach ($data as $field => $newValue) {
             $this->auditTrail($issue, 'update', $field, $oldData[$field], $newValue);
         }
