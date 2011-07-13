@@ -155,17 +155,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             ->getUserId();
 
         foreach ($data as $field => $newValue) {
-            $auditData = array(
-                'issue_id'          => $issue->getIssueId(),
-                'revision_author'   => $userId,
-                'revision_time'     => new Zend_Db_Expr('NOW()'),
-                'action'            => 'update',
-                'field'             => $field,
-                'old_value'         => $oldData[$field],
-                'new_value'         => $newValue
-            );
-
-            $db->insert('issue_history', $auditData);
+            $this->auditTrail($issue, 'update', $field, $oldData[$field], $newValue);
         }
 
         $data['last_update_time'] = new Zend_Db_Expr('NOW()');
@@ -194,8 +184,13 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $db = $this->getWriteAdapter();
         try {
             $db->insert('issue_label_linker', $data);
-        } catch (Exception $e) {} // probably a duplicate key
-            return true;
+
+            $this->auditTrail($issue, 'add-label', '', '', $label->getLabelId());
+        } catch (Exception $e) {
+            // probably a duplicate key
+        }
+
+        return true;
     }
 
     public function removeLabelFromIssue(Default_Model_Issue $issue, Default_Model_Label $label)
@@ -206,7 +201,11 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         );
 
         $db = $this->getWriteAdapter();
-        $db->delete('issue_label_linker', $where);
+        $rowsAffected = $db->delete('issue_label_linker', $where);
+
+        if ($rowsAffected > 0) {
+            $this->auditTrail($issue, 'remove-label', '', $label->getLabelId(), '');
+        }
     }
 
     public function countIssuesByLabel(Default_Model_Label $label)
@@ -304,6 +303,29 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $this->getWriteAdapter()->delete('acl_resource_record', array(
             'resource_type = ?' => 'issue',
             'resource_id = ?'   => $issue
+        ));
+    }
+
+    public function auditTrail($issue, $action, $field, $oldValue, $newValue)
+    {
+        if ($issue instanceof Default_Model_Issue) {
+            $issue = $issue->getIssueId();
+        }
+
+        $userId = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity()
+            ->getUserId();
+
+        $db = $this->getWriteAdapter();
+        return $db->insert('issue_history', array(
+            'issue_id'          => $issue,
+            'revision_author'   => $userId,
+            'revision_time'     => new Zend_Db_Expr('NOW()'),
+            'action'            => $action,
+            'field'             => $field,
+            'old_value'         => $oldValue,
+            'new_value'         => $newValue
         ));
     }
 
