@@ -145,7 +145,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         }
 
         if (!count($data)) {
-            return false;
+            return true;
         }
 
         // save audit trail
