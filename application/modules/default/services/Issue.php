@@ -85,7 +85,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             foreach ($milestones as $i) {
                 Zend_Registry::get('Default_DiContainer')
                     ->getMilestoneService()
-                    ->addIssueToMilestone($i, $return);
+                    ->addIssueToMilestone($i, $return, false);
             }
         }
 
@@ -115,15 +115,8 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setPrivate($form->getSubform('permissions')->getElement('private')->isChecked());
         $result = $this->_mapper->save($issue);
 
-        $this->_mapper->clearIssueMilestones($issue);
         $milestones = $form->getValue('milestones');
-        if ($milestones) {
-            foreach ($milestones as $i) {
-                Zend_Registry::get('Default_DiContainer')
-                    ->getMilestoneService()
-                    ->addIssueToMilestone($i, $issue->getIssueId());
-            }
-        }
+        $this->_mapper->updateIssueMilestones($issue, $milestones, true);
 
         $this->_mapper->clearIssueResourceRecords($issue);
 
@@ -134,6 +127,12 @@ class Default_Service_Issue extends Issues_ServiceAbstract
                     $form->getSubform('permissions')->getElement('roles')->getValue(),
                     'issue',
                     $issue->getIssueId());
+        }
+
+        if ($result === false) {
+            return false;
+        } else if ($result === 0) {
+            return true;
         }
 
         return $result;

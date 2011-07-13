@@ -283,15 +283,76 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $this->_rowsToModels($rows);
     }
 
-    public function clearIssueMilestones($issue)
+    public function updateIssueMilestones($issue, $milestones, $audit = false)
     {
+        $read = $this->getReadAdapter();
+        $write = $this->getWriteAdapter();
+
         if ($issue instanceof Default_Model_Issue) {
             $issue = $issue->getIssueId();
         }
 
-        $this->getWriteAdapter()->delete('issue_milestone_linker', array(
-            'issue_id = ?'  => $issue
-        ));
+        // read the existing milestones from the database
+        $sql = $read->select()
+            ->from('issue_milestone_linker', array('milestone_id'))
+            ->where('issue_id = ?', $issue);
+        $existingMilestones = $read->fetchAll($sql);
+
+        $existing = array();
+        if ($existingMilestones) {
+            foreach ($existingMilestones as $i) {
+                $existing[] = $i['milestone_id'];
+            }
+        }
+
+        // compute milestones to be deleted from the db
+        $toDelete = array();
+        if ($existing) {
+            foreach ($existing as $i) {
+                if (!in_array($i, $milestones)) {
+                    $toDelete[] = $i;
+                }
+            }
+        }
+
+        // delete milestones from the db
+        if (count($toDelete)) {
+            $write->delete('issue_milestone_linker', array(
+                'issue_id = ?'          => $issue,
+                'milestone_id IN (?)'   => $toDelete
+            )); 
+
+            if ($audit) {
+                foreach ($toDelete as $i) {
+                    $this->auditTrail($issue, 'delete-milestone', '', $i, '');
+                }
+            }
+        }
+
+        // compute milestones to be added to the db
+        $toAdd = array();
+        if ($existing) {
+            foreach ($milestones as $i) {
+                if (!in_array($i, $existing)) {
+                    $toAdd[] = $i;
+                }
+            }
+        } else {
+            $toAdd = $milestones;
+        }
+
+        // add milestones to the database
+        foreach ($toAdd as $i) {
+            $write->insert('issue_milestone_linker', array(
+                'issue_id'      => $issue,
+                'milestone_id'  => $i
+            ));
+
+            // audit trail
+            if ($audit) {
+                $this->auditTrail($issue, 'add-milestone', '', '', $i);
+            }
+        }
     }
 
     public function clearIssueResourceRecords($issue)
