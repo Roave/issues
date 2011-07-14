@@ -26,7 +26,7 @@ Last updated: <?=$this->issue->getLastUpdateTime()->format($dateFormat);?><br />
 
 Status: <?=$this->issue->getStatus()?><br />
 <hr />
-<?=$this->issue->getDescription()?>
+<?=nl2br($this->issue->getDescription())?>
 <hr />
 
 <?php if ($this->comments) : ?>
@@ -38,7 +38,7 @@ Status: <?=$this->issue->getStatus()?><br />
         <?php if (Zend_Registry::get('Default_DiContainer')->getCommentService()->canDeleteComment($i)) : ?>
         [<a href="<?=$this->url(array('action'=>'delete-comment', 'id'=>$i->getCommentId()))?>">Delete</a>]<br />
         <?php endif; ?>
-        <blockquote><?=$i->getText()?></blockquote>
+        <blockquote><?=nl2br($i->getText())?></blockquote>
     <?php endforeach; ?>
 <?php endif; ?>
 
