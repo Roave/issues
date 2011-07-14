@@ -451,6 +451,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             ->setSystem(true);
 
         $text = array();
+        $statusChange = false;
         foreach ($changes as $c) {
             if ($c['action'] == 'update') {
                 foreach ($c['fields'] as $field => $values) {
@@ -458,9 +459,9 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
                 }
             } else if ($c['action'] == 'open-close') {
                 if ($values['new_value'] == 'open') {
-                    array_unshift($text, '#issue_opened#');
+                    $statusChange = 'open';
                 } else {
-                    array_unshift($text, '#issue_closed#');
+                    $statusChange = 'close';
                 }
             } else if ($c['action'] == 'changed-privacy') {
                 if ($values['new_value'] == false) {
@@ -477,6 +478,23 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         Zend_Registry::get('Default_DiContainer')
             ->getCommentService()
             ->save($comment);
+
+        if ($statusChange !== false) {
+            $comment = new Default_Model_Comment();
+            $comment->setCreatedBy($user)
+                ->setIssue($issue)
+                ->setPrivate(false)
+                ->setSystem(true);
+            if ($statusChange == 'open') {
+                $comment->setText('#issue-opened');
+            } else {
+                $comment->setText('#issue-closed');
+            }
+
+            Zend_Registry::get('Default_DiContainer')
+                ->getCommentService()
+                ->save($comment);
+        }
     }
 
     protected function _addAclJoins(Zend_Db_Select $sql, $alias = null, $primaryKey = null)
