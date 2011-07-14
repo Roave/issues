@@ -84,7 +84,8 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setCreatedBy(Zend_Auth::getInstance()->getIdentity())
             ->setAssignedTo($form->getValue('assigned_to'))
             ->setPrivate($permissions['private'] ? true : false);
-        $issue = $this->_mapper->save($issue);
+        $issueId = $this->_mapper->save($issue);
+        $issue->setIssueId($issueId);
 
         $milestones = $form->getValue('milestones');
         if ($milestones) {
@@ -166,7 +167,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->getIdentity();
 
         if ($acl->isAllowed('issue', 'edit-own')) {
-            if ($issue->getAssignedTo()->getUserId() == $user->getUserId()) {
+            if ($issue->getAssignedTo() instanceof Default_Model_User && $issue->getAssignedTo()->getUserId() == $user->getUserId()) {
                 return true;
             }
 
