@@ -153,13 +153,35 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $changes['action'] = 'update';
         $changes['fields'] = array();
         foreach ($data as $field => $newValue) {
-            $changes['fields'][$field] = array(
-                'old_value'     => $oldData[$field],
-                'new_value'     => $newValue
-            );
+            if ($field != 'status' && $field != 'private') {
+                $changes['fields'][$field] = array(
+                    'old_value'     => $oldData[$field],
+                    'new_value'     => $newValue
+                );
+            }
         }
 
-        $this->auditTrail($issue, array($changes));
+        $changes = array($changes);
+        foreach ($data as $field => $newValue) {
+            if ($field == 'status') {
+                $changes[] = array(
+                    'action'    => 'open-close',
+                    'old_value' => $oldData[$field],
+                    'new_value' => $newValue
+                );
+            }
+
+            if ($field == 'status') {
+                $changes[] = array(
+                    'action'    => 'changed-privacy',
+                    'old_value' => $oldData[$field],
+                    'new_value' => $newValue
+                );
+            }
+        }
+        
+        
+        $this->auditTrail($issue, $changes);
 
         $data['last_update_time'] = new Zend_Db_Expr('NOW()');
 
@@ -433,6 +455,18 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             if ($c['action'] == 'update') {
                 foreach ($c['fields'] as $field => $values) {
                     $text[] = "#{$field}# changed from {$values['old_value']} to {$values['new_value']}";
+                }
+            } else if ($c['action'] == 'open-close') {
+                if ($values['new_value'] == 'open') {
+                    array_unshift($text, '#issue_opened#');
+                } else {
+                    array_unshift($text, '#issue_closed#');
+                }
+            } else if ($c['action'] == 'changed-privacy') {
+                if ($values['new_value'] == false) {
+                    $text[] = "#made_issue_public#";
+                } else {
+                    $text[] = "#made_issue_private#";
                 }
             } else {
                 $text[] = "#{$c['action']}# #id:{$c['id']}#";
