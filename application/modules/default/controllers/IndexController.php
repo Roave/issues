@@ -21,16 +21,13 @@ class Default_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // print_r($this->view->projects); die(); // Debugging
-        
         $this->view->labels = $this->_labelService->getAllLabels();
         $this->view->openIssues = $this->_issueService->filterIssues('open');
         $this->view->closedIssues = $this->_issueService->filterIssues('closed');
 
         $this->view->milestones = $this->_milestoneService->getAllMilestones();
 
-        $fm = $this->getHelper('FlashMessenger')->getMessages(); 
-        $this->view->createLabelForm = (count($fm) > 0) ? $fm[0] : $this->getCreateLabelForm();
+        $this->view->createLabelForm = $this->getCreateLabelForm();
 
         $this->view->labelsSelect = $this->_labelService->getLabelsForSelect($this->view->labels);
 
@@ -41,7 +38,8 @@ class Default_IndexController extends Zend_Controller_Action
 
     public function getCreateLabelForm()
     {
-        $form = $this->_labelService->getCreateForm();
+        $fm = $this->getHelper('FlashMessenger')->getMessages(); 
+        $form = (count($fm) > 0) ? $fm[0] : $this->_labelService->getCreateForm();
 
         if ($form) {
             return $form->setAction($this->_helper->url->direct('post','labels'));
