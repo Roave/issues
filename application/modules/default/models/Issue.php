@@ -345,8 +345,16 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
      */
     public function setLabels($labels)
     {
-        $this->_labels = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelDetect($labels);
+        if (is_null($labels)) return $this;
+        $labels = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelDetect($labels);
+        $this->_labels = is_array($labels) ? $labels : array($labels);
         return $this;
+    }
+
+    public function hasLabel($label)
+    {
+        $label = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelDetect($label);
+        return in_array($label, $this->_labels);
     }
 
     public function getHistory()

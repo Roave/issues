@@ -50,8 +50,12 @@ class Default_Form_Issue_Base extends Issues_FormAbstract
         ));
 
         $milestones = new Issues_Form_Element_MilestoneSelect('milestones');
-        $milestones->setLabel('Milestones');
+        $milestones->setLabel($this->translate('milestones'));
         $this->addElement($milestones);
+
+        $labels = new Issues_Form_Element_LabelSelect('labels');
+        $labels->setLabel($this->translate('labels'));
+        $this->addElement($labels);
 
         $this->addSubForm(new Default_Form_Permission_Base(), 'permissions');
 

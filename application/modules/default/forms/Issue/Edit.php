@@ -18,11 +18,20 @@ class Default_Form_Issue_Edit extends Default_Form_Issue_Base
             $milestoneIds[] = $i->getMilestoneId();
         }
 
+        $labels = Zend_Registry::get('Default_DiContainer')
+            ->getLabelService()
+            ->getLabelsByIssue($issue);
+        $labelIds = array();
+        foreach ($labels as $i) {
+            $labelIds[] = $i->getLabelId();
+        }
+
         $data = array(
             'title'         => $issue->getTitle(),
             'project'       => $issue->getProject()->getProjectId(),
             'description'   => $issue->getDescription(),
             'milestones'    => $milestoneIds,
+            'labels'        => $labelIds,
             'status'        => $issue->getStatus()
         );
 

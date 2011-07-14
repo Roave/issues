@@ -77,9 +77,6 @@ class Default_Service_Label extends Issues_ServiceAbstract
                 $label = $this->getLabelDetect(explode(' ',$label));
             }
         }
-        if (is_array($label)) {
-            return array_values($label);
-        }
         return $label;
     }
 }

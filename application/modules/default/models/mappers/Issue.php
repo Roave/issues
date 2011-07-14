@@ -169,7 +169,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return $db->update($this->getTableName(), $data, $db->quoteInto('issue_id = ?', $issue->getIssueId()));
     }
 
-    public function addLabelToIssue(Default_Model_Issue $issue, Default_Model_Label $label)
+    public function addLabelToIssue(Default_Model_Issue $issue, Default_Model_Label $label, $audit = true)
     {
         $data = array(
             'issue_id'  => $issue->getIssueId(),
@@ -180,7 +180,9 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         try {
             $db->insert('issue_label_linker', $data);
 
-            $this->auditTrail($issue, 'add-label', '', '', $label->getLabelId());
+            if ($audit) {
+                $this->auditTrail($issue, 'add-label', '', '', $label->getLabelId());
+            }
         } catch (Exception $e) {
             // probably a duplicate key
         }
@@ -276,6 +278,31 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $rows = $db->fetchAll($sql);
         return $this->_rowsToModels($rows);
+    }
+
+    public function updateIssueLabels($issue, $labels, $audit = false)
+    {
+        if (!$issue instanceof Default_Model_Issue) return false;
+        $read = $this->getReadAdapter();
+        $write = $this->getWriteAdapter();
+        $issueService = Zend_Registry::get('Default_DiContainer')->getIssueService();
+        $labelService = Zend_Registry::get('Default_DiContainer')->getLabelService();
+        // Add any new labels
+        $issue->setLabels($labelService->getLabelsByIssue($issue));
+        foreach ($labels as $label) {
+            if (!$issue->hasLabel($label)) {
+                $issueService->addLabelToIssue($issue, $label);
+            }
+        }
+        // Delete any removed labels
+        $oldLabels = $issue->getLabels();
+        $issue->setLabels($labels);
+        foreach ($oldLabels as $label) {
+            if (!$issue->hasLabel($label)) {
+                $issueService->removeLabelFromIssue($issue, $label);
+            }
+        }
+        return true;
     }
 
     public function updateIssueMilestones($issue, $milestones, $audit = false)

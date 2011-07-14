@@ -24,10 +24,10 @@ class Default_Model_Mapper_Label extends Issues_Model_Mapper_DbAbstract
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
-            ->from(array('l' => $this->getTableName()));
+            ->from(array('l' => $this->getTableName()), 'l.*');
 
         if ($counts === true) {
-            $sql->joinLeft(array('ill'=>'issue_label_linker'), 'ill.label_id = l.label_id')
+            $sql->joinLeft(array('ill'=>'issue_label_linker'), 'ill.label_id = l.label_id', 'ill.issue_id')
                 ->columns(array('count'=>'COUNT(ill.issue_id)'))
                 ->group('l.label_id');
         }

@@ -84,23 +84,30 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setCreatedBy(Zend_Auth::getInstance()->getIdentity())
             ->setAssignedTo($form->getValue('assigned_to'))
             ->setPrivate($permissions['private'] ? true : false);
-        $return = $this->_mapper->save($issue);
+        $issue = $this->_mapper->save($issue);
 
         $milestones = $form->getValue('milestones');
         if ($milestones) {
             foreach ($milestones as $i) {
                 Zend_Registry::get('Default_DiContainer')
                     ->getMilestoneService()
-                    ->addIssueToMilestone($i, $return, false);
+                    ->addIssueToMilestone($i, $issue, false);
+            }
+        }
+
+        $labels = $form->getValue('labels');
+        if ($labels) {
+            foreach ($labels as $i) {
+                $this->addLabelToIssue($issue, $i, false);
             }
         }
 
         if ($permissions['private']) {
             Zend_Registry::get('Default_DiContainer')->getAclService()
-                ->addResourceRecord($permissions['roles'], 'issue', $return);
+                ->addResourceRecord($permissions['roles'], 'issue', $issue);
         }
 
-        return $return;
+        return $issue;
     }
 
     public function updateFromForm(Default_Form_Issue_Edit $form, $issueId)
@@ -121,6 +128,9 @@ class Default_Service_Issue extends Issues_ServiceAbstract
             ->setAssignedTo($form->getValue('assigned_to'))
             ->setPrivate($form->getSubform('permissions')->getElement('private')->isChecked());
         $result = $this->_mapper->save($issue);
+
+        $labels = $form->getValue('labels');
+        $this->_mapper->updateIssueLabels($issue, $labels, true);
 
         $milestones = $form->getValue('milestones');
         $this->_mapper->updateIssueMilestones($issue, $milestones, true);
@@ -168,7 +178,7 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return false;
     }
 
-    public function addLabelToIssue($issue, $label)
+    public function addLabelToIssue($issue, $label, $audit = true)
     {
         if (!($issue instanceof Default_Model_Issue)) {
             $issue = $this->_mapper->getIssueById($issue);
@@ -179,10 +189,10 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         }
 
         if (!($label instanceof Default_Model_Label)) {
-            $label = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelById($label);
+            $label = Zend_Registry::get('Default_DiContainer')->getLabelService()->getLabelDetect($label);
         }
 
-        $this->_mapper->addLabelToIssue($issue, $label);
+        $this->_mapper->addLabelToIssue($issue, $label, $audit);
     }
 
     public function removeLabelFromIssue($issue, $label)
