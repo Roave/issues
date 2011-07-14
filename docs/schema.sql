@@ -94,6 +94,7 @@ CREATE TABLE `comment` (
   `text` text NOT NULL,
   `private` BOOLEAN NOT NULL DEFAULT '0',
   `deleted` BOOLEAN NOT NULL DEFAULT '0',
+  `system` BOOLEAN NOT NULL DEFAULT '0' COMMENT 'whether the comment is system-generated',
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

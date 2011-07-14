@@ -54,7 +54,8 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
             'created_by'    => $comment->getCreatedBy()->getUserId(),
             'issue'         => $comment->getIssue()->getIssueId(),
             'text'          => $comment->getText(),
-            'private'       => $comment->isPrivate() ? 1 : 0
+            'private'       => $comment->isPrivate() ? 1 : 0,
+            'system'        => $comment->isSystem() ? 1 : 0
         );
 
         $db = $this->getWriteAdapter();

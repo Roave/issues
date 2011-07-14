@@ -51,6 +51,13 @@ class Default_Model_Comment extends Issues_Model_Abstract implements Zend_Acl_Re
     protected $_deleted;
 
     /**
+     * _system 
+     * 
+     * @var boolean
+     */
+    protected $_system;
+
+    /**
      * Get commentId.
      *
      * @return commentId
@@ -233,6 +240,37 @@ class Default_Model_Comment extends Issues_Model_Abstract implements Zend_Acl_Re
     public function setDeleted($deleted)
     {
         $this->_deleted = $deleted ? true : false;
+        return $this;
+    }
+ 
+    /**
+     * Get system.
+     *
+     * @return system
+     */
+    public function getSystem()
+    {
+        return $this->_system;
+    }
+
+    /**
+     * isSystem 
+     *         
+     * @return boolean
+     */
+    public function isSystem()
+    {
+        return $this->getSystem();
+    }
+ 
+    /**
+     * Set system.
+     *
+     * @param $system the value to be set
+     */
+    public function setSystem($system)
+    {
+        $this->_system = $system ? true : false;
         return $this;
     }
 }
