@@ -6,8 +6,12 @@ class Default_Form_Label_Base extends Issues_FormAbstract
         $element = new ZendX_JQuery_Form_Element_ColorPicker('color', array(
             'decorators'    => array(
                 'UiWidgetElement'
+            ),
+            'validators' => array (
+                array('Regex', false , array('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/'))
             )
         ));
+        $element->setValue('#000000');
         $this->addElement($element);
 
         $this->addElement('text', 'text', array(
