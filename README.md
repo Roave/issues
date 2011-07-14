@@ -1,6 +1,6 @@
 Goals
 =====
-Our goal is to create a simple, lightweight, standalone issue tracking system, similar in style and functionality to Github issues. This issue tracking system is kept to a minimal set of flexible features and great care and consideration is to be taken before adding to the core feature set. The primary purpose of this project is to avoid the [feature creep](http://en.wikipedia.org/wiki/Feature_creep) which is common among many open source issue trackers availalbe today.
+Our goal is to create a simple, lightweight, standalone issue tracking system, similar in style and functionality to Github issues. This issue tracking system is kept to a minimal set of flexible features and great care and consideration is to be taken before adding to the core feature set. The primary purpose of this project is to avoid the [feature creep](http://en.wikipedia.org/wiki/Feature_creep) which is common among many open source issue trackers available today.
 
 Features
 ========
