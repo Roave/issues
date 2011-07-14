@@ -8,7 +8,6 @@ class Default_Service_Issue extends Issues_ServiceAbstract
     {
         parent::__construct($mapper);
         $this->_aclService = Zend_Registry::get('Default_DiContainer')->getAclService();
-        $this->_historyMapper = Zend_Registry::get('Default_DiContainer')->getIssueHistoryMapper();
     }
 
     public function getCreateForm()
@@ -35,11 +34,6 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         } else {
             return false;
         }
-    }
-
-    public function getHistory(Default_Model_Issue $issue)
-    {
-        return $this->_historyMapper->getIssueHistory($issue);
     }
 
     public function getIssueCounts()
