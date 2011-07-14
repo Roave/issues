@@ -81,7 +81,7 @@ class Default_Model_Mapper_Milestone extends Issues_Model_Mapper_DbAbstract
         }
 
         if ($issue instanceof Default_Model_Issue) {
-            $issue = $issue->getIssue();
+            $issue = $issue->getIssueId();
         } else if (!is_numeric($issue)) {
             return false;
         }

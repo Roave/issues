@@ -149,9 +149,17 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         }
 
         // save audit trail
+        $changes = array();
+        $changes['action'] = 'update';
+        $changes['fields'] = array();
         foreach ($data as $field => $newValue) {
-            $this->auditTrail($issue, 'update', $field, $oldData[$field], $newValue);
+            $changes['fields'][$field] = array(
+                'old_value'     => $oldData[$field],
+                'new_value'     => $newValue
+            );
         }
+
+        $this->auditTrail($issue, array($changes));
 
         $data['last_update_time'] = new Zend_Db_Expr('NOW()');
 
@@ -181,7 +189,10 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             $db->insert('issue_label_linker', $data);
 
             if ($audit) {
-                $this->auditTrail($issue, 'add-label', '', '', $label->getLabelId());
+                $this->auditTrail($issue, array(array(
+                    'action'    => 'add-label',
+                    'id'        => $label->getLabelId(),
+                )));
             }
         } catch (Exception $e) {
             // probably a duplicate key
@@ -201,7 +212,10 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         $rowsAffected = $db->delete('issue_label_linker', $where);
 
         if ($rowsAffected > 0) {
-            $this->auditTrail($issue, 'remove-label', '', $label->getLabelId(), '');
+            $this->auditTrail($issue, array(array(
+                'action'    => 'add-label',
+                'id'        => $label->getLabelId(),
+            )));
         }
     }
 
@@ -309,15 +323,18 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
     {
         $read = $this->getReadAdapter();
         $write = $this->getWriteAdapter();
+        $changes = array();
 
         if ($issue instanceof Default_Model_Issue) {
-            $issue = $issue->getIssueId();
+            $issueId = $issue->getIssueId();
+        } else {
+            $issueId = $issue;
         }
 
         // read the existing milestones from the database
         $sql = $read->select()
             ->from('issue_milestone_linker', array('milestone_id'))
-            ->where('issue_id = ?', $issue);
+            ->where('issue_id = ?', $issueId);
         $existingMilestones = $read->fetchAll($sql);
 
         $existing = array();
@@ -340,13 +357,16 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         // delete milestones from the db
         if (count($toDelete)) {
             $write->delete('issue_milestone_linker', array(
-                'issue_id = ?'          => $issue,
+                'issue_id = ?'          => $issueId,
                 'milestone_id IN (?)'   => $toDelete
             )); 
 
             if ($audit) {
                 foreach ($toDelete as $i) {
-                    $this->auditTrail($issue, 'delete-milestone', '', $i, '');
+                    $changes[] = array(
+                        'action'    => 'remove-milestone',
+                        'id'        => $i
+                    );
                 }
             }
         }
@@ -366,14 +386,21 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         // add milestones to the database
         foreach ($toAdd as $i) {
             $write->insert('issue_milestone_linker', array(
-                'issue_id'      => $issue,
+                'issue_id'      => $issueId,
                 'milestone_id'  => $i
             ));
 
             // audit trail
             if ($audit) {
-                $this->auditTrail($issue, 'add-milestone', '', '', $i);
+                $changes[] = array(
+                    'action'    => 'add-milestone',
+                    'id'        => $i
+                );
             }
+        }
+
+        if (count($changes)) {
+            $this->auditTrail($issue, $changes);
         }
     }
 
@@ -389,27 +416,33 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         ));
     }
 
-    public function auditTrail($issue, $action, $field = '', $oldValue = '', $newValue = '')
+    public function auditTrail($issue, array $changes)
     {
-        if ($issue instanceof Default_Model_Issue) {
-            $issue = $issue->getIssueId();
+        $user = Zend_Registry::get('Default_DiContainer')
+            ->getUserService()
+            ->getIdentity();
+
+        $comment = new Default_Model_Comment();
+        $comment->setCreatedBy($user)
+            ->setIssue($issue)
+            ->setPrivate(false)
+            ->setSystem(true);
+
+        $text = array();
+        foreach ($changes as $c) {
+            if ($c['action'] == 'update') {
+                foreach ($c['fields'] as $field => $values) {
+                    $text[] = "#{$field}# changed from {$values['old_value']} to {$values['new_value']}";
+                }
+            } else {
+                $text[] = "#{$c['action']}# #id:{$c['id']}#";
+            }
         }
 
-        $userId = Zend_Registry::get('Default_DiContainer')
-            ->getUserService()
-            ->getIdentity()
-            ->getUserId();
-
-        $db = $this->getWriteAdapter();
-        return $db->insert('issue_history', array(
-            'issue_id'          => $issue,
-            'revision_author'   => $userId,
-            'revision_time'     => new Zend_Db_Expr('NOW()'),
-            'action'            => $action,
-            'field'             => $field,
-            'old_value'         => $oldValue,
-            'new_value'         => $newValue
-        ));
+        $comment->setText(implode(', ', $text));
+        Zend_Registry::get('Default_DiContainer')
+            ->getCommentService()
+            ->save($comment);
     }
 
     protected function _addAclJoins(Zend_Db_Select $sql, $alias = null, $primaryKey = null)

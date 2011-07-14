@@ -76,9 +76,11 @@ class Default_Service_Comment extends Issues_ServiceAbstract
 
         $comment->setDeleted(true);
         $result = $this->_mapper->save($comment);
+    }
 
-        Zend_Registry::get('Default_DiContainer')->getIssueMapper()
-            ->auditTrail($issueId, 'remove-comment', '', $comment->getCommentId());
+    public function save(Default_Model_Comment $comment)
+    {
+        $this->_mapper->save($comment);
     }
 
     public function getEditForm(Default_Model_Comment $comment)
@@ -110,9 +112,6 @@ class Default_Service_Comment extends Issues_ServiceAbstract
             ->setText($form->getValue('text'))
             ->setPrivate($permissions['private'] ? true : false);
         $return = $this->_mapper->save($comment);
-
-        Zend_Registry::get('Default_DiContainer')->getIssueMapper()
-            ->auditTrail($issueId, 'add-comment', '', '', $return);
 
         if ($permissions['private']) {
             Zend_Registry::get('Default_DiContainer')->getAclService()
