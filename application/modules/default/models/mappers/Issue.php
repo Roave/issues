@@ -474,7 +474,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
             }
         }
 
-        $comment->setText(implode(', ', $text));
+        $comment->setText(implode("\n", $text));
         Zend_Registry::get('Default_DiContainer')
             ->getCommentService()
             ->save($comment);
