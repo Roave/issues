@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Issue Tracker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-07 11:04-0700\n"
-"PO-Revision-Date: 2011-07-07 11:04-0700\n"
+"POT-Creation-Date: 2011-07-15 08:33-0700\n"
+"PO-Revision-Date: 2011-07-15 08:35-0700\n"
 "Last-Translator: Evan Coury <me@evancoury.com>\n"
 "Language-Team: Evan <me@evancoury.com>\n"
 "Language: \n"
@@ -55,6 +55,10 @@ msgstr "Project Name"
 msgid "create_project"
 msgstr "Create Project"
 
+#: ../../../modules/default/forms/Comment/Edit.php:7
+msgid "save_comment"
+msgstr "Save Comment"
+
 #: ../../../modules/default/forms/Comment/Base.php:12
 msgid "comment"
 msgstr "Comment"
@@ -71,6 +75,10 @@ msgstr "Due Date"
 msgid "create_milestone"
 msgstr "Create Milestone"
 
+#: ../../../modules/default/forms/Issue/Edit.php:7
+msgid "edit_issue"
+msgstr "Edit Issue"
+
 #: ../../../modules/default/forms/Issue/Base.php:12
 msgid "title"
 msgstr "Title"
@@ -79,20 +87,28 @@ msgstr "Title"
 msgid "project"
 msgstr "Project"
 
-#: ../../../modules/default/forms/Issue/Create.php:7
+#: ../../../modules/default/forms/Issue/Base.php:25
+msgid "status"
+msgstr "Status"
+
+#: ../../../modules/default/forms/Issue/Base.php:53
+msgid "milestones"
+msgstr "Milestones"
+
+#: ../../../modules/default/forms/Issue/Base.php:57
+msgid "labels"
+msgstr "Labels"
+
+#: ../../../modules/default/forms/Issue/Create.php:8
 msgid "create_issue"
 msgstr "Create Issue"
 
-#: ../../../modules/default/forms/Label/Base.php:25
+#: ../../../modules/default/forms/Label/Base.php:36
 msgid "label_name"
 msgstr "Label Name"
 
-#: ../../../modules/default/forms/Label/Base.php:34
-msgid "color"
-msgstr "Color"
-
-#: ../../../modules/default/controllers/MilestonesController.php:26
-#: ../../../modules/default/controllers/MilestonesController.php:31
+#: ../../../modules/default/controllers/MilestonesController.php:40
+#: ../../../modules/default/controllers/MilestonesController.php:45
 msgid "new_milestone_failed"
 msgstr "Unable to create new milestone. Please try again."
 
@@ -105,8 +121,8 @@ msgstr "Login failed. Please try again."
 msgid "new_label_failed"
 msgstr "Unable to create new label. Please try again."
 
-#: ../../../modules/default/controllers/ProjectsController.php:26
-#: ../../../modules/default/controllers/ProjectsController.php:31
+#: ../../../modules/default/controllers/ProjectsController.php:33
+#: ../../../modules/default/controllers/ProjectsController.php:38
 msgid "new_project_failed"
 msgstr "Unable to create new project. Please try again."
 
@@ -115,14 +131,22 @@ msgstr "Unable to create new project. Please try again."
 msgid "new_issue_failed"
 msgstr "Unable to create new issue. Please try again."
 
+#: ../../../modules/default/controllers/IssuesController.php:68
+#: ../../../modules/default/controllers/IssuesController.php:75
+msgid "edit_issue_failed"
+msgstr "Unable to edit issue. Please try again."
+
+#: ../../../modules/default/controllers/IssuesController.php:170
+#: ../../../modules/default/controllers/IssuesController.php:177
+msgid "edit_comment_failed"
+msgstr "Unable to edit comment. Please try again."
+
 #: ../../../modules/default/controllers/RegisterController.php:26
 #: ../../../modules/default/controllers/RegisterController.php:31
 msgid "registration_failed"
 msgstr "Registration failed. Please try again."
 
 #: ../../../modules/default/views/scripts/milestones/new.phtml:1
-#: ../../../modules/default/views/scripts/projects/new.phtml:1
-#: ../../../modules/default/views/scripts/projects/index.phtml:6
 msgid "new_project"
 msgstr "New Project"
 
@@ -131,14 +155,8 @@ msgid "new_milestone"
 msgstr "New Milestone"
 
 #: ../../../modules/default/views/scripts/issues/new.phtml:1
-#: ../../../modules/default/views/scripts/issues/list.phtml:6
 msgid "new_issue"
 msgstr "New Issue"
-
-#: ../../../modules/default/views/scripts/index/index.phtml:7
-#: ../../../layouts/layout.phtml:54
-msgid "milestones"
-msgstr "Milestones"
 
 #: ../../../modules/default/views/scripts/index/index.phtml:18
 #: ../../../modules/default/views/scripts/index/index.phtml:50
@@ -149,10 +167,6 @@ msgstr "Closed Issues"
 #: ../../../modules/default/views/scripts/index/index.phtml:49
 msgid "open_issues"
 msgstr "Open Issues"
-
-#: ../../../modules/default/views/scripts/index/index.phtml:26
-msgid "labels"
-msgstr "Labels"
 
 #: ../../../modules/default/views/scripts/index/index.phtml:56
 msgid "label"
@@ -193,7 +207,7 @@ msgid "new_label_name"
 msgstr "New label name..."
 
 #: ../../../layouts/layout.phtml:28
-#: ../../../layouts/layout.phtml:48
+#: ../../../layouts/layout.phtml:61
 msgid "issues"
 msgstr "Issues"
 
@@ -201,29 +215,32 @@ msgstr "Issues"
 msgid "sign_out"
 msgstr "Sign Out"
 
-#: ../../../layouts/layout.phtml:57
+#: ../../../layouts/layout.phtml:70
 msgid "members"
 msgstr "Members"
 
-#: ../../../layouts/layout.phtml:65
+#: ../../../layouts/layout.phtml:78
 msgid "go"
 msgstr "Go"
 
-#: ../../../layouts/layout.phtml:72
+#: ../../../layouts/layout.phtml:85
 msgid "all_issues"
 msgstr "All Issues"
 
-#: ../../../layouts/layout.phtml:75
+#: ../../../layouts/layout.phtml:88
 msgid "my_issues"
 msgstr "My Issues"
 
-#: ../../../layouts/layout.phtml:78
+#: ../../../layouts/layout.phtml:91
 msgid "mentioning_you"
 msgstr "Mentioning You"
 
-#: ../../../layouts/layout.phtml:81
+#: ../../../layouts/layout.phtml:94
 msgid "unassigned_issues"
 msgstr "Unassigned Issues"
+
+#~ msgid "color"
+#~ msgstr "Color"
 
 #, fuzzy
 #~ msgid "new_miletsone_failed"
