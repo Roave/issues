@@ -22,8 +22,18 @@ class Default_IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         $this->view->labels = $this->_labelService->getAllLabels();
-        $this->view->openIssues = $this->_issueService->filterIssues('open');
-        $this->view->closedIssues = $this->_issueService->filterIssues('closed');
+
+        if ($this->_hasParam('mine')) {
+            $this->view->openIssues = $this->_issueService->filterIssues('open', $this->view->user);
+            $this->view->closedIssues = $this->_issueService->filterIssues('closed', $this->view->user);
+        } else if ($this->_hasParam('unassigned')) {
+            $this->view->openIssues = $this->_issueService->filterIssues('open', 0);
+            $this->view->closedIssues = $this->_issueService->filterIssues('closed', 0);
+        } else {
+            $this->view->openIssues = $this->_issueService->filterIssues('open');
+            $this->view->closedIssues = $this->_issueService->filterIssues('closed');
+        }
+
 
         $this->view->milestones = $this->_milestoneService->getAllMilestones();
 

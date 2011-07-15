@@ -56,9 +56,13 @@ class Default_Service_Issue extends Issues_ServiceAbstract
         return $this->_mapper->getIssuesByMilestone($milestone, $status);
     }
 
-    public function filterIssues($status)
+    public function filterIssues($status, $assignee = false)
     {
-        return $this->_mapper->filterIssues($status);
+        if ($assignee instanceof Default_Model_User) {
+            $assignee = $assignee->getUserId();
+        }
+
+        return $this->_mapper->filterIssues($status, $assignee);
     }
 
     public function createFromForm(Default_Form_Issue_Create $form)

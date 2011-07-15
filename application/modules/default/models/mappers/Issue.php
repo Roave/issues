@@ -18,13 +18,22 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
         return ($row) ? $this->_rowToModel($row) : false;
     }
 
-    public function filterIssues($status = false)
+    public function filterIssues($status = false, $assignee = false)
     {
         $db = $this->getReadAdapter();
         $sql = $db->select()
             ->from($this->getTableName());
         if ($status) {
             $sql->where('status = ?', $status);
+        }
+
+        if ($assignee !== false && $assignee !== null) {
+            if ($assignee === 0) {
+                $sql->where('(assigned_to = ?', 0)
+                    ->orWhere('isnull(assigned_to))');
+            } else {
+                $sql->where('assigned_to = ?', $assignee);
+            }
         }
 
         $sql = $this->_addLabelConcat($sql);
@@ -276,7 +285,7 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $unassigned = $db->select()
             ->from('issue', array(new Zend_Db_Expr("'unassigned'"), 'COUNT(*)'))
-            ->where('isnull(assigned_to)')
+            ->where('isnull(assigned_to) OR assigned_to = ?', 0)
             ->where('status = ?', 'open');
         $unassigned = $this->_addAclJoins($unassigned);
         $unassigned = $this->_addRelationJoins($unassigned, 'issue');

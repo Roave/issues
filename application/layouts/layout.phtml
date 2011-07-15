@@ -81,17 +81,32 @@
             <?php $counts = Zend_Registry::get('Default_DiContainer')->getIssueService()->getIssueCounts(); ?>
             <div class="tabListBottom">
                 <ul class="tabListSubNav clearfix">
-                    <li class="active">
-                        <a href="#"><?=$this->translate('all_issues');?> (<?=$counts['all']?>)</a>
+                    <?php
+                    $request = Zend_Controller_Front::getInstance()->getRequest();
+                    $all = false; $mine = false; $unassigned = false;
+                    if ($request->getControllerName() == 'index') {
+                        if ($request->getParam('mine') === null && $request->getParam('unassigned') === null) {
+                            $all = true;
+                        } else if ($request->getParam('mine') !== null && $request->getParam('unassigned') === null) {
+                            $mine = true;
+                        } else if ($request->getParam('mine') === null && $request->getParam('unassigned') !== null) {
+                            $unassigned = true;
+                        }
+                    }
+                    ?>
+                    <li<?= ($all) ? ' class="active"' : '' ?>>
+                        <a href="<?=$this->url(array('controller'=>'index','action'=>'index'), null, true)?>"><?=$this->translate('all_issues');?> (<?=$counts['all']?>)</a>
                     </li>
                     <li>
-                        <a href="#"><?=$this->translate('my_issues');?> (<?=$counts['mine']?>)</a>
+                    <li<?= ($mine) ? ' class="active"' : '' ?>>
+                        <a href="<?=$this->url(array('controller'=>'index','action'=>'index','mine'=>'1'), null, true)?>"><?=$this->translate('my_issues');?> (<?=$counts['mine']?>)</a>
                     </li>
                     <li>
                         <a href="#"><?=$this->translate('mentioning_you');?> (0)</a>
                     </li>
                     <li>
-                        <a href="#"><?=$this->translate('unassigned_issues');?> (<?=$counts['unassigned']?>)</a>
+                    <li<?= ($unassigned) ? ' class="active"' : '' ?>>
+                        <a href="<?=$this->url(array('controller'=>'index','action'=>'index','unassigned'=>'1'), null, true)?>"><?=$this->translate('unassigned_issues');?> (<?=$counts['unassigned']?>)</a>
                     </li>
                 </ul>
             </div>
