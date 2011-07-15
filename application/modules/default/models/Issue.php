@@ -104,9 +104,9 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
      *
      * @return title
      */
-    public function getTitle()
+    public function getTitle($htmlentities = true)
     {
-        return $this->_title;
+        return $htmlentities ? htmlentities($this->_title) : $this->_title;
     }
  
     /**
@@ -125,9 +125,9 @@ class Default_Model_Issue extends Issues_Model_Abstract implements Zend_Acl_Reso
      *
      * @return description
      */
-    public function getDescription()
+    public function getDescription($htmlentities = true)
     {
-        return $this->_description;
+        return $htmlentities ? htmlentities($this->_description) : $this->_description;
     }
  
     /**

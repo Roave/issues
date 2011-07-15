@@ -80,8 +80,8 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
     protected function _insert(Default_Model_Issue $issue)
     {
         $data = array(
-            'title'             => $issue->getTitle(),
-            'description'       => $issue->getDescription(),
+            'title'             => $issue->getTitle(false),
+            'description'       => $issue->getDescription(false),
             'status'            => $issue->getStatus(),
             'project'           => $issue->getProject()->getProjectId(),
             'created_by'        => $issue->getCreatedBy()->getUserId(),
@@ -105,12 +105,12 @@ class Default_Model_Mapper_Issue extends Issues_Model_Mapper_DbAbstract
 
         $data = array();
         if ($oldIssue->getTitle() != $issue->getTitle()) {
-            $data['title'] = $issue->getTitle();
+            $data['title'] = $issue->getTitle(false);
             $oldData['title'] = $oldIssue->getTitle();
         }
 
         if ($oldIssue->getDescription() != $issue->getDescription()) {
-            $data['description'] = $issue->getDescription();
+            $data['description'] = $issue->getDescription(false);
             $oldData['description'] = $oldIssue->getDescription();
         }
 

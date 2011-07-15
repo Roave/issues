@@ -27,9 +27,9 @@ class Default_Form_Issue_Edit extends Default_Form_Issue_Base
         }
 
         $data = array(
-            'title'         => $issue->getTitle(),
+            'title'         => $issue->getTitle(false),
             'project'       => $issue->getProject()->getProjectId(),
-            'description'   => $issue->getDescription(),
+            'description'   => $issue->getDescription(false),
             'milestones'    => $milestoneIds,
             'labels'        => $labelIds,
             'status'        => $issue->getStatus()
