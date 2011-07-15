@@ -9,7 +9,7 @@ class Default_Form_Comment_Edit extends Default_Form_Comment_Base
 
     public function setDefaultValues(Default_Model_Comment $comment)
     {
-        $this->getElement('text')->setValue($comment->getText());
+        $this->getElement('text')->setValue($comment->getText(false));
 
         $this->getSubform('permissions')
             ->getElement('private')
