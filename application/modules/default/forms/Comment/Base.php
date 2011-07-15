@@ -4,7 +4,7 @@ class Default_Form_Comment_Base extends Issues_FormAbstract
     public function init()
     {
         $this->addElement('textarea', 'text', array(
-            'filters'       => array('StringTrim', 'HtmlEntities'),
+            'filters'       => array('StringTrim'),
             'validators'    => array(
                 array('StringLength', true, array(10))
             ),

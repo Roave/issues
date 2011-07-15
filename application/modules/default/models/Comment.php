@@ -129,9 +129,9 @@ class Default_Model_Comment extends Issues_Model_Abstract implements Zend_Acl_Re
      *
      * @return text
      */
-    public function getText()
+    public function getText($htmlentities = true)
     {
-        return $this->_text;
+        return $htmlentities ? htmlentities($this->_text) : $this->_text;
     }
  
     /**

@@ -53,7 +53,7 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
             'created_time'  => new Zend_Db_Expr('NOW()'),
             'created_by'    => $comment->getCreatedBy()->getUserId(),
             'issue'         => $comment->getIssue()->getIssueId(),
-            'text'          => $comment->getText(),
+            'text'          => $comment->getText(false),
             'private'       => $comment->isPrivate() ? 1 : 0,
             'system'        => $comment->isSystem() ? 1 : 0
         );
@@ -70,7 +70,7 @@ class Default_Model_Mapper_Comment extends Issues_Model_Mapper_DbAbstract
 
         $data = array();
         if ($oldComment->getText() != $comment->getText()) {
-            $data['text'] = $comment->getText();
+            $data['text'] = $comment->getText(false);
             $oldData['text'] = $oldComment->getText();
         }
 
