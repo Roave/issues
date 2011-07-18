@@ -3,6 +3,10 @@ class Default_MilestonesController extends Zend_Controller_Action
 {
     public function init()
     {
+        // Get a list of projects from the DB
+        $this->_projectService = Zend_Registry::get('Default_DiContainer')->getProjectService();
+        $this->view->projects = $this->_projectService->getAllProjects();
+        
         $this->_milestoneService = Zend_Registry::get('Default_DiContainer')->getMilestoneService();
     }
 
