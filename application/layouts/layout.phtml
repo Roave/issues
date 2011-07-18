@@ -27,14 +27,13 @@
                 <div id="siteTitle" class="floatLeft">
                     <?=$this->translate('issues');?>
                 </div>
-                <div id="accountInfo" class="floatRight">
-                    <?php if(Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('user', 'logout')): ?>
-                    Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
-                    <?php else: ?>
-                    <a href="<?=$this->url(array('controller'=>'auth','action'=>'login'), null, true);?>"><?= $this->translate('sign_in'); ?></a> |
-                    <a href="<?=$this->url(array('controller'=>'register','action'=>'index'), null, true);?>"><?=$this->translate('register');?></a>
-                    <?php endif; ?>
-                </div>
+                
+                <form method="post" action="#" id="siteSearchForm" class="floatRight">
+                    <label id="siteSearch" for="siteSearchInput">
+                        <input type="text" name="siteSearchInput" tabIndex="1" id="siteSearchInput" />
+                    </label>
+                    <button type="submit" id="siteSearchButton"><?=$this->translate('go');?></button>
+                </form>
             </div>
             
             <div class="clearfix">
@@ -69,14 +68,15 @@
                     <li <?php if(Zend_Controller_Front::getInstance()->getRequest()->getControllerName() == 'members'): ?>class="active"<?php endif; ?>>
                         <a href="#"><?=$this->translate('members');?></a>
                     </li>
+                    
+                    <li class="floatRight">
+                        <?php if(Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('user', 'logout')): ?>
+                            Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
+                        <?php else: ?>
+                            <a href="<?=$this->url(array('controller'=>'auth','action'=>'index'), null, true);?>"><?= $this->translate('sign_in'); ?> / <?=$this->translate('register');?></a>
+                        <?php endif; ?>
+                    </li>
                 </ul>
-                
-                <form method="post" action="#" id="siteSearchForm" class="floatRight">
-                    <label id="siteSearch" for="siteSearchInput">
-                        <input type="text" name="siteSearchInput" tabIndex="1" id="siteSearchInput" />
-                    </label>
-                    <button type="submit" id="siteSearchButton"><?=$this->translate('go');?></button>
-                </form>
             </div>
             <?php $counts = Zend_Registry::get('Default_DiContainer')->getIssueService()->getIssueCounts(); ?>
             <div class="tabListBottom">
