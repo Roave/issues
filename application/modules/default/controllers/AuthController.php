@@ -35,7 +35,7 @@ class Default_AuthController extends Zend_Controller_Action
     public function authenticatePostAction()
     {
         // ACL Check for authentication action
-        if (!$this->_aclService->isAllowed('auth', 'login')) {
+        if (!$this->_aclService->isAllowed('user', 'login')) {
             return $this->_helper->redirector('index', 'index');
         }
         
