@@ -37,7 +37,7 @@
             </div>
             
             <div class="clearfix">
-                <?
+                <?php
                   /**
                    * TODO: Make this selection box out of HTML/CSS with anchor tags
                    */
@@ -50,7 +50,7 @@
                     </select>
                 <?php endif; ?>
                 
-                <?
+                <?php
                  /**
                   * TODO: Clean this up and/or switch to Zend_Navigation
                   */
@@ -71,7 +71,7 @@
                     
                     <li class="floatRight">
                         <?php if(Zend_Registry::get('Default_DiContainer')->getAclService()->isAllowed('user', 'logout')): ?>
-                            Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); ?> | <a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
+                            <?php // Signed in as <?= Zend_Auth::getInstance()->getIdentity()->getUsername(); | ?><a href="<?=$this->url(array('controller'=>'auth','action'=>'logout'), null, true);?>"><?= $this->translate('sign_out'); ?></a>
                         <?php else: ?>
                             <a href="<?=$this->url(array('controller'=>'auth','action'=>'index'), null, true);?>"><?= $this->translate('sign_in'); ?> / <?=$this->translate('register');?></a>
                         <?php endif; ?>
